@@ -2,9 +2,7 @@ name: Sonar Scan
 on:
   push:
     branches:
-      - main
-  pull_request:
-    types: [opened, synchronize, reopened]
+      - development
 jobs:
   build:
     name: Build
