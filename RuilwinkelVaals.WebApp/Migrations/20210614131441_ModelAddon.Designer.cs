@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RuilwinkelVaals.WebApp.Data;
 
 namespace RuilwinkelVaals.WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210614131441_ModelAddon")]
+    partial class ModelAddon
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,21 +26,15 @@ namespace RuilwinkelVaals.WebApp.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Phone")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("BusinessDatas");
                 });
@@ -51,12 +47,9 @@ namespace RuilwinkelVaals.WebApp.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Categories");
                 });
@@ -69,12 +62,9 @@ namespace RuilwinkelVaals.WebApp.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Conditions");
                 });
@@ -125,6 +115,7 @@ namespace RuilwinkelVaals.WebApp.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("longtext");
 
                     b.Property<int>("StatusId")
@@ -202,9 +193,6 @@ namespace RuilwinkelVaals.WebApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.ToTable("Roles");
                 });
 
@@ -216,12 +204,9 @@ namespace RuilwinkelVaals.WebApp.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Statuses");
                 });
@@ -235,17 +220,17 @@ namespace RuilwinkelVaals.WebApp.Migrations
                     b.Property<int>("Balance")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Birthday")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<int>("BusinessDataId")
                         .HasColumnType("int");
 
                     b.Property<string>("City")
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<string>("Email")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -281,9 +266,6 @@ namespace RuilwinkelVaals.WebApp.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BusinessDataId");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
 
                     b.HasIndex("RoleId");
 

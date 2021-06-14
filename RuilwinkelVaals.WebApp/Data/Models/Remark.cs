@@ -11,8 +11,11 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         [Key]
         public int Id { get; set; }
 
+        [Required]
         public int ProductId { get; set; }
+        public Product Product { get; set; }
 
+        [Required]
         public String Name { get; set; }
 
         public DateTime Date { get; set; }

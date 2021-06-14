@@ -24,5 +24,36 @@ namespace RuilwinkelVaals.WebApp.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<LoanedProduct> LoanedProducts { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<UserData>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+
+            builder.Entity<BusinessData>()
+                .HasIndex(u => u.Name)
+                .IsUnique();
+
+            builder.Entity<BusinessData>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+
+            builder.Entity<Role>()
+                .HasIndex(u => u.Name)
+                .IsUnique();
+
+            builder.Entity<Status>()
+                .HasIndex(u => u.Name)
+                .IsUnique();
+
+            builder.Entity<Category>()
+                .HasIndex(u => u.Name)
+                .IsUnique();
+
+            builder.Entity<Condition>()
+                .HasIndex(u => u.Name)
+                .IsUnique();
+        }
     }
 }

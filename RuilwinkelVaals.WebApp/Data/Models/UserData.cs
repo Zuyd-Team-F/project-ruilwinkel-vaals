@@ -10,21 +10,29 @@ namespace RuilwinkelVaals.WebApp.Data.Models
     {
         [Key]
         public int Id { get; set; }
+        
+        public int BusinessDataId { get; set; }
+        public BusinessData BusinessData { get; set; }
 
-        public int BusinessId { get; set; }
-
+        [Required]
         public int RoleId { get; set; }
+        public Role Role { get; set; }
 
+        [Required]
         public String Password { get; set; } //Hashed
 
+        [Required]
         public String FirstName { get; set; }
 
+        [Required]
         public String LastName { get; set; }
 
-        public DateTime Birthday { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
+        [Required]
         public String Street { get; set; }
 
+        [Required]
         public int StreetNumber { get; set; }
 
         public String StreetAdd { get; set; }
@@ -37,6 +45,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
 
         public int Phone { get; set; }
 
+        
         public int Balance { get; set; }
     }
 }
