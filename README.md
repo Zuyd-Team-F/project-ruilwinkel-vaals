@@ -20,7 +20,7 @@ context.MODELNAME.Add( new MODELNAME( arguments[] ) )
 
 ***4. Create the migration in the CLI***
 * Using the dotnet command you can automatically create the migration based on the changes you've just applied.\
-* This can be achieved by entering the followin line in the CLI (**NOTE**: Make sure you're in the following folder <.\\AdminBeheer\\AdminManagement>)
+* This can be achieved by entering the followin line in the CLI (**NOTE**: Make sure you're in the following folder <\\project-ruilwinkel-vaals\\RuilwinkelVaals.WebApp>)
 ```console
 dotnet ef migrations add MIGRATIONMESSAGE
 ```
