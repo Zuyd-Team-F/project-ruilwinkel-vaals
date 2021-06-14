@@ -18,6 +18,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         [Required]
         public String Name { get; set; }
 
+        [Required]
         public DateTime Date { get; set; }
     }
 }

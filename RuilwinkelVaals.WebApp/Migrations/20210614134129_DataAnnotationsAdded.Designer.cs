@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RuilwinkelVaals.WebApp.Data;
 
 namespace RuilwinkelVaals.WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210614134129_DataAnnotationsAdded")]
+    partial class DataAnnotationsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,7 +165,6 @@ namespace RuilwinkelVaals.WebApp.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ChangeLog")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("EmployeeId")
@@ -285,10 +286,9 @@ namespace RuilwinkelVaals.WebApp.Migrations
                     b.Property<int>("Phone")
                         .HasColumnType("int");
 
-                    b.Property<string>("PostalCode")
-                        .IsRequired()
+                    b.Property<int>("PostalCode")
                         .HasMaxLength(7)
-                        .HasColumnType("varchar(7)");
+                        .HasColumnType("int");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
