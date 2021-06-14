@@ -13,5 +13,16 @@ namespace RuilwinkelVaals.WebApp.Data
             : base(options)
         {
         }
+
+        public DbSet<UserData> UserDatas { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Condition> Conditions { get; set; }
+        public DbSet<Product> Product { get; set; }
+        public DbSet<BusinessData> BusinessDatas { get; set; }
+        public DbSet<ProductLog> ProductLogs { get; set; }
+        public DbSet<Remark> Remarks { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Status> Statuses { get; set; }
+        public DbSet<LoanedProduct> LoanedProducts { get; set; }
     }
 }
