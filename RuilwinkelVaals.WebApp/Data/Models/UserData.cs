@@ -11,7 +11,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         [Key]
         public int Id { get; set; }
         
-        public int BusinessDataId { get; set; }
+        public int? BusinessDataId { get; set; }
         public BusinessData BusinessData { get; set; }
 
         [Required]
