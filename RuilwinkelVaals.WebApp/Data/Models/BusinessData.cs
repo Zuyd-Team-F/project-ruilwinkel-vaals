@@ -11,10 +11,15 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         [Key]
         public int Id { get; set; }
 
+        [Required]
+        [MaxLength(64)]
         public String Name { get; set; }
 
+        [Required]
+        [MaxLength(128)]
         public String Email { get; set; }
 
+        [Required]
         public int Phone { get; set; }
     }
 }

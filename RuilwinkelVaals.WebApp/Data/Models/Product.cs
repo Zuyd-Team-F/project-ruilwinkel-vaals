@@ -19,16 +19,21 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         [Required]
         public int ConditionId { get; set; }
         public Condition Condition { get; set; }
-        
-        public int StatusId { get; set; }
 
+        [Required]
+        public int StatusId { get; set; }
+        public Status Status { get; set; }
+
+        [MaxLength(24)]
         public String Brand { get; set; }
 
         public String Description { get; set; }
 
         [Required]
+        [MaxLength(56)]
         public String Name { get; set; }
 
+        [Required]
         public int CreditValue { get; set; }
     }
 }
