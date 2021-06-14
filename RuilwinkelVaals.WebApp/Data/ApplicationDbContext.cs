@@ -7,13 +7,11 @@ using System.Text;
 
 namespace RuilwinkelVaals.WebApp.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
-
-        public DbSet<User> Users { get; set; }
     }
 }
