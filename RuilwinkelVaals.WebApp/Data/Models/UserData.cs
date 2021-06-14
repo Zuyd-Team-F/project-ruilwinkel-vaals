@@ -44,7 +44,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
 
         [Required]
         [MaxLength(7)]
-        public int PostalCode { get; set; }
+        public String PostalCode { get; set; }
 
         [Required]
         [MaxLength(32)]
