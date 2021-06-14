@@ -10,7 +10,7 @@ CREATE TABLE User_Data (
 	password				varchar(64)		NOT NULL,						-- Wachtwoord moet gehashed in de database komen.
 	firstname				varchar(32)		NOT NULL,
 	lastname				varchar(32)		NOT NULL,
-	birthday				date			NULL,							-- Leeftijd moet voldoen aan bepaalde eisen. 
+	date_of_birth			date			NULL,							-- Leeftijd moet voldoen aan bepaalde eisen. 
 	street					varchar(64)		NOT NULL,						-- straatnaam
 	street_number			smallint		NOT NULL,						-- 123
 	street_add				varchar(2)		NULL,							-- A
@@ -54,6 +54,7 @@ CREATE TABLE Product (
 	credit_value			int				NOT NULL,						-- Waarde van het product.
 	
 	PRIMARY KEY (productID),
+	CONSTRAINT UC_Product UNIQUE (name),
 	CONSTRAINT CH_Product_Name CHECK (name not like '%[^a-zA-Z]%')
 );
 
@@ -62,6 +63,7 @@ CREATE TABLE Role (
 	role_name				varchar(24)		NOT NULL,
 
 	PRIMARY KEY (roleID),
+	CONSTRAINT UC_Role UNIQUE (role_name),
 	CONSTRAINT CH_Role_Name CHECK (role_name not like '%[^a-zA-Z]%')
 );
 
@@ -79,6 +81,7 @@ CREATE TABLE Status (
 	status					varchar(24)		NOT NULL,						-- Bijvoorbeeld uitgeleend.
 
 	PRIMARY KEY (statusID),
+	CONSTRAINT UC_Status UNIQUE (status),
 	CONSTRAINT CH_Status_Title CHECK (status not like '%[^a-zA-Z]%')
 );
 
@@ -87,6 +90,7 @@ CREATE TABLE Category (
 	category				varchar(24)		NOT NULL,						-- Bijvoorbeeld laptop.
 	
 	PRIMARY KEY (categoryID),
+	CONSTRAINT UC_Category UNIQUE (category),
 	CONSTRAINT CH_Category_Title CHECK (category not like '%[^a-zA-Z]%')
 );
 CREATE TABLE Condition (
@@ -94,6 +98,7 @@ CREATE TABLE Condition (
 	condition				varchar(24)		NOT NULL,						-- Bijvoorbeeld kapot.
 	
 	PRIMARY KEY (conditionID),
+	CONSTRAINT UC_Condition UNIQUE (condition),
 	CONSTRAINT CH_Condition_Title CHECK (condition not like '%[^a-zA-Z]%')
 );
 
