@@ -8,7 +8,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
     public class Condition
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         
         [Required]
         [MaxLength(24)]
