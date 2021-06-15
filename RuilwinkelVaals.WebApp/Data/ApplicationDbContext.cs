@@ -14,7 +14,7 @@ namespace RuilwinkelVaals.WebApp.Data
         {
         }
 
-        public DbSet<UserData> UserDatas { get; set; }
+        public DbSet<UserData> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Condition> Conditions { get; set; }
         public DbSet<Product> Product { get; set; }
@@ -24,6 +24,7 @@ namespace RuilwinkelVaals.WebApp.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<LoanedProduct> LoanedProducts { get; set; }
+        public DbSet<Blacklist> Blacklist { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

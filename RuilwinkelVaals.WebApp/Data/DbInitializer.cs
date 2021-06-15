@@ -59,11 +59,11 @@ namespace RuilwinkelVaals.WebApp.Data
                 });
                 context.SaveChanges();
 
-                context.UserDatas.AddRange(new UserData[] {
-                    new () {BusinessDataId = null, RoleId = 1, Password = HashEvent.hashPassword("admin"), FirstName = "Ad", LastName = "Min", DateOfBirth = new DateTime(1990, 1, 1), Street = "straatnaam", StreetNumber = 2, StreetAdd = null, PostalCode = "6666AA", City = "Heerlen", Email = "vaals2@ruilwinkel.nl", Phone = 0451234567, Balance = 0 },
-                    new () {BusinessDataId = null, RoleId = 1, Password = HashEvent.hashPassword("admin"), FirstName = "Ad", LastName = "Min", DateOfBirth = new DateTime(1990, 1, 1), Street = "straatnaam", StreetNumber = 3, StreetAdd = null, PostalCode = "6666AA", City = "Heerlen", Email = "vaals3@ruilwinkel.nl", Phone = 0451234567, Balance = 0 },
-                    new () {BusinessDataId = null, RoleId = 1, Password = HashEvent.hashPassword("admin"), FirstName = "Ad", LastName = "Min", DateOfBirth = new DateTime(1990, 1, 1), Street = "straatnaam", StreetNumber = 1, StreetAdd = null, PostalCode = "6666AA", City = "Heerlen", Email = "vaals1@ruilwinkel.nl", Phone = 0451234567, Balance = 0 },
-                    new () {BusinessDataId = null, RoleId = 1, Password = HashEvent.hashPassword("admin"), FirstName = "Ad", LastName = "Min", DateOfBirth = new DateTime(1990, 1, 1), Street = "straatnaam", StreetNumber = 4, StreetAdd = null, PostalCode = "6666AA", City = "Heerlen", Email = "vaals4@ruilwinkel.nl", Phone = 0451234567, Balance = 0 },
+                context.Users.AddRange(new UserData[] {
+                    new () { RoleId = 1, Password = HashEvent.hashPassword("admin"), FirstName = "Ad", LastName = "Min", DateOfBirth = new DateTime(1990, 1, 1), Street = "straatnaam", StreetNumber = 3, StreetAdd = null, PostalCode = "6666AA", City = "Heerlen", Email = "vaals3@ruilwinkel.nl", Phone = 0451234567, Balance = 0 },
+                    new () { RoleId = 1, Password = HashEvent.hashPassword("admin"), FirstName = "Ad", LastName = "Min", DateOfBirth = new DateTime(1990, 1, 1), Street = "straatnaam", StreetNumber = 1, StreetAdd = null, PostalCode = "6666AA", City = "Heerlen", Email = "vaals1@ruilwinkel.nl", Phone = 0451234567, Balance = 0 },
+                    new () { RoleId = 1, Password = HashEvent.hashPassword("admin"), FirstName = "Ad", LastName = "Min", DateOfBirth = new DateTime(1990, 1, 1), Street = "straatnaam", StreetNumber = 2, StreetAdd = null, PostalCode = "6666AA", City = "Heerlen", Email = "vaals2@ruilwinkel.nl", Phone = 0451234567, Balance = 0 },
+                    new () { RoleId = 1, Password = HashEvent.hashPassword("admin"), FirstName = "Ad", LastName = "Min", DateOfBirth = new DateTime(1990, 1, 1), Street = "straatnaam", StreetNumber = 4, StreetAdd = null, PostalCode = "6666AA", City = "Heerlen", Email = "vaals4@ruilwinkel.nl", Phone = 0451234567, Balance = 0 },
                 });
                 context.SaveChanges();
             }
