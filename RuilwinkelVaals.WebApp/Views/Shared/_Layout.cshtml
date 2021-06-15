@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using RuilwinkelVaals.WebApp.Data.Models
+
+@inject SignInManager<UserData> SignInManager
+@inject UserManager<UserData> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -14,8 +20,8 @@
     <header>
 
         @*<img src="~/img/logo.png" alt="Logo" height="140" width="200" />
-        <p>Ruilwinkel Vaals</p>
-        <p id="cursive">ruilen - samenwerken - leren - ontmoeten</p>*@
+            <p>Ruilwinkel Vaals</p>
+            <p id="cursive">ruilen - samenwerken - leren - ontmoeten</p>*@
 
         <!-- Responsive Menu -->
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -29,13 +35,19 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-link"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li class="nav-link"><a class="nav-link" asp-area="" asp-controller="" asp-action="">Productregistratie</a></li>
-                        <li class="nav-link"><a class="nav-link" asp-area="" asp-controller="" asp-action="">Retourneren</a></li>
-                        <li class="nav-link"><a class="nav-link" asp-area="" asp-controller="Users" asp-action="Index">Gebruikers</a></li> @*TODO: Add authorization*@
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-link"><a class="nav-link" asp-area="" asp-controller="" asp-action="">Productregistratie</a></li>
+                            <li class="nav-link"><a class="nav-link" asp-area="" asp-controller="" asp-action="">Retourneren</a></li>
+                        }
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-link"><a class="nav-link" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a></li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
-            
+
             </div>
         </nav>
     </header>
@@ -51,16 +63,16 @@
     <footer class="border-top footer text-muted">
         <div class="container">
             @*<h3>Contact</h3>
-            <b>Adres: </b> Kerkstraat 46, Vaals
-            <br />
-            <b>Tel: </b> +31 6 20 74 98 86
-            <h5>Openingstijden:</h5>
-            <ul>
-                <li>Dinsdag 10.00-14.00</li>
-                <li>Woensdag 12.00-16.00</li>
-                <li>Donderdag 10.00-14.00</li>
-                <li>Elke eerste zaterdag van de maand 11.00-15.00</li>
-            </ul>*@
+                <b>Adres: </b> Kerkstraat 46, Vaals
+                <br />
+                <b>Tel: </b> +31 6 20 74 98 86
+                <h5>Openingstijden:</h5>
+                <ul>
+                    <li>Dinsdag 10.00-14.00</li>
+                    <li>Woensdag 12.00-16.00</li>
+                    <li>Donderdag 10.00-14.00</li>
+                    <li>Elke eerste zaterdag van de maand 11.00-15.00</li>
+                </ul>*@
         </div>
     </footer>
 
