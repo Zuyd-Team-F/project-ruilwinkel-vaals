@@ -9,14 +9,14 @@ namespace RuilwinkelVaals.WebApp.Data.Models
     public class LoanedProduct
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
-        public int ProductId { get; set; }
+        public Guid ProductId { get; set; }
         public Product Product { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public UserData User { get; set; }
 
         [Required]

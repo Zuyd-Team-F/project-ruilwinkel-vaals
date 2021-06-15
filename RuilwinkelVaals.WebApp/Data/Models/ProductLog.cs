@@ -9,14 +9,14 @@ namespace RuilwinkelVaals.WebApp.Data.Models
     public class ProductLog
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
-        public int LogId { get; set; }
+        public Guid LogId { get; set; }
         public ProductLog Log { get; set; }
 
         [Required]
-        public int EmployeeId { get; set; }
+        public Guid EmployeeId { get; set; }
         public UserData Employee { get; set; }
 
         [Required]
