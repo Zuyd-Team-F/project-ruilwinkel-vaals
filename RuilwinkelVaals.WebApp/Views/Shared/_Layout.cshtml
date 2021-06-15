@@ -4,22 +4,22 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - RuilwinkelVaals.WebApp</title>
-    <link rel="stylesheet" href="../Styles/custom.css" />
-    <!--<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />-->
-    <!--<link rel="stylesheet" href="~/css/site.css" />-->
+    <link rel="stylesheet" href="~/css/custom.css" />
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />*@
 </head>
 <body>
     <!-- Header -->
     <header>
-        <img src="RuilwinkelVaals.WebApp/Images/logo.png" alt="Logo" height="140" width="200" />
+        <img src="~/img/logo.png" alt="Logo" height="140" width="200" />
         <p>Ruilwinkel Vaals</p>
         <p id="cursive">ruilen - samenwerken - leren - ontmoeten</p>
 
         <nav> <!-- Navigation (Add pages here!)-->
             <ul>
-                <li class="nav-link"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-link"><a class="nav-link" href="/">Productregistratie</a></li>
-                <li class="nav-link"><a class="nav-link" href="/">Retourneren</a></li>
+                <li class="nav-link"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                <li class="nav-link"><a class="nav-link" asp-area="" asp-controller="" asp-action="">Productregistratie</a></li>
+                <li class="nav-link"><a class="nav-link" asp-area="" asp-controller="" asp-action="">Retourneren</a></li>
             </ul>
         </nav>
     </header>
@@ -36,7 +36,7 @@
         <b>Adres: </b> Kerkstraat 46, Vaals
         <br />
         <b>Tel: </b> +31 6 20 74 98 86
-        <h5>Openingstijden:</h5>\
+        <h5>Openingstijden:</h5>
         <ul>
             <li>Dinsdag 10.00-14.00</li>
             <li>Woensdag 12.00-16.00</li>
