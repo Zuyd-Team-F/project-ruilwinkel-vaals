@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,21 +7,10 @@ using System.Threading.Tasks;
 
 namespace RuilwinkelVaals.WebApp.Data.Models
 {
-    public class UserData
-    {
-        [Key]
-        public int Id { get; set; }
-        
-        public int? BusinessDataId { get; set; }
+    public class UserData : IdentityUser
+    {        
+        public Guid? BusinessDataId { get; set; }
         public BusinessData BusinessData { get; set; }
-
-        [Required]
-        public int RoleId { get; set; }
-        public Role Role { get; set; }
-
-        [Required]
-        [MaxLength(64)]        
-        public String Password { get; set; } //Hashed
 
         [Required]
         [MaxLength(32)]
@@ -50,13 +40,6 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         [Required]
         [MaxLength(32)]
         public String City { get; set; }
-
-        [Required]
-        [MaxLength(128)]
-        public String Email { get; set; }
-
-        [Required]
-        public int Phone { get; set; }
 
         [Required]
         public int Balance { get; set; }
