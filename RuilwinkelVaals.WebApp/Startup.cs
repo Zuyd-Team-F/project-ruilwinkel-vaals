@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RuilwinkelVaals.WebApp.Data;
+using RuilwinkelVaals.WebApp.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,9 +43,13 @@ namespace RuilwinkelVaals.WebApp
                 )
             );
 
+            services.AddDefaultIdentity<UserData>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddControllersWithViews();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +79,7 @@ namespace RuilwinkelVaals.WebApp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
