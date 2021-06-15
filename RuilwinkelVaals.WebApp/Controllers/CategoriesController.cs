@@ -26,7 +26,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
         }
 
         // GET: Categories/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -86,7 +86,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Category category)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name")] Category category)
         {
             if (id != category.Id)
             {
@@ -117,7 +117,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
         }
 
         // GET: Categories/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -145,7 +145,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(int id)
+        private bool CategoryExists(Guid id)
         {
             return _context.Categories.Any(e => e.Id == id);
         }
