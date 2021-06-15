@@ -19,11 +19,12 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         public Role Role { get; set; }
 
         [Required]
-        [MaxLength(64)]
+        [MaxLength(64)]        
         public String Password { get; set; } //Hashed
 
         [Required]
         [MaxLength(32)]
+        [Display(Name = "Voornaam")]
         public String FirstName { get; set; }
 
         [Required]
