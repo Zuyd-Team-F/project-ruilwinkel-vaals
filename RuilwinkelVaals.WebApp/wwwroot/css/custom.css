@@ -54,13 +54,13 @@ nav li {
 }
 
 .nav-link {
-    color: white;
+    color: dimgrey;
     text-decoration: none;
     text-transform: uppercase;
 }
 
 .nav-link:hover {
-    color: lightblue;
+    color: rgb(58, 29, 75);
 }
 
 .nav-link::before {
@@ -68,7 +68,7 @@ nav li {
     display: block;
     height: 5px;
     width: 0%;
-    background-color: lightblue;
+    background-color: rgb(58, 29, 75);
     position: absolute;
     top: 0;
     transition: all ease-in-out 250ms;
