@@ -23,7 +23,7 @@ namespace RuilwinkelVaals.WebApp
                 try
                 {
                     var context = services.GetRequiredService<ApplicationDbContext>();
-                    DbInitializer.InitAsync(context);
+                    DbInitializer.Init(context);
                 }
                 catch (Exception ex)
                 {
