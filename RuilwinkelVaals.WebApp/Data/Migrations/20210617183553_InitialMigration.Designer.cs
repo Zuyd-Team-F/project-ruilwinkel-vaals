@@ -9,7 +9,7 @@ using RuilwinkelVaals.WebApp.Data;
 namespace RuilwinkelVaals.WebApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210617111013_InitialMigration")]
+    [Migration("20210617183553_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,9 +21,9 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
 
             modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.Blacklist", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
@@ -32,24 +32,21 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<int?>("UserId1")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Blacklist");
                 });
 
             modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.BusinessData", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -77,9 +74,9 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
 
             modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.Category", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -96,9 +93,9 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
 
             modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.Condition", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -115,9 +112,9 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
 
             modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.LoanedProduct", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DateEnd")
                         .HasColumnType("datetime(6)");
@@ -125,39 +122,36 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                     b.Property<DateTime>("DateStart")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<int?>("UserId1")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("LoanedProducts");
                 });
 
             modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.Product", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Brand")
                         .HasMaxLength(24)
                         .HasColumnType("varchar(24)");
 
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("ConditionId")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("ConditionId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CreditValue")
                         .HasColumnType("int");
@@ -170,8 +164,8 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                         .HasMaxLength(56)
                         .HasColumnType("varchar(56)");
 
-                    b.Property<Guid>("StatusId")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -186,9 +180,9 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
 
             modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.ProductLog", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ChangeDate")
                         .HasColumnType("datetime(6)");
@@ -197,18 +191,15 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("EmployeeId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<int?>("EmployeeId1")
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("LogId")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("LogId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId1");
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("LogId");
 
@@ -217,9 +208,9 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
 
             modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.Remark", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
@@ -228,8 +219,8 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -289,9 +280,9 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
 
             modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.Status", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -340,8 +331,8 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                     b.Property<int>("Balance")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("BusinessDataId")
-                        .HasColumnType("char(36)");
+                    b.Property<int?>("BusinessDataId")
+                        .HasColumnType("int");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -495,7 +486,9 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                 {
                     b.HasOne("RuilwinkelVaals.WebApp.Data.Models.UserData", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -510,7 +503,9 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
 
                     b.HasOne("RuilwinkelVaals.WebApp.Data.Models.UserData", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
 
@@ -548,7 +543,9 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                 {
                     b.HasOne("RuilwinkelVaals.WebApp.Data.Models.UserData", "Employee")
                         .WithMany()
-                        .HasForeignKey("EmployeeId1");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("RuilwinkelVaals.WebApp.Data.Models.ProductLog", "Log")
                         .WithMany()

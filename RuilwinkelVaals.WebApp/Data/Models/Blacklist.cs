@@ -9,10 +9,10 @@ namespace RuilwinkelVaals.WebApp.Data.Models
     public class Blacklist
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
         public UserData User { get; set; }
 
         [Required]

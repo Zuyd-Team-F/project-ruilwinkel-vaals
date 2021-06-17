@@ -10,18 +10,18 @@ namespace RuilwinkelVaals.WebApp.Data.Models
     public class Product
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        public Guid CategoryId { get; set; }
+        public int CategoryId { get; set; }
         public Category Category { get; set; }
 
         [Required]
-        public Guid ConditionId { get; set; }
+        public int ConditionId { get; set; }
         public Condition Condition { get; set; }
 
         [Required]
-        public Guid StatusId { get; set; }
+        public int StatusId { get; set; }
         public Status Status { get; set; }
 
         [MaxLength(24)]

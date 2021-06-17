@@ -12,7 +12,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
 {
     public class UserData : IdentityUser<int>
     {        
-        public Guid? BusinessDataId { get; set; }
+        public int? BusinessDataId { get; set; }
         public BusinessData BusinessData { get; set; }
 
         [Required]

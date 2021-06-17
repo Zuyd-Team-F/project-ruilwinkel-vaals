@@ -9,7 +9,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
     public class BusinessData
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [MaxLength(64)]
