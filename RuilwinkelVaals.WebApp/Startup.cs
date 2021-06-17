@@ -49,8 +49,7 @@ namespace RuilwinkelVaals.WebApp
                 )
             );
 
-            services.AddIdentity<UserData, IdentityRole>()
-                .AddRoleManager<RoleManager<IdentityRole>>()
+            services.AddIdentity<UserData, Role>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
