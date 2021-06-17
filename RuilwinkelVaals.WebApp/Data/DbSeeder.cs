@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using RuilwinkelVaals.WebApp.Data.Models;
+using System;
 using System.Threading.Tasks;
 using static RuilwinkelVaals.WebApp.Constants;
 
@@ -27,7 +28,7 @@ namespace RuilwinkelVaals.WebApp.Data
         private static async Task SeedRoles()
         {
             using RoleStore roleStore = new(_context);
-            foreach (string role in Roles)
+            foreach (string role in GetEnumArray<Roles>())
             {
                 await roleStore.CreateAsync(new(role));
             }
@@ -49,25 +50,25 @@ namespace RuilwinkelVaals.WebApp.Data
 
         private static async Task SeedConditions()
         {
-            foreach (string condition in Conditions)
+            foreach (string condition in GetEnumArray<Conditions>())
             {
-                await _context.Conditions.AddAsync(new() { Name = condition } );
+                await _context.Conditions.AddAsync(new(condition));
             }
         }
 
         private static async Task SeedCategories()
         {
-            foreach (string category in Categories)
+            foreach (string category in GetEnumArray<Categories>())
             {
-                await _context.Categories.AddAsync(new() { Name = category });
+                await _context.Categories.AddAsync(new(category));
             }
         }
 
         private static async Task SeedStatuses()
         {
-            foreach (string status in Statuses)
+            foreach (string status in GetEnumArray<Statuses>())
             {
-                await _context.Statuses.AddAsync(new() { Name = status });
+                await _context.Statuses.AddAsync(new(status));
             }
         }
 
@@ -85,11 +86,16 @@ namespace RuilwinkelVaals.WebApp.Data
                 PostalCode = "6666TE",
                 Street = "Test Avenue",
                 StreetNumber = 1,
-                Balance = 0                
+                Balance = 0
             };
             user.PasswordHash = new PasswordHasher<UserData>().HashPassword(user, "test");
 
             return user;
+        }
+
+        private static string[] GetEnumArray<T>()
+        {
+            return Enum.GetNames(typeof(T));
         }
     }
 }
