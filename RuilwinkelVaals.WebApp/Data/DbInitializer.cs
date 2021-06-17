@@ -14,7 +14,7 @@ namespace RuilwinkelVaals.WebApp.Data
 {
     public static class DbInitializer
     {
-        public static void Init(ApplicationDbContext context)
+        public static async Task Init(ApplicationDbContext context)
         {
             //if(context.Database.GetPendingMigrations().Any())
             if(true)
@@ -22,7 +22,7 @@ namespace RuilwinkelVaals.WebApp.Data
                 context.Database.EnsureDeleted();
                 context.Database.Migrate();
 
-                DbSeeder.Init(context);
+                await DbSeeder.Init(context);
                             
                 context.Conditions.AddRange(new Condition[] {
                     new() { Name = "Zeergoed" },
@@ -52,7 +52,7 @@ namespace RuilwinkelVaals.WebApp.Data
                     new() { Name = "Huisdieren" }
                 });
 
-                context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
         }
     }
