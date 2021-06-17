@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using RuilwinkelVaals.WebApp.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -12,13 +11,13 @@ namespace RuilwinkelVaals.WebApp.Data
     {
         public static void Init(ApplicationDbContext _context)
         {
-            using (RoleStore<IdentityRole> roleStore = new(_context))
+            using (RoleStore roleStore = new(_context))
             {
                 roleStore.CreateAsync(new() { Name = "Admin", NormalizedName = "ADMIN" });
                 roleStore.CreateAsync(new() { Name = "Medewerker", NormalizedName = "MEDEWERKER" });
             }
 
-            using (UserStore<UserData> userStore = new(_context))
+            using (UserStore userStore = new(_context))
             {
                 UserData user;
 
@@ -40,10 +39,13 @@ namespace RuilwinkelVaals.WebApp.Data
                 FirstName = username,
                 LastName = "",
                 Email = email,
-                NormalizedEmail = email.ToUpper(),
                 UserName = email,
-                NormalizedUserName = email.ToUpper(),
-                EmailConfirmed = true
+                EmailConfirmed = true,
+                City = "Test City",
+                PostalCode = "6666TE",
+                Street = "Test Avenue",
+                StreetNumber = 1,
+                Balance = 0                
             };
             user.PasswordHash = new PasswordHasher<UserData>().HashPassword(user, "test");
 

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace RuilwinkelVaals.WebApp.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<UserData, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -29,38 +29,38 @@ namespace RuilwinkelVaals.WebApp.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<IdentityUser>(entity =>
+            builder.Entity<UserData>(entity =>
             {
                 entity.ToTable(name: "UserData");
             });
 
-            builder.Entity<IdentityRole>(entity =>
+            builder.Entity<Role>(entity =>
             {
                 entity.ToTable(name: "Roles");
             });
 
-            builder.Entity<IdentityUserRole<string>>(entity =>
+            builder.Entity<UserRole>(entity =>
             {
                 entity.ToTable("UserRoles");
             });
 
-            builder.Entity<IdentityUserClaim<string>>(entity =>
+            builder.Entity<UserClaim>(entity =>
             {
                 entity.ToTable("UserClaims");
             });
 
-            builder.Entity<IdentityUserLogin<string>>(entity =>
+            builder.Entity<UserLogin>(entity =>
             {
                 entity.ToTable("UserLogins");    
             });
 
-            builder.Entity<IdentityRoleClaim<string>>(entity =>
+            builder.Entity<RoleClaim>(entity =>
             {
                 entity.ToTable("RoleClaims");
 
             });
 
-            builder.Entity<IdentityUserToken<string>>(entity =>
+            builder.Entity<UserToken>(entity =>
             {
                 entity.ToTable("UserTokens");
             });

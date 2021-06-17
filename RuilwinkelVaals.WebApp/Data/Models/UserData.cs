@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RuilwinkelVaals.WebApp.Data.Models
 {
-    public class UserData : IdentityUser
+    public class UserData : IdentityUser<int>
     {        
         public Guid? BusinessDataId { get; set; }
         public BusinessData BusinessData { get; set; }
@@ -44,4 +47,42 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         [Required]
         public int Balance { get; set; }
     }
+
+    public class UserRole : IdentityUserRole<int>
+    {
+
+    }
+
+    public class UserClaim : IdentityUserClaim<int>
+    {
+
+    }
+
+    public class UserLogin : IdentityUserLogin<int>
+    {
+
+    }
+
+    public class UserToken : IdentityUserToken<int>
+    {
+
+    }
+
+    public class UserStore : UserStore<UserData, Role, ApplicationDbContext, int, UserClaim, UserRole, UserLogin, UserToken, RoleClaim>
+    {
+        public UserStore(ApplicationDbContext context)
+            : base(context)
+        {
+
+        }
+
+        public override Task<IdentityResult> CreateAsync(UserData user, CancellationToken cancellationToken = default)
+        {
+            user.NormalizedEmail ??= user.Email.ToUpper();
+            user.NormalizedUserName ??= user.UserName.ToUpper();
+            user.SecurityStamp ??= Guid.NewGuid().ToString();
+
+            return base.CreateAsync(user, cancellationToken);
+        }
+    } 
 }
