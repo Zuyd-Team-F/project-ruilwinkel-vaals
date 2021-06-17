@@ -22,8 +22,8 @@ namespace RuilwinkelVaals.WebApp
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<ApplicationDbContext>();
-                    DbInitializer.Init(context).GetAwaiter().GetResult();
+                    DbConstructor dbInit = scope.ServiceProvider.GetRequiredService<DbConstructor>();
+                    dbInit.Init().GetAwaiter().GetResult();
                 }
                 catch (Exception ex)
                 {
@@ -40,6 +40,10 @@ namespace RuilwinkelVaals.WebApp
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureServices(services =>
+                {
+                    services.AddScoped<DbConstructor>();
                 });
     }
 }
