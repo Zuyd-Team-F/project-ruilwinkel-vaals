@@ -14,7 +14,7 @@ namespace RuilwinkelVaals.WebApp.Data
         {
             using (RoleStore roleStore = new(_context))
             {
-                string[] allRoles = (string[])Enum.GetValues(typeof(Roles));
+                string[] allRoles = Enum.GetNames(typeof(Roles));
 
                 foreach(string role in allRoles)
                 {
