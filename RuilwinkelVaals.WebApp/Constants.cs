@@ -9,10 +9,10 @@ namespace RuilwinkelVaals.WebApp
     {
         public enum Roles
         { 
-            ADMIN,
-            MEDEWERKER,
-            KLANT,
-            BUSINESS
+            Admin,
+            Medewerker,
+            Klant,
+            Bedrijf
         }
     }
 }

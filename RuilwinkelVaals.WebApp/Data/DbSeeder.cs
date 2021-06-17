@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static RuilwinkelVaals.WebApp.Constants;
 
 namespace RuilwinkelVaals.WebApp.Data
 {
@@ -13,10 +14,12 @@ namespace RuilwinkelVaals.WebApp.Data
         {
             using (RoleStore roleStore = new(_context))
             {
-                await roleStore.CreateAsync(new("Admin"));
-                await roleStore.CreateAsync(new("Medewerker"));
-                await roleStore.CreateAsync(new("Klant"));
-                await roleStore.CreateAsync(new("Bedrijf"));
+                string[] allRoles = (string[])Enum.GetValues(typeof(Roles));
+
+                foreach(string role in allRoles)
+                {
+                    await roleStore.CreateAsync(new(role));
+                }
             }
 
             using (UserStore userStore = new(_context))
