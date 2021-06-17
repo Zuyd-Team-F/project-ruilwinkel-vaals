@@ -9,12 +9,14 @@ namespace RuilwinkelVaals.WebApp.Data
 {
     public static class DbSeeder
     {
-        public static void Init(ApplicationDbContext _context)
+        public static async Task Init(ApplicationDbContext _context)
         {
             using (RoleStore roleStore = new(_context))
             {
-                roleStore.CreateAsync(new() { Name = "Admin", NormalizedName = "ADMIN" });
-                roleStore.CreateAsync(new() { Name = "Medewerker", NormalizedName = "MEDEWERKER" });
+                await roleStore.CreateAsync(new("Admin"));
+                await roleStore.CreateAsync(new("Medewerker"));
+                await roleStore.CreateAsync(new("Klant"));
+                await roleStore.CreateAsync(new("Bedrijf"));
             }
 
             using (UserStore userStore = new(_context))
@@ -22,12 +24,12 @@ namespace RuilwinkelVaals.WebApp.Data
                 UserData user;
 
                 user = GenerateUser("Admin");
-                userStore.CreateAsync(user);
-                userStore.AddToRoleAsync(user, "ADMIN");
+                await userStore.CreateAsync(user);
+                await userStore.AddToRoleAsync(user, "ADMIN");
 
                 user = GenerateUser("Medewerker");
-                userStore.CreateAsync(user);
-                userStore.AddToRoleAsync(user, "MEDEWERKER");
+                await userStore.CreateAsync(user);
+                await userStore .AddToRoleAsync(user, "MEDEWERKER");
             }            
         }
 
