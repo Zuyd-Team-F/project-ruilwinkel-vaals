@@ -23,13 +23,13 @@ namespace RuilwinkelVaals.WebApp
     {
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
-            Configuration = configuration;
-            _environment = environment;
+            _env = environment;
+            Configuration = configuration;            
         }
 
         public IConfiguration Configuration { get; }
 
-        private IWebHostEnvironment _environment { get; }
+        private IWebHostEnvironment _env { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -54,7 +54,7 @@ namespace RuilwinkelVaals.WebApp
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
-            if (_environment.IsDevelopment())
+            if (_env.IsDevelopment())
             {
                 services.Configure<SecurityStampValidatorOptions>(options =>
                 {
@@ -70,9 +70,9 @@ namespace RuilwinkelVaals.WebApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
+            if (_env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
@@ -83,7 +83,10 @@ namespace RuilwinkelVaals.WebApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
+            
+            // Traefik will manage Https
+            //app.UseHttpsRedirection(); 
+            
             app.UseStaticFiles();
 
             app.UseRouting();
