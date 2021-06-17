@@ -48,10 +48,11 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
+            [Display(Name = "Wachtwoord")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Onthouden")]
             public bool RememberMe { get; set; }
         }
 
