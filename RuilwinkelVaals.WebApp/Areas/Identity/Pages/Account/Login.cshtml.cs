@@ -52,7 +52,7 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Onthouden")]
+            [Display(Name = "Onthoud mijn inloggegevens.")]
             public bool RememberMe { get; set; }
         }
 
