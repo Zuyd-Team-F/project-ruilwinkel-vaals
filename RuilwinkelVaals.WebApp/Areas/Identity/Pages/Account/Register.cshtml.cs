@@ -17,7 +17,7 @@ using RuilwinkelVaals.WebApp.Data.Models;
 
 namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin, Medewerker")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<UserData> _signInManager;
@@ -86,6 +86,13 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Stad")]
             public string City { get; set; }
+
+            [Display(Name = "Bedrijfsnaam")]
+            public string BusinessName { get; set; }
+            [Display(Name = "Email adres")]
+            public string BusinessEmail { get; set; }
+            [Display(Name = "Telefoonnummer")]
+            public string BusinessPhone { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "Het {0} moet op zijn minst {2} en maximaal {1} karakters lang zijn.", MinimumLength = 6)]

@@ -43,6 +43,11 @@
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-link"><a class="nav-link" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a></li>
+                            <li class="nav-link"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registreren</a></li>
+                        }
+                        @if (User.IsInRole("Medewerker"))
+                        {
+                            <li class="nav-link"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registreren</a></li>
                         }
                     </ul>
                     <partial name="_LoginPartial" />
