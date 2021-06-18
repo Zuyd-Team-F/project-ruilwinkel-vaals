@@ -40,8 +40,8 @@ namespace RuilwinkelVaals.WebApp.Data
                 context.Statuses.AddRange(new Status[] {
                     new() { Name = "Uitgeleend" },
                     new() { Name = "Reparatie" },
-                    new() { Name = "Voorradig" },
                     new() { Name = "Kapot" },
+                    new() { Name = "Voorradig" },
                 });
                 context.SaveChanges();
 
