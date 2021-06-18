@@ -158,9 +158,43 @@ namespace RuilwinkelVaals.WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: Users/Blacklist/5
+        public async Task<IActionResult> Blacklist(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var userData = await _context.Users
+                .Include(u => u.BusinessData)
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (userData == null)
+            {
+                return NotFound();
+            }
+
+            return View(userData);
+        }
+
+        // POST: Users/Blacklist/5
+        [HttpPost, ActionName("Blacklist")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BlacklistConfirmed(int id)
+        {
+            var userData = await _context.Users.FindAsync(id);
+            // Code toevoegen om gebruiker te blacklisten (moet gekeken worden in de database)
+            // Soort check toevoegen om ervoor te zorgen dat een admin niet een andere admin kan blacklisten
+            userData.Blacklist = true;
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
         private bool UserDataExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);
         }
+
     }
 }
