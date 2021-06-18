@@ -186,6 +186,8 @@ namespace RuilwinkelVaals.WebApp.Controllers
             var userData = await _context.Users.FindAsync(id);
             // Code toevoegen om gebruiker te blacklisten (moet gekeken worden in de database)
             // Soort check toevoegen om ervoor te zorgen dat een admin niet een andere admin kan blacklisten
+            userData.Blacklist = true;
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 
