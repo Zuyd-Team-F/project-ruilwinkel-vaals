@@ -55,17 +55,16 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account
             public string LastName { get; set; }
 
             [Required]
+            [Display(Name = "Telefoonnummer")]
+            public string Phone { get; set; }
+
+            [Display(Name = "Geboortedatum")]
+            public string DateOfBirth { get; set; }
+
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
-
-            [Required]
-            [Display(Name = "Stad")]
-            public string City { get; set; }
-
-            [Required]
-            [Display(Name = "Postcode")]
-            public string PostalCode { get; set; }
 
             [Required]
             [Display(Name = "Straat")]
@@ -74,6 +73,19 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Straat nummer")]
             public int StreetNumber { get; set; }
+
+          
+            [Display(Name = "Straat nummer toevoeging")]
+            public int StreetAdd { get; set; }
+
+
+            [Required]
+            [Display(Name = "Postcode")]
+            public string PostalCode { get; set; }
+
+            [Required]
+            [Display(Name = "Stad")]
+            public string City { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "Het {0} moet op zijn minst {2} en maximaal {1} karakters lang zijn.", MinimumLength = 6)]
