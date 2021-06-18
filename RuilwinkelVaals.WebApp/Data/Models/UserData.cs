@@ -60,5 +60,8 @@ namespace RuilwinkelVaals.WebApp.Data.Models
 
         [Required]
         public int Balance { get; set; }
+
+        [Required]
+        public bool Blacklist { get; set; }
     }
 }
