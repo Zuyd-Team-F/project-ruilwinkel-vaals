@@ -78,7 +78,7 @@ namespace RuilwinkelVaals.WebApp.Data
             UserData user = new()
             {
                 FirstName = username,
-                LastName = "",
+                LastName = "Test",
                 Email = email,
                 UserName = email,
                 EmailConfirmed = true,
@@ -86,6 +86,7 @@ namespace RuilwinkelVaals.WebApp.Data
                 PostalCode = "6666TE",
                 Street = "Test Avenue",
                 StreetNumber = 1,
+                PhoneNumber = "123456789",
                 Balance = 0
             };
             user.PasswordHash = new PasswordHasher<UserData>().HashPassword(user, "test");
