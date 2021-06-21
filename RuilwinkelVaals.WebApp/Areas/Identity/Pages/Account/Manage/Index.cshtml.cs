@@ -23,8 +23,6 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
             _signInManager = signInManager;
         }
 
-        public string Username { get; set; }
-
         [TempData]
         public string StatusMessage { get; set; }
 
@@ -34,8 +32,29 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Telefoon nummer")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "Voornaam")]
+            public string Firstname { get; set; }
+
+            [Display(Name = "Achternaam")]
+            public string Lastname { get; set; }
+
+            [Display(Name = "Straat")]
+            public string Street { get; set; }
+
+            [Display(Name = "Straat Nummer")]
+            public string StreetNumber { get; set; }
+
+            [Display(Name = "Toevoeging")]
+            public string StreetAdd { get; set; }
+
+            [Display(Name = "Postcode")]
+            public string PostalCode { get; set; }
+
+            [Display(Name = "Stad")]
+            public string City { get; set; }
         }
 
         private async Task LoadAsync(UserData user)
@@ -43,11 +62,16 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
-            Username = userName;
-
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Firstname = user.FirstName,
+                Lastname = user.LastName,
+                Street = user.Street,
+                StreetNumber = Convert.ToString(user.StreetNumber),
+                StreetAdd = user.StreetAdd,
+                City = user.City,
+                PostalCode = user.PostalCode
             };
         }
 
