@@ -78,7 +78,10 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.SSH_PORT }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        script: ls -l
+        script: |
+          cd project
+          docker pull zuydteamf/project-ruilwinkel-vaals:latest
+          docker stack deploy -c docker-compose.yml -c docker-compose.prod.yml project-ruilwinkel-vaals
         
     - name: Close VPN Connection
       if: always()
