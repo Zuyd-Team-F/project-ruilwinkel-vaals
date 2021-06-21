@@ -10,7 +10,7 @@ To be able to work in this project, you'll need docker. Docker will handle all t
 
 # Running the Project
 
-Before attempting to run this project, you'll need to provide environment variables. An example of this is provided through the '.env.example' file. All you have to do is copy this file and rename it to '.env'. You can then change the desired secrets in this file for your local development (This isn't necesarry). An easy way to copy & rename this file can be done with the following command:
+Before attempting to run this project, you'll need to provide environment variables. An example of this is provided with the '.env.example' file. All you have to do is copy this file and rename it to '.env'. You can then change the desired secrets in this file for your local development (This isn't necesarry). An easy way to copy & rename this file can be done with the following command:
 
 ```console
 cp .env.example .env
