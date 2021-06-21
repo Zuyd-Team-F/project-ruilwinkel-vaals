@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.5'
 
 services:
   db:
@@ -6,7 +6,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
 
-  ruilwinkelvaals.webapp:
+  ruilwinkelvaals-webapp:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
