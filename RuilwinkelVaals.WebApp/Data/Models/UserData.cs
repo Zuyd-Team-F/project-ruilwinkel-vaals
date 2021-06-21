@@ -19,7 +19,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         [MaxLength(32)]
         [Display(Name = "Voornaam")]
         public String FirstName { get; set; }
-        public string Firstname { get; internal set; }
+        public string Firstname { get; set; }
         [Required]
         [MaxLength(32)]
         public String LastName { get; set; }

@@ -109,7 +109,6 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            // 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
             {
@@ -131,6 +130,28 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+
+            var lastname = await _userManagerExtension.GetFirstnameAsync(user);
+            if (Input.Lastname != lastname)
+            {
+                var setFirstnameResult = await _userManagerExtension.SetFirstnameAsync(user, Input.Lastname);
+                if (!setFirstnameResult.Succeeded)
+                {
+                    StatusMessage = "Onverwachte fout bij het instellen van een voornaam.";
+                    return RedirectToPage();
+                }
+            }
+
+            var street = await _userManagerExtension.GetFirstnameAsync(user);
+            if (Input.Street != street)
+            {
+                var setFirstnameResult = await _userManagerExtension.SetFirstnameAsync(user, Input.Street);
+                if (!setFirstnameResult.Succeeded)
+                {
+                    StatusMessage = "Onverwachte fout bij het instellen van een voornaam.";
+                    return RedirectToPage();
+                }
+            }  
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
