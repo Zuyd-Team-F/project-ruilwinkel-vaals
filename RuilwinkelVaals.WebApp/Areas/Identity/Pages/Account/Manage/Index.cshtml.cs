@@ -13,16 +13,13 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<UserData> _userManager;
         private readonly SignInManager<UserData> _signInManager;
         private readonly UserManagerExtension _userManagerExtension;
 
         public IndexModel(
-            UserManager<UserData> userManager,
             SignInManager<UserData> signInManager,
             UserManagerExtension userManagerExtension)
         {
-            _userManager = userManager;
             _signInManager = signInManager;
             _userManagerExtension = userManagerExtension;
         }
@@ -66,8 +63,8 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
 
         private async Task LoadAsync(UserData user)
         {
-            var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var userName = await _userManagerExtension.GetUserNameAsync(user);
+            var phoneNumber = await _userManagerExtension.GetPhoneNumberAsync(user);
 
             Input = new InputModel
             {
@@ -85,10 +82,10 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManagerExtension.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load user with ID '{_userManagerExtension.GetUserId(User)}'.");
             }
 
             await LoadAsync(user);
@@ -97,10 +94,10 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManagerExtension.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load user with ID '{_userManagerExtension.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -109,10 +106,10 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var phoneNumber = await _userManagerExtension.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+                var setPhoneResult = await _userManagerExtension.SetPhoneNumberAsync(user, Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
                     StatusMessage = "Onverwachte fout bij het instellen van een telefoonnummer.";
@@ -131,27 +128,73 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            var lastname = await _userManagerExtension.GetFirstnameAsync(user);
+            var lastname = await _userManagerExtension.GetLastnameAsync(user);
             if (Input.Lastname != lastname)
             {
-                var setFirstnameResult = await _userManagerExtension.SetFirstnameAsync(user, Input.Lastname);
-                if (!setFirstnameResult.Succeeded)
+                var setLastnameResult = await _userManagerExtension.SetLastnameAsync(user, Input.Lastname);
+                if (!setLastnameResult.Succeeded)
                 {
-                    StatusMessage = "Onverwachte fout bij het instellen van een voornaam.";
+                    StatusMessage = "Onverwachte fout bij het instellen van een achternaam.";
                     return RedirectToPage();
                 }
             }
 
-            var street = await _userManagerExtension.GetFirstnameAsync(user);
+            var street = await _userManagerExtension.GetStreetAsync(user);
             if (Input.Street != street)
             {
-                var setFirstnameResult = await _userManagerExtension.SetFirstnameAsync(user, Input.Street);
-                if (!setFirstnameResult.Succeeded)
+                var setStreetResult = await _userManagerExtension.SetStreetAsync(user, Input.Street);
+                if (!setStreetResult.Succeeded)
                 {
-                    StatusMessage = "Onverwachte fout bij het instellen van een voornaam.";
+                    StatusMessage = "Onverwachte fout bij het instellen van een straat.";
                     return RedirectToPage();
                 }
-            }  
+            }
+
+            var streetNumber = await _userManagerExtension.GetStreetNumberAsync(user);
+            if (Input.StreetNumber != streetNumber)
+            {
+                var setStreetNumberResult = await _userManagerExtension.SetStreetNumberAsync(user, Input.StreetNumber);
+                if (!setStreetNumberResult.Succeeded)
+                {
+                    StatusMessage = "Onverwachte fout bij het instellen van een straat.";
+                    return RedirectToPage();
+                }
+            }
+
+
+            var streetAdd = await _userManagerExtension.GetStreetAddAsync(user);
+            if (Input.StreetAdd != streetAdd)
+            {
+                var setStreetAddResult = await _userManagerExtension.SetStreetAddAsync(user, Input.StreetAdd);
+                if (!setStreetAddResult.Succeeded)
+                {
+                    StatusMessage = "Onverwachte fout bij het instellen van een straat.";
+                    return RedirectToPage();
+                }
+            }
+
+
+            var postalcode = await _userManagerExtension.GetStreetAsync(user);
+            if (Input.PostalCode != postalcode)
+            {
+                var setPostcalcodeResult = await _userManagerExtension.SetPostalCodeAsync(user, Input.PostalCode);
+                if (!setPostcalcodeResult.Succeeded)
+                {
+                    StatusMessage = "Onverwachte fout bij het instellen van een postcode.";
+                    return RedirectToPage();
+                }
+            }
+
+            var city = await _userManagerExtension.GetStreetAsync(user);
+            if (Input.City != city)
+            {
+                var setCityResult = await _userManagerExtension.SetCityAsync(user, Input.City);
+                if (!setCityResult.Succeeded)
+                {
+                    StatusMessage = "Onverwachte fout bij het instellen van een stad.";
+                    return RedirectToPage();
+                }
+            }
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
