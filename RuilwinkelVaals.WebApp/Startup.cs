@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RuilwinkelVaals.WebApp.Classes;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
 using System;
@@ -51,9 +52,14 @@ namespace RuilwinkelVaals.WebApp
 
             services.AddIdentity<UserData, Role>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultUI()
+                .AddUserManager<UserManagerExtension>()
                 .AddDefaultTokenProviders();
 
+            services.AddIdentity<UserData, Role>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders();
+         
             if (_env.IsDevelopment())
             {
                 services.Configure<SecurityStampValidatorOptions>(options =>
@@ -67,6 +73,7 @@ namespace RuilwinkelVaals.WebApp
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
