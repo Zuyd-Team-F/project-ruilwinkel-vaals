@@ -41,11 +41,14 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Achternaam")]
             public string Lastname { get; set; }
 
+            [Display(Name = "Geboortedatum")]
+            public string DateOfBirth { get; set; }
+
             [Display(Name = "Straat")]
             public string Street { get; set; }
 
             [Display(Name = "Straat Nummer")]
-            public string StreetNumber { get; set; }
+            public int StreetNumber { get; set; }
 
             [Display(Name = "Toevoeging")]
             public string StreetAdd { get; set; }
@@ -67,8 +70,9 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
                 PhoneNumber = phoneNumber,
                 Firstname = user.FirstName,
                 Lastname = user.LastName,
+                DateOfBirth = user.DateOfBirth.Day + "-" + user.DateOfBirth.Month + "-" + user.DateOfBirth.Year,
                 Street = user.Street,
-                StreetNumber = Convert.ToString(user.StreetNumber),
+                StreetNumber = user.StreetNumber,
                 StreetAdd = user.StreetAdd,
                 City = user.City,
                 PostalCode = user.PostalCode
@@ -101,6 +105,7 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
+            // 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
             {
@@ -110,7 +115,7 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
                     StatusMessage = "Unexpected error when trying to set phone number.";
                     return RedirectToPage();
                 }
-            }
+            }           
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
