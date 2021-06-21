@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using RuilwinkelVaals.WebApp.Classes;
 using RuilwinkelVaals.WebApp.Data.Models;
 
 namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
@@ -14,13 +15,16 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<UserData> _userManager;
         private readonly SignInManager<UserData> _signInManager;
+        private readonly UserManagerExtension _userManagerExtension;
 
         public IndexModel(
             UserManager<UserData> userManager,
-            SignInManager<UserData> signInManager)
+            SignInManager<UserData> signInManager,
+            UserManagerExtension userManagerExtension)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _userManagerExtension = userManagerExtension;
         }
 
         [TempData]
@@ -112,10 +116,21 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
+                    StatusMessage = "Onverwachte fout bij het instellen van een telefoonnummer.";
                     return RedirectToPage();
                 }
-            }           
+            }
+
+            var firstname = await _userManagerExtension.GetFirstnameAsync(user);
+            if (Input.Firstname != firstname)
+            {
+                var setFirstnameResult = await _userManagerExtension.SetFirstnameAsync(user, Input.Firstname);
+                if (!setFirstnameResult.Succeeded)
+                {
+                    StatusMessage = "Onverwachte fout bij het instellen van een voornaam.";
+                    return RedirectToPage();
+                }
+            }
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
