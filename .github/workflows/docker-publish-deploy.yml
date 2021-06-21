@@ -19,7 +19,7 @@ jobs:
             docker-compose --file docker-compose.test.yml build
             docker-compose --file docker-compose.test.yml run sut
           else
-            docker build . --file AdminManagement/Dockerfile
+            docker build . --file RuilwinkelVaals.WebApp/Dockerfile
           fi
           
   # Push image to GitHub Packages & Docker Hub.
@@ -45,7 +45,7 @@ jobs:
           context: .
           file: RuilwinkelVaals.WebApp/Dockerfile
           push: true
-          tags: zuydteamf/project-ruilwinkel-vaals:latest
+          tags: zuydteamf/ruilwinkelvaals-webapp:latest
   
   deploy:
     # Ensure test job passes before pushing image.
@@ -80,8 +80,8 @@ jobs:
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
           cd project
-          docker pull zuydteamf/project-ruilwinkel-vaals:latest
-          docker stack deploy -c docker-compose.yml -c docker-compose.prod.yml project-ruilwinkel-vaals
+          docker pull zuydteamf/ruilwinkelvaals-webapp:latest
+          env $(cat .env | grep ^[A-Z] | xargs) docker stack deploy -c docker-compose.yml -c docker-compose.production.yml ruilwinkelvaals
         
     - name: Close VPN Connection
       if: always()
