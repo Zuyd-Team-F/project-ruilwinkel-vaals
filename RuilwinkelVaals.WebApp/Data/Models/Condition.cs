@@ -12,6 +12,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         
         [Required]
         [MaxLength(24)]
+        [Display(Name = "Naam")]
         public String Name { get; set; }
     }
 }
