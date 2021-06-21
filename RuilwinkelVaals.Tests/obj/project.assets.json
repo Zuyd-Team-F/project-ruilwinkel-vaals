@@ -3134,7 +3134,6 @@
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "5.0.7",
           "Microsoft.AspNetCore.Identity.UI": "5.0.7",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.7",
-          "Microsoft.NET.Test.Sdk": "16.10.0",
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.10.14",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "5.0.2",
           "Pomelo.EntityFrameworkCore.MySql": "5.0.0",
