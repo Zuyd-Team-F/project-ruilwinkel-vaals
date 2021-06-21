@@ -3,6 +3,8 @@ version: '3.5'
 services:
 
   db:
+    volumes:
+      - /project/.sqldata:/var/lib/mysql
     networks:
       - internal
     labels:
