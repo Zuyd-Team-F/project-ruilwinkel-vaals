@@ -1,17 +1,14 @@
-version: '3.4'
+version: '3.5'
 
 services:
   db:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
+    restart: always    
     ports:
       - 3306:3306
 
-  ruilwinkelvaals.webapp:
+  ruilwinkelvaals-webapp:
     image: ${DOCKER_REGISTRY-}ruilwinkelvaalswebapp
     build:
       context: .
