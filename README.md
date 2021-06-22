@@ -1,5 +1,5 @@
 [![Build & Tests](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/build-tests.yml/badge.svg?branch=development)](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/build-tests.yml)
-[![Sonar Scan](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/sonar.yml/badge.svg)](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/sonar.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Zuyd-Team-F_project-ruilwinkel-vaals&metric=alert_status)](https://sonarcloud.io/dashboard?id=Zuyd-Team-F_project-ruilwinkel-vaals)
 [![Docker Publish & Deploy](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/docker-publish-deploy.yml/badge.svg?branch=main)](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/docker-publish-deploy.yml)
 
 # Production Website
