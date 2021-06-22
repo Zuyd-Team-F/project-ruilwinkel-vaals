@@ -2,6 +2,10 @@
 [![Sonar Scan](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/sonar.yml/badge.svg)](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/sonar.yml)
 [![Docker Publish & Deploy](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/docker-publish-deploy.yml/badge.svg?branch=main)](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/docker-publish-deploy.yml)
 
+# Production Website
+
+https://zuydest.nl/
+
 # Requirements
 
 To be able to work in this project, you'll need docker. Docker will handle all the dependancies that are tied in to this project. This will also provide you the free choice of using whatever text editor / IDE you like.
