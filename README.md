@@ -1,6 +1,6 @@
 [![Build & Tests](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/build-tests.yml/badge.svg?branch=development)](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/build-tests.yml)
-[![CodeQL](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/codeql-analysis.yml/badge.svg?branch=development)](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/codeql-analysis.yml)
 [![Sonar Scan](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/sonar.yml/badge.svg)](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/sonar.yml)
+[![Docker Publish & Deploy](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/docker-publish-deploy.yml/badge.svg?branch=main)](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/docker-publish-deploy.yml)
 
 # Requirements
 
