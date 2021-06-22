@@ -12,6 +12,12 @@
     <br />
     
     @*TODO: zoekfunctie/filters*@
+    <form asp-controller="Products" asp-action="Index" method="get">
+        <p>
+            <input type="text" name="SearchString" />
+            <input type="submit" value="Zoeken" />
+        </p>
+    </form>
 
     <table class="table">
         <thead>
