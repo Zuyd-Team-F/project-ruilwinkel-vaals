@@ -58,5 +58,28 @@ namespace RuilwinkelVaals.Tests
             Assert.Equal(givenNumber, content.firstNumber);
             Assert.Equal(givenNumber2, content.secondNumber);
         }
+        [Theory]
+        [InlineData(3,2,5)]
+        public void SumConstructorTestTheory(int x, int y, int z)
+        {
+            //creating an instance of an object
+            Sum input = new Sum();
+            //assigning it values
+            input.secondNumber = x;
+            input.firstNumber = y;
+            input.givenResult = input.firstNumber + input.secondNumber;
+            input.ExpectedResult = z;
+            //using that object to generate a new object with the second constructor
+            Sum content = new Sum(input);
+            //comparing those two objects to eachother
+            Assert.NotEqual(input, content); //this one should return false as the names are different but it should show the values are the same
+            Assert.Equal(input.givenResult, content.givenResult);
+            Assert.Equal(input.firstNumber, content.firstNumber);
+            Assert.Equal(input.secondNumber, content.secondNumber);
+            //comparing them to the begin values
+            Assert.Equal(expectedResult, content.givenResult);
+            Assert.Equal(givenNumber, content.firstNumber);
+            Assert.Equal(givenNumber2, content.secondNumber);
+        }
     }
 }
