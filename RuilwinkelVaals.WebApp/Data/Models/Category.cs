@@ -14,6 +14,6 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         }
 
         [MaxLength(24)]
-        public override string Name { get; set; 
+        public override string Name { get; set; }
     }
 }
