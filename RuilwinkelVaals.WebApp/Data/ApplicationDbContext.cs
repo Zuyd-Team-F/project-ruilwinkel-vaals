@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RuilwinkelVaals.WebApp.Data.Models;
 using System;
@@ -7,41 +8,69 @@ using System.Text;
 
 namespace RuilwinkelVaals.WebApp.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<UserData, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
 
-        public DbSet<UserData> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Condition> Conditions { get; set; }
         public DbSet<Product> Product { get; set; }
-        public DbSet<BusinessData> BusinessDatas { get; set; }
+        public DbSet<BusinessData> BusinessData { get; set; }
         public DbSet<ProductLog> ProductLogs { get; set; }
         public DbSet<Remark> Remarks { get; set; }
-        public DbSet<Role> Roles { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<LoanedProduct> LoanedProducts { get; set; }
         public DbSet<Blacklist> Blacklist { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<UserData>()
-                .HasIndex(u => u.Email)
-                .IsUnique();
+            base.OnModelCreating(builder);
+
+            builder.Entity<UserData>(entity =>
+            {
+                entity.ToTable(name: "UserData");
+            });
+
+            builder.Entity<Role>(entity =>
+            {
+                entity.ToTable(name: "Roles");
+            });
+
+            builder.Entity<UserRole>(entity =>
+            {
+                entity.ToTable("UserRoles");
+            });
+
+            builder.Entity<UserClaim>(entity =>
+            {
+                entity.ToTable("UserClaims");
+            });
+
+            builder.Entity<UserLogin>(entity =>
+            {
+                entity.ToTable("UserLogins");    
+            });
+
+            builder.Entity<RoleClaim>(entity =>
+            {
+                entity.ToTable("RoleClaims");
+
+            });
+
+            builder.Entity<UserToken>(entity =>
+            {
+                entity.ToTable("UserTokens");
+            });
 
             builder.Entity<BusinessData>()
-                .HasIndex(u => u.Name)
-                .IsUnique();
+            .HasIndex(u => u.Name)
+            .IsUnique();
 
             builder.Entity<BusinessData>()
                 .HasIndex(u => u.Email)
-                .IsUnique();
-
-            builder.Entity<Role>()
-                .HasIndex(u => u.Name)
                 .IsUnique();
 
             builder.Entity<Status>()
