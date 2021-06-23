@@ -22,7 +22,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Users.Include(u => u.BusinessData).Include(u => u.Role);
+            var applicationDbContext = _context.Users.Include(u => u.BusinessData);//.Include(u => u.Role);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -36,7 +36,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
 
             var userData = await _context.Users
                 .Include(u => u.BusinessData)
-                .Include(u => u.Role)
+                //.Include(u => u.Role)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (userData == null)
             {
@@ -49,7 +49,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
         // GET: Users/Create
         public IActionResult Create()
         {
-            ViewData["BusinessDataId"] = new SelectList(_context.BusinessDatas, "Id", "Email");
+            ViewData["BusinessDataId"] = new SelectList(_context.BusinessData, "Id", "Email");
             ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name");
             return View();
         }
@@ -67,8 +67,8 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BusinessDataId"] = new SelectList(_context.BusinessDatas, "Id", "Email", userData.BusinessDataId);
-            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name", userData.RoleId);
+            ViewData["BusinessDataId"] = new SelectList(_context.BusinessData, "Id", "Email", userData.BusinessDataId);
+            //ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name", userData.RoleId);
             return View(userData);
         }
 
@@ -85,8 +85,8 @@ namespace RuilwinkelVaals.WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["BusinessDataId"] = new SelectList(_context.BusinessDatas, "Id", "Email", userData.BusinessDataId);
-            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name", userData.RoleId);
+            ViewData["BusinessDataId"] = new SelectList(_context.BusinessData, "Id", "Email", userData.BusinessDataId);
+            //ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name", userData.RoleId);
             return View(userData);
         }
 
@@ -122,8 +122,8 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BusinessDataId"] = new SelectList(_context.BusinessDatas, "Id", "Email", userData.BusinessDataId);
-            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name", userData.RoleId);
+            ViewData["BusinessDataId"] = new SelectList(_context.BusinessData, "Id", "Email", userData.BusinessDataId);
+            //ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name", userData.RoleId);
             return View(userData);
         }
 
@@ -137,7 +137,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
 
             var userData = await _context.Users
                 .Include(u => u.BusinessData)
-                .Include(u => u.Role)
+                //.Include(u => u.Role)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (userData == null)
             {
@@ -168,7 +168,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
 
             var userData = await _context.Users
                 .Include(u => u.BusinessData)
-                .Include(u => u.Role)
+                //.Include(u => u.Role)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (userData == null)
             {

@@ -115,6 +115,7 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                     City = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Balance = table.Column<int>(type: "int", nullable: false),
+                    Blacklist = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)

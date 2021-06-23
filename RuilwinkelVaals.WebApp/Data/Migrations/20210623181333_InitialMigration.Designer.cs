@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RuilwinkelVaals.WebApp.Data;
 
-namespace RuilwinkelVaals.WebApp.Migrations
+namespace RuilwinkelVaals.WebApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210618140539_blacklistadded")]
-    partial class blacklistadded
+    [Migration("20210623181333_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -69,7 +69,7 @@ namespace RuilwinkelVaals.WebApp.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("BusinessDatas");
+                    b.ToTable("BusinessData");
                 });
 
             modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.Category", b =>
@@ -235,17 +235,47 @@ namespace RuilwinkelVaals.WebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(24)
-                        .HasColumnType("varchar(24)");
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.RoleClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RoleClaims");
                 });
 
             modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.Status", b =>
@@ -267,10 +297,35 @@ namespace RuilwinkelVaals.WebApp.Migrations
                     b.ToTable("Statuses");
                 });
 
+            modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.UserClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserClaims");
+                });
+
             modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.UserData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
                     b.Property<int>("Balance")
@@ -287,13 +342,19 @@ namespace RuilwinkelVaals.WebApp.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("varchar(32)");
 
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -305,21 +366,36 @@ namespace RuilwinkelVaals.WebApp.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("varchar(32)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("Phone")
-                        .HasColumnType("int");
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("PostalCode")
                         .IsRequired()
                         .HasMaxLength(7)
                         .HasColumnType("varchar(7)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Street")
                         .IsRequired()
@@ -333,16 +409,80 @@ namespace RuilwinkelVaals.WebApp.Migrations
                     b.Property<int>("StreetNumber")
                         .HasColumnType("int");
 
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BusinessDataId");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("UserData");
+                });
+
+            modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.UserLogin", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserLogins");
+                });
+
+            modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.UserRole", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users");
+                    b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.UserToken", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("UserTokens");
                 });
 
             modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.Blacklist", b =>
@@ -432,21 +572,64 @@ namespace RuilwinkelVaals.WebApp.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.RoleClaim", b =>
+                {
+                    b.HasOne("RuilwinkelVaals.WebApp.Data.Models.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.UserClaim", b =>
+                {
+                    b.HasOne("RuilwinkelVaals.WebApp.Data.Models.UserData", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.UserData", b =>
                 {
                     b.HasOne("RuilwinkelVaals.WebApp.Data.Models.BusinessData", "BusinessData")
                         .WithMany()
                         .HasForeignKey("BusinessDataId");
 
-                    b.HasOne("RuilwinkelVaals.WebApp.Data.Models.Role", "Role")
+                    b.Navigation("BusinessData");
+                });
+
+            modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.UserLogin", b =>
+                {
+                    b.HasOne("RuilwinkelVaals.WebApp.Data.Models.UserData", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.UserRole", b =>
+                {
+                    b.HasOne("RuilwinkelVaals.WebApp.Data.Models.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("BusinessData");
+                    b.HasOne("RuilwinkelVaals.WebApp.Data.Models.UserData", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.Navigation("Role");
+            modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.UserToken", b =>
+                {
+                    b.HasOne("RuilwinkelVaals.WebApp.Data.Models.UserData", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
