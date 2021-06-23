@@ -20,9 +20,14 @@ namespace RuilwinkelVaals.WebApp.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var applicationDbContext = _context.Product.Include(p => p.Category).Include(p => p.Condition).Include(p => p.Status);
+            var applicationDbContext = from p in _context.Product
+                                       select p; //_context.Product.Include(p => p.Category).Include(p => p.Condition).Include(p => p.Status);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                applicationDbContext = applicationDbContext.Where(s => s.Name.Contains(searchString));
+            }
             return View(await applicationDbContext.ToListAsync());
         }
 
