@@ -4,6 +4,35 @@
 }
 
 body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+div{
+    background-color: rgb(58,29,75);
+    color: rgb(255 255 255);
+}
+
+form{
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    width: 600px;
+}
+
+input select{
+    border-radius: 5px;
+    border: 1px solid rgb(0,0,0);
+    background-color: rgb(255,255,255);
+    font-size: 16px;
+    width: 300px;
+}
+
+label{
+    font-size: 16px;
+    text-align: left;
 }
 
 h1 {
@@ -19,7 +48,12 @@ h3 {
 }
 
 a {
+    color: white;
+    text-decoration: none;
+}
 
+a:hover {
+    color: grey;
 }
 
 p {
@@ -33,7 +67,6 @@ header {
     flex-direction: column;
     align-items: center;
     color: #000000;
-    border: 3px solid grey;
 }
 
 nav {
@@ -81,16 +114,31 @@ nav li {
 footer {
     background-color: rgb(199, 189, 216);
     color: black;
-    border: 1px solid grey;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 footer h3, footer p {
     text-align: left;
     margin-left: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
 }
 
 #cursive {
     font-style: italic;
 }
 
+#table-header {
+    background-color: rgb(199, 189, 216);
+    color: black;
+    border: 1px solid grey;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold
+}
 
+#table-entry {
+    background-color: rgb(199, 189, 216);
+    color: black;
+    border: 1px solid grey;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: normal;
+}

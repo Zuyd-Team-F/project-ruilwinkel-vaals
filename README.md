@@ -1,28 +1,29 @@
-# Entity Framework
+[![Build & Tests](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/build-tests.yml/badge.svg?branch=development)](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/build-tests.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Zuyd-Team-F_project-ruilwinkel-vaals&metric=alert_status)](https://sonarcloud.io/dashboard?id=Zuyd-Team-F_project-ruilwinkel-vaals)
+[![Docker Publish & Deploy](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/docker-publish-deploy.yml/badge.svg?branch=main)](https://github.com/Zuyd-Team-F/project-ruilwinkel-vaals/actions/workflows/docker-publish-deploy.yml)
 
-Working with the entity framework requires following a set procedure. The database is built up from migrations that are defined through the entity framework. To include a new table/object in the database, you'll have to do the following:
+# Production Website
 
-***1. Create an object class in the ./Data/Models/ folder***
-* Be sure to be include the DataAnnotations library so that you can use decorators. These decorators help you define what type of row you want to build into that table
+https://zuydest.nl/
 
-***2. Include the object in ./Data/ApplicationDbContext.cs***
-* This can be achieved by inserting the following code:
-```csharp
-public DbSet<MODELNAME> MODELNAME { get; set; }
-```
+# Requirements
 
-***3. (OPTIONAL) Insert default entries in ./Data/DbInitializer.cs***
-* These entries will always be included when the database is created freshly.\
-This can be achieved by doing the following:
-```csharp
-context.MODELNAME.Add( new MODELNAME( arguments[] ) )
-```
+To be able to work in this project, you'll need docker. Docker will handle all the dependancies that are tied in to this project. This will also provide you the free choice of using whatever text editor / IDE you like.
 
-***4. Create the migration in the CLI***
-* Using the dotnet command you can automatically create the migration based on the changes you've just applied.\
-* This can be achieved by entering the followin line in the CLI (**NOTE**: Make sure you're in the following folder <\\project-ruilwinkel-vaals\\RuilwinkelVaals.WebApp>)
+[<img src="https://ms-azuretools.gallerycdn.vsassets.io/extensions/ms-azuretools/vscode-docker/1.12.1/1618259060082/Microsoft.VisualStudio.Services.Icons.Default" width="200">](https://www.docker.com/products/docker-desktop)
+
+# Running the Project
+
+Before attempting to run this project, you'll need to provide environment variables. An example of this is provided with the '.env.example' file. All you have to do is copy this file and rename it to '.env'. You can then change the desired secrets in this file for your local development (This isn't necesarry). An easy way to copy & rename this file can be done with the following command:
+
 ```console
-dotnet ef migrations add MIGRATIONMESSAGE
+cp .env.example .env
 ```
 
-If done correctly, a success message should appear and rebuild the database on the next run.
+To run this project, you need to open a CLI (Or whatever code editor you want to use, IDE Visual Studio works aswell) and navigate to the project folder. When there, enter the following code:
+
+```console
+docker-compose up
+```
+
+That's the only thing you'll need to do and it'll run the project.

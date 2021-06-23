@@ -34,16 +34,17 @@
                 <!-- Navigation (Add pages here!)-->
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-link"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li class="nav-link"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            <li class="nav-link"><a class="nav-link" asp-area="" asp-controller="" asp-action="">Productregistratie</a></li>
-                            <li class="nav-link"><a class="nav-link" asp-area="" asp-controller="" asp-action="">Retourneren</a></li>
+                            <li class="nav-link"><a class="nav-link" asp-controller="Products" asp-action="Index">Inventaris</a></li>
+                            <li class="nav-link"><a class="nav-link" asp-controller="" asp-action="">Retourneren</a></li>
                         }
                         @if (User.IsInRole("Admin"))
                         {
-                            <li class="nav-link"><a class="nav-link" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a></li>
+                            <li class="nav-link"><a class="nav-link" asp-controller="Categories" asp-action="Index">Categories</a></li>
                             <li class="nav-link"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registreren</a></li>
+                            <li class="nav-link"><a class="nav-link" asp-controller="Users" asp-action="Index"">Gebruikers</a></li>
                         }
                         @if (User.IsInRole("Medewerker"))
                         {

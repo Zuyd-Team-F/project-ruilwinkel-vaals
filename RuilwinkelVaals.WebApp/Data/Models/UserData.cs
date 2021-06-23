@@ -47,6 +47,10 @@ namespace RuilwinkelVaals.WebApp.Data.Models
 
         [Required]
         public int Balance { get; set; }
+
+        [Required]
+        public bool Blacklist { get; set; }
+
     }
 
     public class UserRole : IdentityUserRole<int>
@@ -82,7 +86,6 @@ namespace RuilwinkelVaals.WebApp.Data.Models
             user.NormalizedEmail ??= user.Email.ToUpper();
             user.NormalizedUserName ??= user.UserName.ToUpper();
             user.SecurityStamp ??= Guid.NewGuid().ToString();
-
             return base.CreateAsync(user, cancellationToken);
         }
     } 
