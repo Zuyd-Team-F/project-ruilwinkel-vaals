@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\css\custom.css" />
     <None Include="wwwroot\img\logo.png" />
   </ItemGroup>
 
