@@ -43,7 +43,7 @@ namespace RuilwinkelVaals.WebApp
             );
 
             services.AddDatabaseDeveloperPageExceptionFilter();
-
+            services.AddRazorPages();
             services.AddControllersWithViews();
         }
 
@@ -74,6 +74,7 @@ namespace RuilwinkelVaals.WebApp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
