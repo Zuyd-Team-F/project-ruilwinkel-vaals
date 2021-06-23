@@ -84,7 +84,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
             ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name", product.ConditionId);
             ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name", product.StatusId);
-            return View(product);
+            return View(product);  //deze moeten we pakken voor te vergelijken dit is een object gemaakt met de gegeven input
         }
 
         // GET: Products/Edit/5

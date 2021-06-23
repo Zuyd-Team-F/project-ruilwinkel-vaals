@@ -1,0 +1,88 @@
+name: Docker Publish & Deploy
+on:
+  push:
+    branches: [ main ]
+    
+jobs:
+  # Run tests.
+  # See also https://docs.docker.com/docker-hub/builds/automated-testing/
+  test:
+    name: Docker Tests  
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run tests
+        run: |
+          if [ -f docker-compose.test.yml ]; then
+            docker-compose --file docker-compose.test.yml build
+            docker-compose --file docker-compose.test.yml run sut
+          else
+            docker build . --file RuilwinkelVaals.WebApp/Dockerfile
+          fi
+          
+  # Push image to GitHub Packages & Docker Hub.
+  # See also https://docs.docker.com/docker-hub/builds/
+  push:
+  
+    needs: test
+    name: Docker Publish
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2        
+      
+      - name: Log into Docker Hub Registry
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          
+      - name: Push 2 Hub        
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: RuilwinkelVaals.WebApp/Dockerfile
+          push: true
+          tags: zuydteamf/ruilwinkelvaals-webapp:latest
+  
+  deploy:
+    # Ensure test job passes before pushing image.
+    needs: [test, push]
+    name: SSH Deploy
+    runs-on: ubuntu-latest
+    steps:        
+
+    - uses: actions/checkout@v2
+
+    - name: Write VPN Files
+      run: |
+        echo "${{ secrets.VPN_FILE }}" > .github/config.ovpn
+    - name: Install Open VPN
+      run: |
+        sudo apt install apt-transport-https
+        sudo wget https://swupdate.openvpn.net/repos/openvpn-repo-pkg-key.pub
+        sudo apt-key add openvpn-repo-pkg-key.pub
+        sudo wget -O /etc/apt/sources.list.d/openvpn3.list https://swupdate.openvpn.net/community/openvpn3/repos/openvpn3-bionic.list
+        sudo apt update
+        sudo apt install openvpn3
+    - name: Start Open VPN 3
+      run: openvpn3 session-start --config .github/config.ovpn
+
+    - name: Executing remote SSH commands
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}        
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        script: |
+          cd /project
+          docker pull zuydteamf/ruilwinkelvaals-webapp:latest
+          env $(cat .env | grep ^[A-Z] | xargs) docker stack deploy -c docker-compose.yml -c docker-compose.production.yml ruilwinkelvaals
+        
+    - name: Close VPN Connection
+      if: always()
+      run: openvpn3 session-manage --config .github/config.ovpn --disconnect
