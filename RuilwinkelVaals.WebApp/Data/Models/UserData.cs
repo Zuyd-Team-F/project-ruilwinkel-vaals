@@ -65,7 +65,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
 
         [Required]
         [Display(Name = "Telefoon")]
-        public int Phone { get; set; }
+        public String Phone { get; set; }
 
         [Required]
         [Display(Name = "Punten")]
