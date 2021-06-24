@@ -2,28 +2,50 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using RuilwinkelVaals.WebApp.Classes;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
+using RuilwinkelVaals.WebApp.IdentityOverrides;
+using RuilwinkelVaals.WebApp.ViewModels.Users;
 
 namespace RuilwinkelVaals.WebApp.Controllers
 {
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManagerExtension _userManager;
+        private readonly RoleManager<Role> _roleManager;
 
-        public UsersController(ApplicationDbContext context)
+        public UsersController(ApplicationDbContext context, UserManagerExtension userManager, RoleManager<Role> roleManager )
         {
+            _roleManager = roleManager;
+            _userManager = userManager;
             _context = context;
         }
 
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Users.Include(u => u.BusinessData);//.Include(u => u.Role);
-            return View(await applicationDbContext.ToListAsync());
+            var contextUsers = _context.Users.Include(u => u.BusinessData);//.Include(u => u.Role);
+
+            List<UserIndexViewModel> users = new();
+
+            foreach(var u in contextUsers)
+            {
+                users.Add(new()
+                {
+                    Id = u.Id,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Role = (await _userManager.GetRolesAsync(u)).FirstOrDefault()
+                });
+            }
+
+            return View(users);
         }
 
         // GET: Users/Details/5
@@ -34,16 +56,32 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 return NotFound();
             }
 
-            var userData = await _context.Users
-                .Include(u => u.BusinessData)
-                //.Include(u => u.Role)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (userData == null)
+            var u = await _context.Users.FindAsync(id);
+            if (u == null)
             {
                 return NotFound();
             }
 
-            return View(userData);
+            UserInfoViewModel user = new()
+            {
+                Id = u.Id,
+                Business = u.BusinessData.Name,
+                Role = (await _userManager.GetRolesAsync(u)).FirstOrDefault(),
+                Email = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                City = u.City,
+                PostalCode = u.PostalCode,
+                Street = u.Street,
+                StreetAdd = u.StreetAdd,
+                StreetNumber = u.StreetNumber,
+                DateOfBirth = u.DateOfBirth,
+                PhoneNumber = u.PhoneNumber,
+                Balance = u.Balance,
+                Blacklist = u.Blacklist
+            };
+
+            return View(user);
         }
 
         // GET: Users/Create
@@ -80,14 +118,39 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 return NotFound();
             }
 
-            var userData = await _context.Users.FindAsync(id);
-            if (userData == null)
+            var u = await _context.Users.FindAsync(id);
+            if (u == null)
             {
                 return NotFound();
             }
-            ViewData["BusinessDataId"] = new SelectList(_context.BusinessData, "Id", "Email", userData.BusinessDataId);
-            //ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name", userData.RoleId);
-            return View(userData);
+
+            var roleId = (await _roleManager.FindByNameAsync(
+                (await _userManager.GetRolesAsync(u))
+                .FirstOrDefault()
+                )).Id;
+            
+            UserFormViewModel user = new()
+            {
+                Id = u.Id,
+                BusinessId = u.BusinessDataId,
+                RoleId = roleId,
+                Businesses = new SelectList(_context.BusinessData, "Id", "Name", u.BusinessDataId),
+                Roles = new SelectList(_context.Roles, "Id", "Name", roleId),
+                Email = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Password = u.PasswordHash,
+                City = u.City,
+                PostalCode = u.PostalCode,
+                Street = u.Street,
+                StreetAdd = u.StreetAdd,
+                StreetNumber = u.StreetNumber,
+                DateOfBirth = u.DateOfBirth,
+                PhoneNumber = u.PhoneNumber,
+                Balance = u.Balance
+            };
+
+            return View(user);
         }
 
         // POST: Users/Edit/5

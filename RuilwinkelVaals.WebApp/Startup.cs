@@ -52,10 +52,10 @@ namespace RuilwinkelVaals.WebApp
 
             services.AddIdentity<UserData, Role>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddUserManager<UserManagerExtension>()
+                .AddUserManager<UserManagerExtension>()                
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
-         
+                     
             if (_env.IsDevelopment())
             {
                 services.Configure<SecurityStampValidatorOptions>(options =>

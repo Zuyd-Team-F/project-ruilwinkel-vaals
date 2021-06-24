@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RuilwinkelVaals.WebApp.Data.Models.UserData>
+﻿@model IEnumerable<RuilwinkelVaals.WebApp.ViewModels.Users.UserIndexViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,9 +13,9 @@
 <table class="table">
     <thead>
         <tr>
-            @*<th>
+            <th>
                 @Html.DisplayNameFor(model => model.Role)
-            </th>*@
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
@@ -28,9 +28,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Role.Name)
-            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
