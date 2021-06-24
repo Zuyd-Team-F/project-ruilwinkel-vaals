@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 using System.Linq;
+using RuilwinkelVaals.WebApp.Classes;
 
 namespace RuilwinkelVaals.Tests
 {
@@ -37,7 +38,7 @@ namespace RuilwinkelVaals.Tests
             var controller = new UsersController(context);
 
             // Adding to the DB
-            await controller.Create(new UserData() { FirstName = "Test", LastName = "Test", Email = "test@test.com", RoleId = 1, Phone = "0123456789" });
+            await controller.Create(new UserData() { RoleId = 1, Password = HashEvent.hashPassword("admin"), FirstName = "Test", LastName = "Test", DateOfBirth = new DateTime(1990, 1, 1), Street = "straatnaam", StreetNumber = 4, StreetAdd = null, PostalCode = "6666AA", City = "Heerlen", Email = "vaals4@ruilwinkel.nl", Phone = "0451234567", Balance = 0, Blacklist = false });
 
             // Check if added correctly
                 var result = (await controller.GetAll()).ToArray();
