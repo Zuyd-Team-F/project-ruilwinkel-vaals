@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "RuilwinkelVaals.Tests": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
