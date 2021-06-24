@@ -16,11 +16,11 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="ProductId" class="control-label"></label>
-                <label asp-for="ProductId" class="form-control" asp-items="ViewBag.ProductId"></label>
+                <select asp-for="ProductId" class="form-control" asp-items="ViewBag.ProductId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="UserId" class="control-label"></label>
-                <label asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></label>
+                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="DateStart" class="control-label"></label>
