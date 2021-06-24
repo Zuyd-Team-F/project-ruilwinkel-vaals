@@ -17,11 +17,15 @@ namespace RuilwinkelVaals.WebApp.Data.Models
 
         [Required]
         public int UserId { get; set; }
+
+        [Display(Name = "Gebruiker")]
         public UserData User { get; set; }
 
         [Required]
+        [Display(Name = "Start Datum")]
         public DateTime DateStart { get; set; }
 
+        [Display(Name = "Eind Datum")]
         public DateTime DateEnd { get; set; }
     }
 }
