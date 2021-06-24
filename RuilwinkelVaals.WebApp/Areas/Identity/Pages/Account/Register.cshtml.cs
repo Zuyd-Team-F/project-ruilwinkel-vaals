@@ -71,11 +71,11 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account
             public string Street { get; set; }
 
             [Required]
-            [Display(Name = "Straat nummer")]
+            [Display(Name = "Nummer")]
             public int StreetNumber { get; set; }
 
           
-            [Display(Name = "Straat nummer toevoeging")]
+            [Display(Name = "Toevoeging")]
             public int StreetAdd { get; set; }
 
 
