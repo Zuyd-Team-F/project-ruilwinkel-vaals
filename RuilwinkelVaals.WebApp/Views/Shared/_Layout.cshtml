@@ -38,17 +38,16 @@
                         {
                             <li class="nav-link"><a class="nav-link" asp-controller="Products" asp-action="Index">Inventaris</a></li>
                         }
-                        @if (User.IsInRole("Admin"))
+                        @if (User.IsInRole("Medewerker") || User.IsInRole("Admin"))
                         {
-                            <li class="nav-link"><a class="nav-link" asp-controller="LoanedProducts" asp-action="Index">Ruilen</a></li>
-                            <li class="nav-link"><a class="nav-link" asp-controller="Categories" asp-action="Index">Categories</a></li>
                             <li class="nav-link"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registreren</a></li>
-                            <li class="nav-link"><a class="nav-link" asp-controller="Users" asp-action="Index">Gebruikers</a></li>
+                            <li class="nav-link"><a class="nav-link" asp-controller="LoanedProducts" asp-action="Index">Ruilen</a></li>
+                            
                         }
-                        @if (User.IsInRole("Medewerker"))
+                        @if (User.IsInRole("Admin") )
                         {
-                            <li class="nav-link"><a class="nav-link" asp-controller="LoanedProducts" asp-action="Index">Ruilen</a></li>
-                            <li class="nav-link"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registreren</a></li>
+                            <li class="nav-link"><a class="nav-link" asp-controller="Users" asp-action="Index">Gebruikers</a></li>
+                            <li class="nav-link"><a class="nav-link" asp-controller="Categories" asp-action="Index">Categories</a></li>
                         }
                     </ul>
                     <partial name="_LoginPartial" />

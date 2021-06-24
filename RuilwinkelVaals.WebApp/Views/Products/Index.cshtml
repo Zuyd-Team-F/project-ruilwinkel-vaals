@@ -63,11 +63,11 @@
                         @Html.DisplayFor(modelItem => item.CreditValue)
                     </td>
                     <td>
-                        @if (User.IsInRole("user"))
+                        @if (User.IsInRole("User") || User.IsInRole("Medewerker") || User.IsInRole("Admin"))
                         {
                             <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                         }
-                        @if (!User.IsInRole("User"))
+                        @if (User.IsInRole("Medewerker") || User.IsInRole("Admin"))
                         {
                             <a asp-action="Edit" asp-route-id="@item.Id">Bewerken</a>
                             <nobr>|</nobr>
