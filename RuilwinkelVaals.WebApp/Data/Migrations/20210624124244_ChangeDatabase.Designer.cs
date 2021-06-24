@@ -9,8 +9,8 @@ using RuilwinkelVaals.WebApp.Data;
 namespace RuilwinkelVaals.WebApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210623181333_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20210624124244_ChangeDatabase")]
+    partial class ChangeDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -394,6 +394,9 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                         .HasMaxLength(7)
                         .HasColumnType("varchar(7)");
 
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
 
@@ -426,6 +429,8 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("UserData");
                 });
@@ -462,6 +467,9 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("UserRoles");
                 });
@@ -596,7 +604,15 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                         .WithMany()
                         .HasForeignKey("BusinessDataId");
 
+                    b.HasOne("RuilwinkelVaals.WebApp.Data.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("BusinessData");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.UserLogin", b =>
