@@ -142,6 +142,8 @@ namespace RuilwinkelVaals.WebApp.Controllers
             ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name", product.ConditionId);
             ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name", product.StatusId);
             return View(product);
+
+
         }
 
         // GET: Products/Delete/5
@@ -181,9 +183,9 @@ namespace RuilwinkelVaals.WebApp.Controllers
             return _context.Product.Any(e => e.Id == id);
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<Product>> GetAll()
-            => await _context.Product.ToArrayAsync();
+        //[HttpGet]
+        //public async Task<IEnumerable<Product>> GetAll()
+        //    => await _context.Product.ToArrayAsync();
 
     }
 }
