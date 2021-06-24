@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using RuilwinkelVaals.WebApp.Data.Models;
+using RuilwinkelVaals.WebApp.IdentityOverrides;
 using System;
 using System.Threading.Tasks;
 using static RuilwinkelVaals.WebApp.Constants;
@@ -72,7 +73,7 @@ namespace RuilwinkelVaals.WebApp.Data
             }
         }
 
-        private static UserData GenerateUser(string username)
+        public static UserData GenerateUser(string username)
         {
             var email = $"{username.ToLower()}@test.nl";
             UserData user = new()
