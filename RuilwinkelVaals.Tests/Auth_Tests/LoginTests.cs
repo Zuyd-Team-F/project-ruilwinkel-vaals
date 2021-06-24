@@ -34,7 +34,7 @@ namespace RuilwinkelVaals.Tests.Auth_Tests
             await testDatabase.Database.EnsureCreatedAsync();
 
             // Ensure a role is available to appoint to
-            testDatabase.Roles.Add(new Role { Name = "GameMaster" });
+            testDatabase.Roles.Add(new Role("GameMaster") {});
 
             // Creating the Controller
             var controller = new UsersController(testDatabase);
