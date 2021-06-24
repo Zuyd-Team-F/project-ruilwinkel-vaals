@@ -59,7 +59,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         [Display(Name = "Telefoon")]
         public String Phone { get; set; }
 
-        }
+    
 
         public override Task<IdentityResult> CreateAsync(UserData user, CancellationToken cancellationToken = default)
         {
