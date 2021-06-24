@@ -39,6 +39,11 @@ namespace RuilwinkelVaals.WebApp.Data
             else
             {
                 _context.Database.Migrate();
+
+                if(!_context.Users.Any())
+                {
+                    await DbSeeder.Init(_context);
+                }
             }
         }
     }
