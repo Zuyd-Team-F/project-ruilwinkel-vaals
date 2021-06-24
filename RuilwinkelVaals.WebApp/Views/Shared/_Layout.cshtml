@@ -37,16 +37,17 @@
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-link"><a class="nav-link" asp-controller="Products" asp-action="Index">Inventaris</a></li>
-                            <li class="nav-link"><a class="nav-link" asp-controller="LoanedProducts" asp-action="Index">Ruilen</a></li>
                         }
                         @if (User.IsInRole("Admin"))
                         {
+                            <li class="nav-link"><a class="nav-link" asp-controller="LoanedProducts" asp-action="Index">Ruilen</a></li>
                             <li class="nav-link"><a class="nav-link" asp-controller="Categories" asp-action="Index">Categories</a></li>
                             <li class="nav-link"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registreren</a></li>
                             <li class="nav-link"><a class="nav-link" asp-controller="Users" asp-action="Index">Gebruikers</a></li>
                         }
                         @if (User.IsInRole("Medewerker"))
                         {
+                            <li class="nav-link"><a class="nav-link" asp-controller="LoanedProducts" asp-action="Index">Ruilen</a></li>
                             <li class="nav-link"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registreren</a></li>
                         }
                     </ul>
