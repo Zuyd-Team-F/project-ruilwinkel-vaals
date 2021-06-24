@@ -8,11 +8,11 @@ using RuilwinkelVaals.WebApp.Data.Models;
 
 namespace RuilwinkelVaals.Tests.ProductManagementTests
 {
-    public class ModelTests
+    public static class ModelTests
     {
         #region Unit Tests
         [Fact]
-        public void ProductModelTest()
+        public static void ProductModelTest()
         {
             //making an instance of category
             Category category = new Category() { Name = "Electronica" };
