@@ -22,8 +22,8 @@ namespace RuilwinkelVaals.WebApp.Controllers
         // GET: Products
         public async Task<IActionResult> Index(string searchString)
         {
-            var applicationDbContext = from p in _context.Product
-                                       select p; //_context.Product.Include(p => p.Category).Include(p => p.Condition).Include(p => p.Status);
+            var applicationDbContext = from p in _context.Product.Include(p => p.Category).Include(p => p.Condition).Include(p => p.Status)
+                                       select p;
             if (!String.IsNullOrEmpty(searchString))
             {
                 applicationDbContext = applicationDbContext.Where(s => s.Name.Contains(searchString));
@@ -52,6 +52,13 @@ namespace RuilwinkelVaals.WebApp.Controllers
             return View(product);
         }
 
+        [HttpPost]
+        public string Index(string searchString, bool notUsed)
+        {
+           return "From [HttpPost]Index: filter on " + searchString;
+        }
+
+
         // GET: Products/Create
         public IActionResult Create()
         {
@@ -77,7 +84,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
             ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name", product.ConditionId);
             ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name", product.StatusId);
-            return View(product);
+            return View(product);  //deze moeten we pakken voor te vergelijken dit is een object gemaakt met de gegeven input
         }
 
         // GET: Products/Edit/5
@@ -135,6 +142,8 @@ namespace RuilwinkelVaals.WebApp.Controllers
             ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name", product.ConditionId);
             ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name", product.StatusId);
             return View(product);
+
+
         }
 
         // GET: Products/Delete/5
@@ -173,5 +182,10 @@ namespace RuilwinkelVaals.WebApp.Controllers
         {
             return _context.Product.Any(e => e.Id == id);
         }
+
+        //[HttpGet]
+        //public async Task<IEnumerable<Product>> GetAll()
+        //    => await _context.Product.ToArrayAsync();
+
     }
 }

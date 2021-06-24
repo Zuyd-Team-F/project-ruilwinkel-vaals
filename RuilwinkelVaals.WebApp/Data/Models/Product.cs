@@ -42,5 +42,6 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         [Required]
         [Display(Name = "Creditwaarde")]
         public int CreditValue { get; set; }
+
     }
 }
