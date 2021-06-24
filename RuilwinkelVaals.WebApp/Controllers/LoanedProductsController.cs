@@ -23,6 +23,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.LoanedProducts.Include(l => l.Product).Include(l => l.User);
+
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -38,6 +39,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 .Include(l => l.Product)
                 .Include(l => l.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (loanedProduct == null)
             {
                 return NotFound();
@@ -49,8 +51,27 @@ namespace RuilwinkelVaals.WebApp.Controllers
         // GET: LoanedProducts/Create
         public IActionResult Create()
         {
-            ViewData["ProductId"] = new SelectList(_context.Product, "Id", "Name");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "City");
+            var products = _context.Product.ToList();
+            List<object> pList = new List<object>();
+            foreach (var p in products)
+                pList.Add(new
+                {
+                    Id = p.Id,
+                    Name = p.Id + " - " + p.Name
+                });
+
+            ViewData["ProductId"] = new SelectList(pList, "Id", "Name");
+
+            var users = _context.Users.ToList();
+            List<object> uList = new List<object>();
+            foreach (var u in users)
+                uList.Add(new
+                {
+                    Id = u.Id,
+                    Name = u.Id + " - " + u.FirstName + " " + u.LastName
+                });
+
+            ViewData["UserId"] = new SelectList(uList, "Id", "Name");
             return View();
         }
 
@@ -85,8 +106,28 @@ namespace RuilwinkelVaals.WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProductId"] = new SelectList(_context.Product, "Id", "Name", loanedProduct.ProductId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "City", loanedProduct.UserId);
+
+            var products = _context.Product.ToList();
+            List<object> pList = new List<object>();
+            foreach (var p in products)
+                pList.Add(new
+                {
+                    Id = p.Id,
+                    Name = p.Id + " - " + p.Name
+                });
+
+            ViewData["ProductId"] = new SelectList(pList, "Id", "Name", loanedProduct.ProductId);
+
+            var users = _context.Users.ToList();
+            List<object> uList = new List<object>();
+            foreach (var u in users)
+                uList.Add(new
+                {
+                    Id = u.Id,
+                    Name = u.Id + " - " + u.FirstName + " " + u.LastName
+                });
+
+            ViewData["UserId"] = new SelectList(uList, "Id", "Name", loanedProduct.UserId);
             return View(loanedProduct);
         }
 
