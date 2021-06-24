@@ -59,7 +59,7 @@ namespace RuilwinkelVaals.Tests.Auth_Tests
             }));
 
             // Check if added correctly
-            var result = (await controller.GetAll());
+            var result = (await controller.GetAll()).ToArray();
             Assert.Single(result);
             Assert.Equal("kommaSpatie", result[0].FirstName);
         }
