@@ -22,7 +22,8 @@ namespace RuilwinkelVaals.WebApp.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Users.Include(u => u.BusinessData);//.Include(u => u.Role);
+            var applicationDbContext = _context.Users.Include(u => u.BusinessData);
+            //This statement used to be here: .Include(u => u.Role);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -68,7 +69,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BusinessDataId"] = new SelectList(_context.BusinessData, "Id", "Email", userData.BusinessDataId);
-            //ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name", userData.RoleId);
+            //No longer needed: ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name", userData.RoleId);
             return View(userData);
         }
 
@@ -86,7 +87,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 return NotFound();
             }
             ViewData["BusinessDataId"] = new SelectList(_context.BusinessData, "Id", "Email", userData.BusinessDataId);
-            //ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name", userData.RoleId);
+            //No longer needed: ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name", userData.RoleId);
             return View(userData);
         }
 
@@ -123,7 +124,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BusinessDataId"] = new SelectList(_context.BusinessData, "Id", "Email", userData.BusinessDataId);
-            //ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name", userData.RoleId);
+            //No longer needed: ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name", userData.RoleId);
             return View(userData);
         }
 
@@ -168,7 +169,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
 
             var userData = await _context.Users
                 .Include(u => u.BusinessData)
-                //.Include(u => u.Role)
+                //This statement used to be here: .Include(u => u.Role)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (userData == null)
             {
