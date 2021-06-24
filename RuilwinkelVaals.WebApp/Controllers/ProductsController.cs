@@ -1,189 +1,189 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.AspNetCore.Mvc.Rendering;
-//using Microsoft.EntityFrameworkCore;
-//using RuilwinkelVaals.WebApp.Data;
-//using RuilwinkelVaals.WebApp.Data.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using RuilwinkelVaals.WebApp.Data;
+using RuilwinkelVaals.WebApp.Data.Models;
 
-//namespace RuilwinkelVaals.WebApp.Controllers
-//{
-//    public class ProductsController : Controller
-//    {
-//        private readonly ApplicationDbContext _context;
+namespace RuilwinkelVaals.WebApp.Controllers
+{
+    public class ProductsController : Controller
+    {
+        private readonly ApplicationDbContext _context;
 
-//        public ProductsController(ApplicationDbContext context)
-//        {
-//            _context = context;
-//        }
+        public ProductsController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
-//        // GET: Products
-//        public async Task<IActionResult> Index(string searchString)
-//        {
-//            var applicationDbContext = from p in _context.Product.Include(p => p.Category).Include(p => p.Condition).Include(p => p.Status)
-//                                       select p;
-//            if (!String.IsNullOrEmpty(searchString))
-//            {
-//                applicationDbContext = applicationDbContext.Where(s => s.Name.Contains(searchString));
-//            }
-//            return View(await applicationDbContext.ToListAsync());
-//        }
+        // GET: Products
+        public async Task<IActionResult> Index(string searchString)
+        {
+            var applicationDbContext = from p in _context.Product.Include(p => p.Category).Include(p => p.Condition).Include(p => p.Status)
+                                       select p;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                applicationDbContext = applicationDbContext.Where(s => s.Name.Contains(searchString));
+            }
+            return View(await applicationDbContext.ToListAsync());
+        }
 
-//        // GET: Products/Details/5
-//        public async Task<IActionResult> Details(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return NotFound();
-//            }
+        // GET: Products/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-//            var product = await _context.Product
-//                .Include(p => p.Category)
-//                .Include(p => p.Condition)
-//                .Include(p => p.Status)
-//                .FirstOrDefaultAsync(m => m.Id == id);
-//            if (product == null)
-//            {
-//                return NotFound();
-//            }
+            var product = await _context.Product
+                .Include(p => p.Category)
+                .Include(p => p.Condition)
+                .Include(p => p.Status)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
 
-//            return View(product);
-//        }
+            return View(product);
+        }
 
-//        [HttpPost]
-//        public string Index(string searchString, bool notUsed)
-//        {
-//           return "From [HttpPost]Index: filter on " + searchString;
-//        }
+        [HttpPost]
+        public string Index(string searchString, bool notUsed)
+        {
+           return "From [HttpPost]Index: filter on " + searchString;
+        }
 
 
-//        // GET: Products/Create
-//        public IActionResult Create()
-//        {
-//            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
-//            ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name");
-//            ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name");
-//            return View();
-//        }
+        // GET: Products/Create
+        public IActionResult Create()
+        {
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
+            ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name");
+            ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name");
+            return View();
+        }
 
-//        // POST: Products/Create
-//        // To protect from overposting attacks, enable the specific properties you want to bind to.
-//        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public async Task<IActionResult> Create([Bind("Id,CategoryId,ConditionId,StatusId,Brand,Description,Name,CreditValue")] Product product)
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                _context.Add(product);
-//                await _context.SaveChangesAsync();
-//                return RedirectToAction(nameof(Index));
-//            }
-//            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-//            ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name", product.ConditionId);
-//            ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name", product.StatusId);
-//            return View(product);  //deze moeten we pakken voor te vergelijken dit is een object gemaakt met de gegeven input
-//        }
+        // POST: Products/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,CategoryId,ConditionId,StatusId,Brand,Description,Name,CreditValue")] Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(product);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+            ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name", product.ConditionId);
+            ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name", product.StatusId);
+            return View(product);  //deze moeten we pakken voor te vergelijken dit is een object gemaakt met de gegeven input
+        }
 
-//        // GET: Products/Edit/5
-//        public async Task<IActionResult> Edit(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return NotFound();
-//            }
+        // GET: Products/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-//            var product = await _context.Product.FindAsync(id);
-//            if (product == null)
-//            {
-//                return NotFound();
-//            }
-//            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-//            ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name", product.ConditionId);
-//            ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name", product.StatusId);
-//            return View(product);
-//        }
+            var product = await _context.Product.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+            ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name", product.ConditionId);
+            ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name", product.StatusId);
+            return View(product);
+        }
 
-//        // POST: Products/Edit/5
-//        // To protect from overposting attacks, enable the specific properties you want to bind to.
-//        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public async Task<IActionResult> Edit(int id, [Bind("Id,CategoryId,ConditionId,StatusId,Brand,Description,Name,CreditValue")] Product product)
-//        {
-//            if (id != product.Id)
-//            {
-//                return NotFound();
-//            }
+        // POST: Products/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CategoryId,ConditionId,StatusId,Brand,Description,Name,CreditValue")] Product product)
+        {
+            if (id != product.Id)
+            {
+                return NotFound();
+            }
 
-//            if (ModelState.IsValid)
-//            {
-//                try
-//                {
-//                    _context.Update(product);
-//                    await _context.SaveChangesAsync();
-//                }
-//                catch (DbUpdateConcurrencyException)
-//                {
-//                    if (!ProductExists(product.Id))
-//                    {
-//                        return NotFound();
-//                    }
-//                    else
-//                    {
-//                        throw;
-//                    }
-//                }
-//                return RedirectToAction(nameof(Index));
-//            }
-//            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-//            ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name", product.ConditionId);
-//            ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name", product.StatusId);
-//            return View(product);
-//        }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(product);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProductExists(product.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+            ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name", product.ConditionId);
+            ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name", product.StatusId);
+            return View(product);
+        }
 
-//        // GET: Products/Delete/5
-//        public async Task<IActionResult> Delete(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return NotFound();
-//            }
+        // GET: Products/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-//            var product = await _context.Product
-//                .Include(p => p.Category)
-//                .Include(p => p.Condition)
-//                .Include(p => p.Status)
-//                .FirstOrDefaultAsync(m => m.Id == id);
-//            if (product == null)
-//            {
-//                return NotFound();
-//            }
+            var product = await _context.Product
+                .Include(p => p.Category)
+                .Include(p => p.Condition)
+                .Include(p => p.Status)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
 
-//            return View(product);
-//        }
+            return View(product);
+        }
 
-//        // POST: Products/Delete/5
-//        [HttpPost, ActionName("Delete")]
-//        [ValidateAntiForgeryToken]
-//        public async Task<IActionResult> DeleteConfirmed(int id)
-//        {
-//            var product = await _context.Product.FindAsync(id);
-//            _context.Product.Remove(product);
-//            await _context.SaveChangesAsync();
-//            return RedirectToAction(nameof(Index));
-//        }
+        // POST: Products/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var product = await _context.Product.FindAsync(id);
+            _context.Product.Remove(product);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
-//        private bool ProductExists(int id)
-//        {
-//            return _context.Product.Any(e => e.Id == id);
-//        }
+        private bool ProductExists(int id)
+        {
+            return _context.Product.Any(e => e.Id == id);
+        }
 
-//        [HttpGet]
-//        public async Task<IEnumerable<Product>> GetAll()
-//            => await _context.Product.ToArrayAsync();
+        [HttpGet]
+        public async Task<IEnumerable<Product>> GetAll()
+            => await _context.Product.ToArrayAsync();
 
-//    }
-//}
+    }
+}
