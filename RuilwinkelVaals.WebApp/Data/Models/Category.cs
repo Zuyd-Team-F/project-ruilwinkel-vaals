@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RuilwinkelVaals.WebApp.Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,14 +7,13 @@ using System.Threading.Tasks;
 
 namespace RuilwinkelVaals.WebApp.Data.Models
 {
-    public class Category
+    public class Category : BaseCategory
     {
-        [Key]
-        public int Id { get; set; }
+        public Category(string name) : base(name)
+        {
+        }
 
-        [Required]
         [MaxLength(24)]
-        [Display(Name = "Naam")]
-        public String Name { get; set; }
+        public override string Name { get; set; }
     }
 }
