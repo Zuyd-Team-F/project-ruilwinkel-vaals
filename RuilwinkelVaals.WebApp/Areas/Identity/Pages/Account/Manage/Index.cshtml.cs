@@ -48,7 +48,7 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Straat")]
             public string Street { get; set; }
 
-            [Display(Name = "Straat Nummer")]
+            [Display(Name = "Nummer")]
             public int StreetNumber { get; set; }
 
             [Display(Name = "Toevoeging")]
