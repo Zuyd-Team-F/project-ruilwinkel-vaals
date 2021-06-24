@@ -49,7 +49,7 @@ namespace RuilwinkelVaals.Tests
             //..
             //..
             var result = (await controller.GetAll()).ToArray();
-            
+            Assert.Equal(1, 1);
 
         }
         #endregion
