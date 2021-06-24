@@ -20,9 +20,11 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         public UserData Employee { get; set; }
 
         [Required]
+        [Display(Name = "Log")]
         public String ChangeLog { get; set; }
 
         [Required]
+        [Display(Name = "Verander Datum")]
         public DateTime ChangeDate { get; set; }
     }
 }
