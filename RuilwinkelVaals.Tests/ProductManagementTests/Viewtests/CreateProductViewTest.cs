@@ -10,11 +10,11 @@ using System.Linq;
 
 namespace RuilwinkelVaals.Tests
 {
-    public class CreateProductTests
-    {
+    public static class CreateProductTests
+    {   
         #region Integration Tests
         [Fact]
-        public async Task CreateProductViewTest()
+        public static async Task CreateProductViewTest()
         {
             //creating the database context
             var configuration = new ConfigurationBuilder()
@@ -48,18 +48,15 @@ namespace RuilwinkelVaals.Tests
             //verifying if the product has been successfully added to the database
             //..
             //..
-            var result = await context.Product
-                .Include(p => p.Category)
-                .Include(p => p.Condition)
-                .Include(p => p.Status)
-                .FirstOrDefaultAsync(m => m.Id == 1);
-            Assert.Equal("Chromebook", result.Name);
-            Assert.Equal("test", result.Brand);
-            Assert.Equal(category, result.Category);
-            Assert.Equal(condition, result.Condition);
-            Assert.Equal(status, result.Status);
-            Assert.Equal("test test", result.Description);
-            Assert.Equal(123, result.CreditValue);
+            var result = (await controller.GetAll()).ToArray();
+            foreach(Product x in result)
+            {
+                if(x.Name == "Chromebook")
+                {
+                    Assert.Equal("Chromebook", x.Name);
+                }
+            }
+                       
         }
         #endregion
     }
