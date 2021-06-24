@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RuilwinkelVaals.WebApp.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using RuilwinkelVaals.WebApp.IdentityOverrides;
 
 namespace RuilwinkelVaals.WebApp.Data
 {
