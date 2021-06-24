@@ -38,5 +38,5 @@ jobs:
       
     - name: Run Tests
       env: 
-        ConnectionStrings__DefaultConnection: Server=localhost; Database=${{ secrets.DB_NAME }}; User=${{ secrets.DB_USER }}; Password=${{ secrets.DB_PASSWORD }}
+        ConnectionStrings__DefaultConnection: Server=(localdb)\\mssqllocaldb;Database=RuilwinkelVaalsDB_Test;Trusted_Connection=True;MultipleActiveResultSets=true
       run: dotnet test --no-build --verbosity normal RuilwinkelVaals.sln
