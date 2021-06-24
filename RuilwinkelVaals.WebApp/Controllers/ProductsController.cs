@@ -183,9 +183,9 @@ namespace RuilwinkelVaals.WebApp.Controllers
             return _context.Product.Any(e => e.Id == id);
         }
 
-        //[HttpGet]
-        //public async Task<IEnumerable<Product>> GetAll()
-        //    => await _context.Product.ToArrayAsync();
+        [HttpGet]
+        public async Task<IEnumerable<Product>> GetAll()
+            => await _context.Product.ToArrayAsync();
 
     }
 }
