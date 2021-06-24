@@ -37,6 +37,4 @@ jobs:
       run: dotnet build --no-restore RuilwinkelVaals.sln
       
     - name: Run Tests
-      env: 
-        ConnectionStrings__DefaultConnection: Server=(localdb)\\mssqllocaldb;Database=RuilwinkelVaalsDB_Test;Trusted_Connection=True;MultipleActiveResultSets=true
       run: dotnet test --no-build --verbosity normal RuilwinkelVaals.sln
