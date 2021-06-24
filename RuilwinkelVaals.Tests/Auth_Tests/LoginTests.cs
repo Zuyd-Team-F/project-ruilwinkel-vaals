@@ -53,7 +53,7 @@ namespace RuilwinkelVaals.Tests.Auth_Tests
                 PostalCode = "1234AB",
                 City = "Heerlen",
                 Email = "vaals4@ruilwinkel.nl",
-                Phone = 0451234567,
+                PhoneNumber = "0451234567",
                 Balance = 0,
                 Blacklist = false
             }));
