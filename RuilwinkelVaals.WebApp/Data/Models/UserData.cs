@@ -86,7 +86,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
             : base(context)
         {
 
-        }
+    
 
         public override Task<IdentityResult> CreateAsync(UserData user, CancellationToken cancellationToken = default)
         {
