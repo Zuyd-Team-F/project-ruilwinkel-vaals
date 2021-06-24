@@ -48,18 +48,9 @@ namespace RuilwinkelVaals.Tests
             //verifying if the product has been successfully added to the database
             //..
             //..
-            var result = await context.Product
-                .Include(p => p.Category)
-                .Include(p => p.Condition)
-                .Include(p => p.Status)
-                .FirstOrDefaultAsync(m => m.Id == 1);
-            Assert.Equal("Chromebook", result.Name);
-            Assert.Equal("test", result.Brand);
-            Assert.Equal(category, result.Category);
-            Assert.Equal(condition, result.Condition);
-            Assert.Equal(status, result.Status);
-            Assert.Equal("test test", result.Description);
-            Assert.Equal(123, result.CreditValue);
+            var result = (await controller.GetAll()).ToArray();
+            Assert.Single(result);
+            Assert.Equal("Chromebook", result[5].Name);
         }
         #endregion
     }
