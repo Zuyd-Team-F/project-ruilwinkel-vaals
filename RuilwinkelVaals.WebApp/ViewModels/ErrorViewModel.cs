@@ -1,6 +1,6 @@
 using System;
 
-namespace RuilwinkelVaals.WebApp.Models
+namespace RuilwinkelVaals.WebApp.ViewModels
 {
     public class ErrorViewModel
     {

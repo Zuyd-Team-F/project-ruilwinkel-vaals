@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RuilwinkelVaals.WebApp.Models;
+using RuilwinkelVaals.WebApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
