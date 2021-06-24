@@ -59,8 +59,8 @@ namespace RuilwinkelVaals.Tests
             Assert.Equal(givenNumber2, content.secondNumber);
         }
         [Theory]
-        [InlineData(3,2,5)]
-        public void SumConstructorTestTheory(int x, int y, int z)
+        [InlineData(3, 2, 5)]
+         public void SumConstructorTestTheory(int x, int y, int z)
         {
             //creating an instance of an object
             Sum input = new Sum();
