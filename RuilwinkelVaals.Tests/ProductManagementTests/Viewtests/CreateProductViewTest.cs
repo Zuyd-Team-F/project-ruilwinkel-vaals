@@ -16,19 +16,7 @@ namespace RuilwinkelVaals.Tests
         [Fact]
         public static async Task CreateProductViewTest()
         {
-            //creating the database context
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables()
-                .Build();
-
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            optionsBuilder.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"]);
-            var context = new ApplicationDbContext(optionsBuilder.Options);
-
-            //renew testing database
-            await context.Database.EnsureDeletedAsync();
-            await context.Database.EnsureCreatedAsync();
+            var context = await TestDbContext.GetDatabaseContext();
 
             //creating the Controller
             var controller = new ProductsController(context);
@@ -50,7 +38,6 @@ namespace RuilwinkelVaals.Tests
             //..
             var result = (await controller.GetAll()).ToArray();
             Assert.Equal(1, 1);
-
         }
         #endregion
     }
