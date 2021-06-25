@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
-using System;       
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -57,5 +60,30 @@ namespace RuilwinkelVaals.WebApp.IdentityOverrides
         {
 
         }
+
+        public async Task<Role> GetRoleAsync(UserData user)
+        {
+            return await Context.Roles.FindAsync(
+                Context.UserRoles.Where(ur => ur.UserId == user.Id).FirstOrDefault().RoleId
+            );
+        }
     }
+
+    /*public class RoleManagerExtension : RoleManager<Role>
+    {
+        public RoleManagerExtension(IRoleStore<Role> storeOptions, IEnumerable<IRoleValidator<Role>> roleValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, ILogger<RoleManager<Role>> logger)
+            : base(storeOptions, roleValidators, keyNormalizer, errors, logger)
+        {
+
+        }
+
+        public async Task<Role> GetRoleAsync(UserData user)
+        {
+            return await Context.Roles.FindAsync(
+                Context.UserRoles.Where(ur => ur.UserId == user.Id).FirstOrDefault().RoleId
+            );
+
+            return base.
+        }
+    }*/
 }
