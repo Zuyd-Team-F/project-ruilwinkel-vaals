@@ -1,13 +1,15 @@
 using RuilwinkelVaals.WebApp.Controllers;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
+using RuilwinkelVaals.WebApp.Classes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Threading.Tasks;
 using Xunit;
 using System.Linq;
-using RuilwinkelVaals.WebApp.Classes;
+using Microsoft.AspNetCore.Identity;
+using Moq;
+using RuilwinkelVaals.WebApp.ViewModels.Users;
 
 namespace RuilwinkelVaals.Tests
 {
@@ -25,21 +27,26 @@ namespace RuilwinkelVaals.Tests
 
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"]);
+            
             var context = new ApplicationDbContext(optionsBuilder.Options);
+
+            var userManager = new Mock<UserManagerExtension>();
+            var roleManager = new Mock<RoleManager<Role>>();
 
             // Renew Testing DB
             await context.Database.EnsureDeletedAsync();
             await context.Database.EnsureCreatedAsync();
 
             // Ensure a role is available to appoint to
-            context.Roles.Add(new Role("Test"));
+            roleManager.Setup(rm => rm.CreateAsync(new("Test")).GetAwaiter().IsCompleted).Returns(true);
 
             // Creating the Controller
-            var controller = new UsersController(context);
+            var controller = new UsersController(context, userManager.Object, roleManager.Object);
 
             // Adding to the DB
             var user = DbSeeder.GenerateUser("John");
-            await controller.Create(user);
+
+            await controller.Create(user.CastToFormModel());
 
             // Check if added correctly
             var result = (await controller.GetAll()).ToArray();

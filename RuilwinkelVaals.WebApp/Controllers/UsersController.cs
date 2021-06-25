@@ -289,7 +289,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
         public async Task<IEnumerable<UserData>> GetAll()
             => await _context.Users.ToArrayAsync();
 
-        private UserData ConvertToUserData(UserFormViewModel model)
+        public UserData ConvertToUserData(UserFormViewModel model)
         {
             UserData user = new()
             {

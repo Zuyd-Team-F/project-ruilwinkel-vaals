@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace RuilwinkelVaals.WebApp.ViewModels.Users
 {
@@ -19,6 +20,7 @@ namespace RuilwinkelVaals.WebApp.ViewModels.Users
 
         public string LastName { get; set; }
 
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         public DateTime DateOfBirth { get; set; }
