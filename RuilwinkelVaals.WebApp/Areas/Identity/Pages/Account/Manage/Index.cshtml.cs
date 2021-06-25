@@ -63,7 +63,8 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
 
         private async Task LoadAsync(UserData user)
         {
-            var userName = await _userManagerExtension.GetUserNameAsync(user);
+            // This line is not necessary?
+            // var userName = await _userManagerExtension.GetUserNameAsync(user);
             var phoneNumber = await _userManagerExtension.GetPhoneNumberAsync(user);
 
             Input = new InputModel

@@ -7,13 +7,22 @@
 <div>
     <h1>Inventaris</h1>
     <p>
-        <a asp-action="Create">Productregistratie</a>
+        @if (!User.IsInRole("User"))
+        {
+            <a asp-action="Create">Productregistratie</a>
+        }
     </p>
     <br />
     
     @*TODO: zoekfunctie/filters*@
     <form asp-controller="Products" asp-action="Index" method="get">
         <p>
+            Filteren op
+            <select>
+                <option>alles</option>
+                
+            </select>
+            :
             <input type="text" name="SearchString" />
             <input type="submit" value="Zoeken" />
         </p>
@@ -54,9 +63,17 @@
                         @Html.DisplayFor(modelItem => item.CreditValue)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Bewerken</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Overzicht</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a>
+                        @if (User.IsInRole("User") || User.IsInRole("Medewerker") || User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        }
+                        @if (User.IsInRole("Medewerker") || User.IsInRole("Admin"))
+                        {
+                            <nobr>|</nobr>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Bewerken</a>
+                            <nobr>|</nobr>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a>
+                        }
                     </td>
                 </tr>
 
