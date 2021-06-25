@@ -13,6 +13,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
 
         [Required]
         [MaxLength(64)]
+        [Display(Name = "Naam")]
         public String Name { get; set; }
 
         [Required]
@@ -20,6 +21,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         public String Email { get; set; }
 
         [Required]
+        [Display(Name = "Telefoon")]
         public int Phone { get; set; }
     }
 }

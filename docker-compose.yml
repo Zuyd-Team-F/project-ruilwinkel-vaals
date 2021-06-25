@@ -8,7 +8,7 @@ services:
     ports:
       - 3306:3306
 
-  ruilwinkelvaals-webapp:
+  ruilwinkelvaals.webapp:
     image: ${DOCKER_REGISTRY-}ruilwinkelvaalswebapp
     build:
       context: .

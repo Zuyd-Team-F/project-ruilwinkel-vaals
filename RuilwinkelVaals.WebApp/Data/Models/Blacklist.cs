@@ -13,12 +13,15 @@ namespace RuilwinkelVaals.WebApp.Data.Models
 
         [Required]
         public int UserId { get; set; }
+        [Display(Name = "Gebruiker")]
         public UserData User { get; set; }
 
         [Required]
+        [Display(Name = "Reden")]
         public String Reason { get; set; }
 
         [Required]
+        [Display(Name = "Datum")]
         public DateTime Date { get; set; }
     }
 }
