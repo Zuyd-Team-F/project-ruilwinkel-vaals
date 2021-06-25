@@ -43,7 +43,7 @@ namespace RuilwinkelVaals.Tests
             Status status = new Status("Voorradig");
 
             //adding the product to the database
-            await controller.Create(new Product() { Category = category, Condition = condition, Status = status, Name = "Chromebook", Description = "test test", CreditValue = 123, Brand = "test", Id = 1 });
+            await controller.Create(new Product() { Category = category, Condition = condition, Status = status, Name = "Chromebook", Description = "test test", CreditValue = 123, Brand = "test"});
 
             //verifying if the product has been successfully added to the database
             //..

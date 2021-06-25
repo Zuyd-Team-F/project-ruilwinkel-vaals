@@ -32,20 +32,19 @@ namespace RuilwinkelVaals.Tests
             await context.Database.EnsureCreatedAsync();
 
             // Ensure a role is available to appoint to
+            context.Roles.Add(new Role("Test"));
 
-            context.Roles.Add(new Role { Name = "Test" });
-          
             // Creating the Controller
             var controller = new UsersController(context);
 
             // Adding to the DB
-
-            await controller.Create(new UserData() { RoleId = 1, Password = HashEvent.hashPassword("admin"), FirstName = "Test", LastName = "Test", DateOfBirth = new DateTime(1990, 1, 1), Street = "straatnaam", StreetNumber = 4, StreetAdd = null, PostalCode = "6666AA", City = "Heerlen", Email = "vaals4@ruilwinkel.nl", Phone = "0451234567", Balance = 0, Blacklist = false });
+            var user = DbSeeder.GenerateUser("John");
+            await controller.Create(user);
 
             // Check if added correctly
-                var result = (await controller.GetAll()).ToArray();
+            var result = (await controller.GetAll()).ToArray();
             Assert.Single(result);
-            Assert.Equal("Test", result[0].FirstName);
+            Assert.Equal("John", result[0].FirstName);
         }
         #endregion
 
@@ -54,11 +53,12 @@ namespace RuilwinkelVaals.Tests
         public void ValidUserUnitTest()
         {
             // Checks if fields in user are not null
-            UserData TestUser = new UserData() { FirstName = "Test", LastName = "User", Email = "testuser@test.com", RoleId = 1, Phone = "0123456789" };
+            UserData TestUser = new UserData() { FirstName = "Test", LastName = "User", Email = "testuser@test.com", PhoneNumber = "0123456789" };
             Assert.NotNull(TestUser.FirstName);
             Assert.NotNull(TestUser.LastName);
             Assert.NotNull(TestUser.Email);
-            Assert.NotNull(TestUser.Phone);
+            Assert.NotNull(TestUser.PhoneNumber);
+
         }
         #endregion
     }
