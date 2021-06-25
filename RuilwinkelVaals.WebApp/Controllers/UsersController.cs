@@ -18,12 +18,12 @@ namespace RuilwinkelVaals.WebApp.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManagerExtension _userManager;
-        private readonly RoleManager<Role> _roleManager;
+        //private readonly RoleManager<Role> _roleManager;
 
-        public UsersController(ApplicationDbContext context, UserManagerExtension userManager, RoleManager<Role> roleManager )
+        public UsersController(ApplicationDbContext context, UserManagerExtension userManager)
         {
-            _roleManager = roleManager;
             _userManager = userManager;
+            //roleManager = roleManager;
             _context = context;
         }
 
@@ -41,7 +41,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
                     Id = u.Id,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
-                    Role = (await _userManager.GetRolesAsync(u)).FirstOrDefault()
+                    Role = await _userManager.GetRoleAsync(u)
                 });
             }
 
@@ -66,7 +66,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
             {
                 Id = u.Id,
                 Business = u.BusinessData?.Name,
-                Role = (await _userManager.GetRolesAsync(u)).FirstOrDefault(),
+                Role = _roleManager.GetRoleAs,
                 Email = u.Email,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
