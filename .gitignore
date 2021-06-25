@@ -7,3 +7,4 @@
 /bin/Debug
 /obj
 *.env
+/RuilwinkelVaals.Tests/bin/Debug/net5.0
