@@ -15,19 +15,5 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         {
             NormalizedName = name.ToUpper();
         }
-    }
-
-    public class RoleClaim : IdentityRoleClaim<int>
-    {
-
-    }
-
-    public class RoleStore : RoleStore<Role, ApplicationDbContext, int, UserRole, RoleClaim>
-    {
-        public RoleStore(ApplicationDbContext context)
-            : base(context)
-        {
-
-        }
-    }
+    }    
 }

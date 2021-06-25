@@ -32,12 +32,14 @@ namespace RuilwinkelVaals.Tests
             await context.Database.EnsureCreatedAsync();
 
             // Ensure a role is available to appoint to
-            context.Roles.Add(new Role { Name = "Test" });
 
+            context.Roles.Add(new Role { Name = "Test" });
+          
             // Creating the Controller
             var controller = new UsersController(context);
 
             // Adding to the DB
+
             await controller.Create(new UserData() { RoleId = 1, Password = HashEvent.hashPassword("admin"), FirstName = "Test", LastName = "Test", DateOfBirth = new DateTime(1990, 1, 1), Street = "straatnaam", StreetNumber = 4, StreetAdd = null, PostalCode = "6666AA", City = "Heerlen", Email = "vaals4@ruilwinkel.nl", Phone = "0451234567", Balance = 0, Blacklist = false });
 
             // Check if added correctly
@@ -57,7 +59,6 @@ namespace RuilwinkelVaals.Tests
             Assert.NotNull(TestUser.LastName);
             Assert.NotNull(TestUser.Email);
             Assert.NotNull(TestUser.Phone);
-
         }
         #endregion
     }
