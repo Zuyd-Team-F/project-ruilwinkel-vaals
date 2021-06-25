@@ -130,11 +130,5 @@ namespace RuilwinkelVaals.WebApp.Classes
 
             return (await base.GetRolesAsync(user)).FirstOrDefault();
         }
-
-        [Obsolete("This method is deprecated, use GetRoleAsync.")]
-        public override Task<IList<string>> GetRolesAsync(UserData user)
-        {
-            return null;
-        }
     }
 }
