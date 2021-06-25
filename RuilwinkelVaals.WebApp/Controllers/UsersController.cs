@@ -65,7 +65,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
             UserInfoViewModel user = new()
             {
                 Id = u.Id,
-                Business = u.BusinessData.Name,
+                Business = u.BusinessData?.Name,
                 Role = (await _userManager.GetRolesAsync(u)).FirstOrDefault(),
                 Email = u.Email,
                 FirstName = u.FirstName,
@@ -87,9 +87,13 @@ namespace RuilwinkelVaals.WebApp.Controllers
         // GET: Users/Create
         public IActionResult Create()
         {
-            ViewData["BusinessDataId"] = new SelectList(_context.BusinessData, "Id", "Email");
-            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name");
-            return View();
+            UserFormViewModel blankUser = new()
+            {
+                Roles = new SelectList(_context.Roles, "Id", "Name"),
+                Businesses = new SelectList(_context.BusinessData, "Id", "Name")
+            };
+
+            return View(blankUser);
         }
 
         // POST: Users/Create
@@ -97,16 +101,19 @@ namespace RuilwinkelVaals.WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,BusinessDataId,RoleId,Password,FirstName,LastName,DateOfBirth,Street,StreetNumber,StreetAdd,PostalCode,City,Email,Phone,Balance")] UserData userData)
+        public async Task<IActionResult> Create(UserFormViewModel userData)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(userData);
+                UserData user = ConvertToUserData(userData);
+
+                await _userManager.CreateAsync(user);
+                await _userManager.AddToRoleAsync(user, Enum.GetName(typeof(Constants.Roles), userData.RoleId - 1).ToUpper());
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BusinessDataId"] = new SelectList(_context.BusinessData, "Id", "Email", userData.BusinessDataId);
-            //ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name", userData.RoleId);
+
             return View(userData);
         }
 
@@ -158,7 +165,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BusinessDataId,RoleId,Password,FirstName,LastName,DateOfBirth,Street,StreetNumber,StreetAdd,PostalCode,City,Email,Phone,Balance")] UserData userData)
+        public async Task<IActionResult> Edit(int id, UserFormViewModel userData)
         {
             if (id != userData.Id)
             {
@@ -169,7 +176,9 @@ namespace RuilwinkelVaals.WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(userData);
+                    UserData user = ConvertToUserData(userData);
+
+                    await _userManager.UpdateAsync(user);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -185,8 +194,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BusinessDataId"] = new SelectList(_context.BusinessData, "Id", "Email", userData.BusinessDataId);
-            //ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name", userData.RoleId);
+
             return View(userData);
         }
 
@@ -229,16 +237,32 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 return NotFound();
             }
 
-            var userData = await _context.Users
-                .Include(u => u.BusinessData)
-                //.Include(u => u.Role)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (userData == null)
+            var u = await _context.Users.FindAsync(id);
+            if (u == null)
             {
                 return NotFound();
             }
 
-            return View(userData);
+            UserInfoViewModel user = new()
+            {
+                Id = u.Id,
+                Business = u.BusinessData?.Name,
+                Role = (await _userManager.GetRolesAsync(u)).FirstOrDefault(),
+                Email = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                City = u.City,
+                PostalCode = u.PostalCode,
+                Street = u.Street,
+                StreetAdd = u.StreetAdd,
+                StreetNumber = u.StreetNumber,
+                DateOfBirth = u.DateOfBirth,
+                PhoneNumber = u.PhoneNumber,
+                Balance = u.Balance,
+                Blacklist = u.Blacklist
+            };
+
+            return View(user);
         }
 
         // POST: Users/Blacklist/5
@@ -247,10 +271,12 @@ namespace RuilwinkelVaals.WebApp.Controllers
         public async Task<IActionResult> BlacklistConfirmed(int id)
         {
             var userData = await _context.Users.FindAsync(id);
-            // Code toevoegen om gebruiker te blacklisten (moet gekeken worden in de database)
-            // Soort check toevoegen om ervoor te zorgen dat een admin niet een andere admin kan blacklisten
+
             userData.Blacklist = true;
-            _context.SaveChanges();
+
+            await _userManager.UpdateAsync(userData);
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -262,6 +288,29 @@ namespace RuilwinkelVaals.WebApp.Controllers
         [HttpGet]
         public async Task<IEnumerable<UserData>> GetAll()
             => await _context.Users.ToArrayAsync();
+
+        private UserData ConvertToUserData(UserFormViewModel model)
+        {
+            UserData user = new()
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                UserName = model.Email,
+                EmailConfirmed = true,
+                City = model.City,
+                PostalCode = model.PostalCode,
+                Street = model.Street,
+                StreetNumber = model.StreetNumber,
+                PhoneNumber = model.PhoneNumber,
+                Balance = model.Balance,
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+            user.PasswordHash = new PasswordHasher<UserData>().HashPassword(user, model.Password);
+
+            return user;
+        }
 
     }
 }
