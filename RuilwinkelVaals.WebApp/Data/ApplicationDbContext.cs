@@ -37,7 +37,8 @@ namespace RuilwinkelVaals.WebApp.Data
 
             builder.Entity<UserRole>(entity =>
             {
-                entity.ToTable("UserRoles");
+                entity.ToTable("UserRoles")
+                .HasIndex(r => r.UserId).IsUnique();
             });
 
             builder.Entity<UserClaim>(entity =>
