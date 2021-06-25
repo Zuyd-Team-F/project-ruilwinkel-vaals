@@ -7,7 +7,7 @@ namespace RuilwinkelVaals.WebApp.Classes
         // Hashes the password of the user for security.
         public static String hashPassword(String password)
         {
-            if (CheckEvent.isStringEmpty(password) == true)
+            if (CheckEvent.isStringEmpty(password))
             {
                 // Error because password was empty.
             }
