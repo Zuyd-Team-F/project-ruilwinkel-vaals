@@ -51,7 +51,11 @@
 //            var result = (await controller.GetAll()).ToArray();
 //            Assert.Equal(1, 1);
 
-//        }
-//        #endregion
-//    }
-//}
+            //verifying if the product has been successfully added to the database
+            var result = (await controller.GetAll()).ToArray();
+            Assert.Single(result);
+            Assert.Equal("Chromebook", result[0].Name);
+        }
+        #endregion
+    }
+}
