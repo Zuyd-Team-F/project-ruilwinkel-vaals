@@ -16,7 +16,8 @@ namespace RuilwinkelVaals.Tests
         [Fact]
         public static async Task CreateProductViewTest()
         {
-            var context = await TestDbContext.GetDatabaseContext();
+            // Fetch the in memory context to test on
+            var context = await TestDb.GetDatabaseContext();
 
             //creating the Controller
             var controller = new ProductsController(context);

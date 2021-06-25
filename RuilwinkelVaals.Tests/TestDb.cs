@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RuilwinkelVaals.Tests
 {
-    public static class TestDbContext
+    public static class TestDb
     {
         public static async Task<ApplicationDbContext> GetDatabaseContext()
         {

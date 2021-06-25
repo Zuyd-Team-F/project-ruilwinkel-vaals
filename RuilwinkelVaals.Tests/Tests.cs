@@ -17,8 +17,8 @@ namespace RuilwinkelVaals.Tests
         [Fact]
         public async Task UserTest()
         {
-            //await TestDbContext.Init();
-            var context = await TestDbContext.GetDatabaseContext();
+            // Fetch the in memory context to test on
+            var context = await TestDb.GetDatabaseContext();
 
             // Ensure a role is available to appoint to
             context.Roles.Add(new Role("Test"));
