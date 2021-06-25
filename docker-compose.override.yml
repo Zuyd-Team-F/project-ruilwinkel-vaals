@@ -26,3 +26,4 @@ services:
       PMA_HOST: db
       PMA_USER: root
       PMA_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: $(DB_PASSWORD)
