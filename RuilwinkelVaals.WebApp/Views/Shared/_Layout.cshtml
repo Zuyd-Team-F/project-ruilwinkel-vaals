@@ -40,9 +40,8 @@
                         }
                         @if (User.IsInRole("Medewerker") || User.IsInRole("Admin"))
                         {
-                            <li class="nav-link"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registreren</a></li>
                             <li class="nav-link"><a class="nav-link" asp-controller="LoanedProducts" asp-action="Index">Ruilen</a></li>
-                            
+                            <li class="nav-link"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registreren</a></li>
                         }
                         @if (User.IsInRole("Admin") )
                         {
