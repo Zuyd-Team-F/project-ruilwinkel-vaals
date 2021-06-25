@@ -1,3 +1,4 @@
+
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -57,7 +58,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         public int Balance { get; set; }
 
         [Required]
-        public bool Blacklist { get; set; }
+        public bool Blacklist { get; set; }        
 
         public UserFormViewModel CastToFormModel()
         {

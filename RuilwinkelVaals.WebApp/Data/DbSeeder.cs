@@ -22,8 +22,16 @@ namespace RuilwinkelVaals.WebApp.Data
             await SeedConditions();
             await SeedCategories();
             await SeedStatuses();
+            await _context.SaveChangesAsync();
+
+            await SeedProducts();
 
             await _context.SaveChangesAsync();
+        }
+
+        private static async Task SeedProducts()
+        {
+            await _context.Product.AddAsync(new() { Name = "test", Brand = "test", CategoryId = 1, ConditionId = 1, CreditValue = 123, StatusId = 1 });
         }
 
         private static async Task SeedRoles()

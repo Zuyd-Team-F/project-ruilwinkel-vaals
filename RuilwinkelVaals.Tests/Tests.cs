@@ -19,23 +19,8 @@ namespace RuilwinkelVaals.Tests
         [Fact]
         public async Task UserTest()
         {
-            // Creating the DB context
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables()
-                .Build();
-
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            optionsBuilder.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"]);
-            
-            var context = new ApplicationDbContext(optionsBuilder.Options);
-
-            var userManager = new Mock<UserManagerExtension>();
-            var roleManager = new Mock<RoleManager<Role>>();
-
-            // Renew Testing DB
-            await context.Database.EnsureDeletedAsync();
-            await context.Database.EnsureCreatedAsync();
+            // Fetch the in memory context to test on
+            var context = await TestDb.GetDatabaseContext();
 
             // Ensure a role is available to appoint to
             roleManager.Setup(rm => rm.CreateAsync(new("Test")).GetAwaiter().IsCompleted).Returns(true);
@@ -51,7 +36,7 @@ namespace RuilwinkelVaals.Tests
             // Check if added correctly
             var result = (await controller.GetAll()).ToArray();
             Assert.Single(result);
-            Assert.Equal("John", result[0].FirstName);
+            Assert.Equal("John", result[0].FirstName);                        
         }
         #endregion
 
@@ -65,7 +50,6 @@ namespace RuilwinkelVaals.Tests
             Assert.NotNull(TestUser.LastName);
             Assert.NotNull(TestUser.Email);
             Assert.NotNull(TestUser.PhoneNumber);
-
         }
         #endregion
     }

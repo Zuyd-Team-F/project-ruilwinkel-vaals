@@ -86,10 +86,10 @@ namespace RuilwinkelVaals.WebApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            
+
             // Traefik will manage Https
-            //app.UseHttpsRedirection(); 
-            
+            // If Traefik is to be used, add this: app.UseHttpsRedirection(); 
+
             app.UseStaticFiles();
 
             app.UseRouting();
