@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Ruilwinkel Vaals </title>
+    <title>@ViewData["Title"] - RuilwinkelVaals.WebApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <partial name="_Favicons" />
@@ -37,17 +37,16 @@
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-link"><a class="nav-link" asp-controller="Products" asp-action="Index">Inventaris</a></li>
-                            <li class="nav-link"><a class="nav-link" asp-controller="" asp-action="">Retourneren</a></li>
                         }
-                        @if (User.IsInRole("Admin"))
+                        @if (User.IsInRole("Medewerker") || User.IsInRole("Admin"))
                         {
-                            <li class="nav-link"><a class="nav-link" asp-controller="Categories" asp-action="Index">Categories</a></li>
+                            <li class="nav-link"><a class="nav-link" asp-controller="LoanedProducts" asp-action="Index">Ruilen</a></li>
                             <li class="nav-link"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registreren</a></li>
+                        }
+                        @if (User.IsInRole("Admin") )
+                        {
                             <li class="nav-link"><a class="nav-link" asp-controller="Users" asp-action="Index">Gebruikers</a></li>
-                        }
-                        @if (User.IsInRole("Medewerker"))
-                        {
-                            <li class="nav-link"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registreren</a></li>
+                            <li class="nav-link"><a class="nav-link" asp-controller="Categories" asp-action="Index">Categories</a></li>
                         }
                     </ul>
                     <partial name="_LoginPartial" />

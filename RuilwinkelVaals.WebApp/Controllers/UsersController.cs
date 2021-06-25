@@ -197,5 +197,9 @@ namespace RuilwinkelVaals.WebApp.Controllers
             return _context.Users.Any(e => e.Id == id);
         }
 
+        [HttpGet]
+        public async Task<IEnumerable<UserData>> GetAll()
+            => await _context.Users.ToArrayAsync();
+
     }
 }
