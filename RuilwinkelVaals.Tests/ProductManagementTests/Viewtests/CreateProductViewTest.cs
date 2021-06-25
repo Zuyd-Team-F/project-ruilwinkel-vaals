@@ -1,4 +1,4 @@
-﻿using RuilwinkelVaals.WebApp.Controllers;
+using RuilwinkelVaals.WebApp.Controllers;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
 using Microsoft.EntityFrameworkCore;
