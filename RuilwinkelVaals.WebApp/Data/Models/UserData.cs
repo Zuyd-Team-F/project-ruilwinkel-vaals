@@ -1,3 +1,4 @@
+
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
@@ -56,7 +57,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         public int Balance { get; set; }
 
         [Required]
-        public bool Blacklist { get; set; }
+        public bool Blacklist { get; set; }        
 
-    }    
-}
+    }
+} 
