@@ -40,7 +40,7 @@ namespace RuilwinkelVaals.WebApp.Data
             {
                 _context.Database.Migrate();
 
-                if(!_context.Users.Any())
+                if(!_context.Roles.Any())
                 {
                     await DbSeeder.Init(_context);
                 }
