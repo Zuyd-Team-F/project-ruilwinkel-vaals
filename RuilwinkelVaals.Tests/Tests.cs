@@ -23,7 +23,11 @@ namespace RuilwinkelVaals.Tests
             var context = await TestDb.GetDatabaseContext();
 
             // Ensure a role is available to appoint to
-            roleManager.Setup(rm => rm.CreateAsync(new("Test")).GetAwaiter().IsCompleted).Returns(true);
+            context.Roles.Add(new("TestRole"));
+
+            //Setting up mock data
+            var userManager = new Mock<UserManagerExtension>();
+            var roleManager = new Mock<RoleManager<Role>>();
 
             // Creating the Controller
             var controller = new UsersController(context, userManager.Object, roleManager.Object);
