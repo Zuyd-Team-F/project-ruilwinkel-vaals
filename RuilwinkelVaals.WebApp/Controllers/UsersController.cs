@@ -18,23 +18,19 @@ namespace RuilwinkelVaals.WebApp.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManagerExtension _userManager;
-        //private readonly RoleManager<Role> _roleManager;
 
         public UsersController(ApplicationDbContext context, UserManagerExtension userManager)
         {
             _userManager = userManager;
-            //roleManager = roleManager;
             _context = context;
         }
 
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            var contextUsers = _context.Users.Include(u => u.BusinessData);//.Include(u => u.Role);
-
             List<UserIndexViewModel> users = new();
 
-            foreach(var u in contextUsers)
+            foreach(var u in _context.Users)
             {
                 users.Add(new()
                 {
@@ -66,7 +62,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
             {
                 Id = u.Id,
                 Business = u.BusinessData?.Name,
-                Role = _roleManager.GetRoleAs,
+                Role = await _userManager.GetRoleAsync(u),
                 Email = u.Email,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
@@ -131,10 +127,8 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 return NotFound();
             }
 
-            var roleId = (await _roleManager.FindByNameAsync(
-                (await _userManager.GetRolesAsync(u))
-                .FirstOrDefault()
-                )).Id;
+            var roleName = await _userManager.GetRoleAsync(u);
+            var roleId = _context.Roles.Where(r => r.Name == roleName).FirstOrDefault().Id;
             
             UserFormViewModel user = new()
             {
@@ -247,7 +241,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
             {
                 Id = u.Id,
                 Business = u.BusinessData?.Name,
-                Role = (await _userManager.GetRolesAsync(u)).FirstOrDefault(),
+                Role = await _userManager.GetRoleAsync(u),
                 Email = u.Email,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
