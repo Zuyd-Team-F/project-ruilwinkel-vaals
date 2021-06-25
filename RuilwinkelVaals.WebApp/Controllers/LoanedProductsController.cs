@@ -163,8 +163,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductId"] = new SelectList(_context.Product, "Id", "Name", loanedProduct.ProductId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "City", loanedProduct.UserId);
+            
             return View(loanedProduct);
         }
 
@@ -204,4 +203,6 @@ namespace RuilwinkelVaals.WebApp.Controllers
             return _context.LoanedProducts.Any(e => e.Id == id);
         }
     }
+
+
 }
