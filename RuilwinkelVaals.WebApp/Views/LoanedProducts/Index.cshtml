@@ -40,14 +40,14 @@
             <td>
                 @if (User.IsInRole("Medewerker") || User.IsInRole("Admin"))
                 {
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Verlengen</a>
                     <nobr>|</nobr>
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                 }
                 @if (User.IsInRole("Admin"))
                 {
                     <nobr>|</nobr>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete </a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen </a>
                 }
             </td>
             </tr>
