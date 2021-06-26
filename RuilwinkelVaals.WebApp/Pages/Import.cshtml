@@ -5,8 +5,10 @@
     ViewData["Title"] = "Import";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<a href="~/Files/ImportTable.csv">Download Template</a>
 
-<form method="post" enctype="multipart/form-data">
-    <input id="uploadFile" type="file" asp-for="uploadFile" />
-    <input id="FileUploadButton" type="submit" value="button" asp-page-handler="fileButtonPressed" />
-</form>
+    <form method="post" enctype="multipart/form-data">
+        <input id="uploadFile" type="file" asp-for="uploadFile" />
+        <input id="FileUploadButton" type="submit" value="Upload" asp-page-handler="fileButtonPressed" />
+    </form>
+<pre>@Model.feedback</pre>

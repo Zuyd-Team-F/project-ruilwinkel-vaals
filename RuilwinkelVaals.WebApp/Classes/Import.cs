@@ -5,15 +5,18 @@ using System.Threading.Tasks;
 using System.Web;
 using System.IO;
 using RuilwinkelVaals.WebApp.Data.Models;
+using RuilwinkelVaals.WebApp.Data;
 using Microsoft.AspNetCore.Http;
 
 namespace RuilwinkelVaals.WebApp.Classes
 {
-	public class Import
+	public static class Import
 	{
-		public static void readCSV(IFormFile file)
+
+		public static List<string> readCSV(IFormFile file, ApplicationDbContext context)
 		{
-		    using (StreamReader reader = new StreamReader(file.OpenReadStream()))
+			List<string> feedbackList = new List<string>();
+			using (StreamReader reader = new StreamReader(file.OpenReadStream()))
 		    {
 		        reader.ReadLine();
 		        while (!reader.EndOfStream)
@@ -25,25 +28,37 @@ namespace RuilwinkelVaals.WebApp.Classes
 		            string description = values[1];
 		            string brand = values[2];
 		            string categoryName = values[3];
-		            string status = values[4];
-		            string condition = values[5];
-		            int creditValue = Int32.Parse(values[6]);
+		            string statusName = values[4];
+		            string conditionName = values[5];
+					int creditValue;
+					try
+					{
+						creditValue = Int32.Parse(values[6]);
+					}
+					catch
+					{
+						creditValue = 0;
+					}
 
+					//Convert all names into ID's
+					int categoryId = Database.GetCategoryId(categoryName, context);
+					int statusId = Database.GetStatusId(statusName, context);
+					int conditionId = Database.GetConditionId(conditionName, context);
 
-		            (bool addToDb, List<string> feedbackList) = CheckEvent.checkProductVars(name, description, brand, categoryName, status, condition, creditValue);
+					//Checks if all data entered in CSV is valid.
+					(bool addToDb, string feedback) = CheckEvent.checkProductVars(name, description, brand, categoryId, statusId, conditionId, creditValue);
 		            if (addToDb)
 		            {
-						int categoryId = CheckEvent.GetCategoryId(categoryName);
-						int statusId = CheckEvent.GetCategoryId(categoryName);
-						int conditionId = CheckEvent.GetCategoryId(categoryName);
-						Product product = new Product();
-						//database.createproduct(product);
+						Product product = new Product() { Name = name, Brand = brand, Description = description, CategoryId = categoryId, ConditionId = conditionId, CreditValue = creditValue, StatusId = statusId };
+						Database.AddProduct(product, context);
+						feedbackList.Add(name + " has been added!");
 					}
 		            else
 		            {
-		                string stringTempText = feedbackList.ToString();
+						feedbackList.Add(feedback);
 		            }
 		        }
+				return feedbackList;
 		    }
 		}
 	}

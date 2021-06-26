@@ -7,18 +7,12 @@ using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using RuilwinkelVaals.WebApp;
 
 namespace RuilwinkelVaals.WebApp.Classes
 {
     public class CheckEvent
     {
-        private readonly ApplicationDbContext _context;
-
-        public CheckEvent(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
         // Check if string is empty.
         public static Boolean isStringEmpty(String input)
         {
@@ -53,62 +47,45 @@ namespace RuilwinkelVaals.WebApp.Classes
             return false;
         }
 
-        public static (Boolean, List<string>) checkProductVars(string name, string description, string brand, string category, string status, string condition, int creditValue)
+        public static (Boolean, string) checkProductVars(string name, string description, string brand, int category, int status, int condition, int creditValue)
         {
             Boolean checkBool = true;
             List<string> feedbackList = new List<string>();
+            feedbackList.Add(name);
             if (name.Length > 56 || String.IsNullOrEmpty(name))
             {
                 checkBool = false;
-                feedbackList.Add("Name is too long or empty.");
+                feedbackList.Add("Name is te lang of leeg");
             }
             if (brand.Length > 24)
             {
                 checkBool = false;
-                feedbackList.Add("Brand is too long or empty.");
+                feedbackList.Add("Merk is te lang of leeg");
             }
-            int CategoryId = CheckEvent.GetCategoryId(category);
-            if (String.IsNullOrEmpty(category) || CategoryId == -1)
+            if (category == -1)
 			{
                 checkBool = false;
-                feedbackList.Add("Category is empty.");
+                feedbackList.Add("Category is fout");
             }
-            if (String.IsNullOrEmpty(status))
+            if (status == -1)
             {
                 checkBool = false;
-                feedbackList.Add("Status is empty.");
+                feedbackList.Add("Status is fout");
             }
-            if (String.IsNullOrEmpty(condition))
+            if (condition == -1)
             {
                 checkBool = false;
-                feedbackList.Add("Category is empty.");
+                feedbackList.Add("Conditie is fout");
             }
-            if (String.IsNullOrEmpty(creditValue.ToString()))
+            if (creditValue == 0)
 
             {
                 checkBool = false;
-                feedbackList.Add("Category is empty.");
+                feedbackList.Add("Punten waarde is leeg of 0");
             }
-            return (checkBool, feedbackList);    
+            string feedbackString = string.Join(", ", feedbackList);
+            return (checkBool, feedbackString);    
 
 		}
-        public static int GetCategoryId(string name)
-        {
-            return -1;
-        //    ApplicationDbContext _context = new ApplicationDbContext();
-        //    if (name == null)
-        //    {
-        //        return -1;
-        //    }
-
-        //    var category = _context.Categories
-        //        .FirstOrDefault(m => m.Name == name);
-        //    if (category == null)
-        //    {
-        //        return -1;
-        //    }
-
-        //    return category.Id;
-        }
     }
 }
