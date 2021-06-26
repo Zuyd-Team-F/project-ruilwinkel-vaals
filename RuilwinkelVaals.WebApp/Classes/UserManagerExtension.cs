@@ -3,12 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Threading;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RuilwinkelVaals.WebApp.Data.Models;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Mvc;
 
 namespace RuilwinkelVaals.WebApp.Classes
 {
@@ -123,6 +120,24 @@ namespace RuilwinkelVaals.WebApp.Classes
             user.City = city;
             await UpdateAsync(user);
             return IdentityResult.Success;
+        }
+
+        public virtual async Task SetRoleAsync(UserData user, string role)
+        {
+            // Try to find current role
+            var oldRole = await GetRoleAsync(user);
+
+            // Remove old role if it exists
+            if (oldRole != null)
+                await base.RemoveFromRoleAsync(user, oldRole);
+
+            // Add new role to user
+            await base.AddToRoleAsync(user, role);
+        }
+
+        public virtual async Task<string> GetRoleAsync(UserData user)
+        {
+            return (await base.GetRolesAsync(user)).FirstOrDefault();
         }
     }
 }

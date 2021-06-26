@@ -1,13 +1,7 @@
 
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace RuilwinkelVaals.WebApp.Data.Models
 {
@@ -19,7 +13,6 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         [Required]
         [MaxLength(32)]
         [Display(Name = "Voornaam")]
-
         public String FirstName { get; set; }
 
         [Required]
@@ -59,5 +52,5 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         [Required]
         public bool Blacklist { get; set; }        
 
-    }
-} 
+    }    
+}

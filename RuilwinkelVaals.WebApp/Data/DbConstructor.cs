@@ -1,14 +1,6 @@
-﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.EntityFrameworkCore;
-using RuilwinkelVaals.WebApp.Data.Models;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
-using RuilwinkelVaals.WebApp.Classes;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
@@ -60,6 +52,11 @@ namespace RuilwinkelVaals.WebApp.Data
             else
             {
                 _context.Database.Migrate();
+
+                if(!_context.Roles.Any())
+                {
+                    await DbSeeder.Init(_context);
+                }
             }
         }
     }

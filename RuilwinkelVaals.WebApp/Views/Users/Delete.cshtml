@@ -1,4 +1,4 @@
-﻿@model RuilwinkelVaals.WebApp.Data.Models.UserData
+﻿@model RuilwinkelVaals.WebApp.ViewModels.Users.UserDeleteViewModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -11,7 +11,7 @@
 <div>
     <h4>UserData</h4>
     <hr />    
-    <partial name="_UserInfo" />
+    <partial name="_UserDelete" />
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
