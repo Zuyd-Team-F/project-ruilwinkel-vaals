@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -101,7 +102,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserData user = ConvertToUserData(userData);
+                UserData user = await CreateUser(userData);
 
                 await _userManager.CreateAsync(user);
                 await _userManager.AddToRoleAsync(user, Enum.GetName(typeof(Constants.Roles), userData.RoleId - 1).ToUpper());
@@ -170,10 +171,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
             {
                 try
                 {
-                    UserData user = ConvertToUserData(userData);
-
-                    await _userManager.UpdateAsync(user);
-                    await _context.SaveChangesAsync();
+                    await UpdateUser(userData);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -274,37 +272,47 @@ namespace RuilwinkelVaals.WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public async Task<IEnumerable<UserData>> GetAll()
+            => await _context.Users.ToArrayAsync();
+
         private bool UserDataExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<UserData>> GetAll()
-            => await _context.Users.ToArrayAsync();
-
-        public UserData ConvertToUserData(UserFormViewModel model)
+        private static T GetDifference<T>(T val1, T val2)
         {
-            UserData user = new()
-            {
-                Id = model.Id,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Email = model.Email,
-                UserName = model.Email,
-                EmailConfirmed = true,
-                City = model.City,
-                PostalCode = model.PostalCode,
-                Street = model.Street,
-                StreetNumber = model.StreetNumber,
-                PhoneNumber = model.PhoneNumber,
-                Balance = model.Balance,
-                SecurityStamp = Guid.NewGuid().ToString()
-            };
-            user.PasswordHash = new PasswordHasher<UserData>().HashPassword(user, model.Password);
-
-            return user;
+            return !val1.Equals(val2) ? val1 : val2;
         }
 
+        private async Task UpdateUser(UserFormViewModel model)
+        {
+            var user = await _userManager.FindByIdAsync(model.Id.ToString());
+
+            user.FirstName = GetDifference(model.FirstName, user.FirstName);
+            user.LastName = GetDifference(model.LastName, user.LastName);
+            user.Email = GetDifference(model.Email, user.Email);
+            user.UserName = GetDifference(model.Email, user.Email);
+            user.City = GetDifference(model.City, user.City);
+            user.PostalCode = GetDifference(model.PostalCode, user.PostalCode);
+            user.Street = GetDifference(model.Street, user.Street);
+            user.StreetNumber = GetDifference(model.StreetNumber, user.StreetNumber);
+            user.PhoneNumber = GetDifference(model.PhoneNumber, user.PhoneNumber);
+            user.Balance = GetDifference(model.Balance, user.Balance);
+
+            var roleName = await _userManager.GetRoleAsync(user);
+            var roleId = _context.Roles.Where(r => r.Name == roleName).FirstOrDefault().Id;
+
+            //Attempt to change role
+
+
+            await _userManager.UpdateAsync(user);
+        }
+
+        private Task<UserData> CreateUser(UserFormViewModel userData)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
