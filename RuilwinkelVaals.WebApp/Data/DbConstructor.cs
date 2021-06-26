@@ -5,6 +5,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity;
+using RuilwinkelVaals.WebApp.Data.Models;
 
 namespace RuilwinkelVaals.WebApp.Data
 {
