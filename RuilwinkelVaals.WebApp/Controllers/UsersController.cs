@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using RuilwinkelVaals.WebApp.Classes;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
-using RuilwinkelVaals.WebApp.IdentityOverrides;
 using RuilwinkelVaals.WebApp.ViewModels.Users;
 
 namespace RuilwinkelVaals.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -102,14 +101,14 @@ namespace RuilwinkelVaals.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserData user = await CreateUser(userData);
+                var result = await CreateUser(userData);
 
-                await _userManager.CreateAsync(user);
-                await _userManager.AddToRoleAsync(user, Enum.GetName(typeof(Constants.Roles), userData.RoleId - 1).ToUpper());
-
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if(result.Succeeded)
+                    return RedirectToAction(nameof(Index));
             }
+
+            userData.Businesses = new SelectList(_context.BusinessData, "Id", "Name", userData.BusinessId);
+            userData.Roles = new SelectList(_context.Roles, "Id", "Name", userData.RoleId);
 
             return View(userData);
         }
@@ -198,16 +197,21 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 return NotFound();
             }
 
-            var userData = await _context.Users
-                .Include(u => u.BusinessData)
-                //.Include(u => u.Role)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (userData == null)
+            var u = await _context.Users.FindAsync(id);
+            if (u == null)
             {
                 return NotFound();
             }
 
-            return View(userData);
+            UserDeleteViewModel user = new()
+            {
+                Id = u.Id,
+                Email = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName
+            };
+
+            return View(user);
         }
 
         // POST: Users/Delete/5
@@ -312,9 +316,37 @@ namespace RuilwinkelVaals.WebApp.Controllers
             await _userManager.UpdateAsync(user);
         }
 
-        private Task<UserData> CreateUser(UserFormViewModel userData)
+        private async Task<IdentityResult> CreateUser(UserFormViewModel userData)
         {
-            throw new NotImplementedException();
+            UserData user = new()
+            {
+                FirstName = userData.FirstName,
+                LastName = userData.LastName,
+                Email = userData.Email,
+                UserName = userData.Email,
+                City = userData.City,
+                PostalCode = userData.PostalCode,
+                Street = userData.Street,
+                StreetNumber = userData.StreetNumber,
+                PhoneNumber = userData.PhoneNumber,
+                Balance = userData.Balance
+            };
+            
+            var result = await _userManager.CreateAsync(user, userData.Password);
+
+            if (result.Succeeded)
+            {
+                await _userManager.SetRoleAsync(user, _context.Roles.Find(userData.RoleId).Name);
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            return result;
         }
     }
 }

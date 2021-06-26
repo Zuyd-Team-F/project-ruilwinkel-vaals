@@ -1,5 +1,3 @@
-using System;
-
 namespace RuilwinkelVaals.WebApp.ViewModels
 {
     public class ErrorViewModel

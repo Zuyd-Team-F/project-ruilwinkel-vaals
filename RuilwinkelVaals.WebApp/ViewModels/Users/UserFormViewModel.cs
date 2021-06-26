@@ -30,6 +30,7 @@ namespace RuilwinkelVaals.WebApp.ViewModels.Users
         [Required]
         [Display(Name = "Wachtwoord")]
         [DataType(DataType.Password)]
+        [StringLength(100, ErrorMessage = "Het {0} moet op zijn minst {2} en maximaal {1} karakters lang zijn.", MinimumLength = 6)]
         public string Password { get; set; }
 
         [Required]

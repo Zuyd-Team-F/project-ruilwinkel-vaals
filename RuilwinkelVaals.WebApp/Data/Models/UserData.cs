@@ -1,15 +1,7 @@
 
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using RuilwinkelVaals.WebApp.ViewModels.Users;
+using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace RuilwinkelVaals.WebApp.Data.Models
 {
@@ -59,27 +51,6 @@ namespace RuilwinkelVaals.WebApp.Data.Models
 
         [Required]
         public bool Blacklist { get; set; }        
-
-        public UserFormViewModel CastToFormModel()
-        {
-            return new()
-            {
-                Id = this.Id,
-                BusinessId = this.BusinessDataId,
-                Email = this.Email,
-                FirstName = this.FirstName,
-                LastName = this.LastName,
-                Password = this.PasswordHash,
-                City = this.City,
-                PostalCode = this.PostalCode,
-                Street = this.Street,
-                StreetAdd = this.StreetAdd,
-                StreetNumber = this.StreetNumber,
-                DateOfBirth = this.DateOfBirth,
-                PhoneNumber = this.PhoneNumber,
-                Balance = this.Balance
-            };
-        }
 
     }    
 }
