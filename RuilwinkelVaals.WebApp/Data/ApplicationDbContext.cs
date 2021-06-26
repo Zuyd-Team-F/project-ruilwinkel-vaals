@@ -35,6 +35,12 @@ namespace RuilwinkelVaals.WebApp.Data
                 entity.ToTable(name: "Roles");
             });
 
+            /*builder.Ignore<UserToken>();
+            builder.Ignore<UserClaim>();
+            builder.Ignore<UserLogin>();
+            builder.Ignore<RoleClaim>();
+            builder.Ignore<UserRole>();*/
+
             builder.Entity<UserRole>(entity =>
             {
                 entity.ToTable("UserRoles")
@@ -48,7 +54,7 @@ namespace RuilwinkelVaals.WebApp.Data
 
             builder.Entity<UserLogin>(entity =>
             {
-                entity.ToTable("UserLogins");    
+                entity.ToTable("UserLogins");
             });
 
             builder.Entity<RoleClaim>(entity =>
@@ -63,8 +69,8 @@ namespace RuilwinkelVaals.WebApp.Data
             });
 
             builder.Entity<BusinessData>()
-            .HasIndex(u => u.Name)
-            .IsUnique();
+                .HasIndex(u => u.Name)
+                .IsUnique();
 
             builder.Entity<BusinessData>()
                 .HasIndex(u => u.Email)

@@ -9,7 +9,7 @@ using RuilwinkelVaals.WebApp.Data;
 namespace RuilwinkelVaals.WebApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210624212132_InitialMigration")]
+    [Migration("20210625115340_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -462,6 +462,9 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("UserRoles");
                 });

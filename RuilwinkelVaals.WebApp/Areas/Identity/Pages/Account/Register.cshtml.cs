@@ -75,7 +75,7 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account
 
           
             [Display(Name = "Toevoeging")]
-            public int StreetAdd { get; set; }
+            public string StreetAdd { get; set; }
 
 
             [Required]
@@ -125,7 +125,8 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account
                     City = Input.City,
                     PostalCode = Input.PostalCode,
                     Street = Input.Street,
-                    StreetNumber = Input.StreetNumber                    
+                    StreetNumber = Input.StreetNumber,
+                    StreetAdd = Input.StreetAdd
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -150,7 +151,6 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
                 }
