@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -127,31 +128,38 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 return NotFound();
             }
 
-            var roleName = await _userManager.GetRoleAsync(u);
-            var roleId = _context.Roles.Where(r => r.Name == roleName).FirstOrDefault().Id;
-            
-            UserFormViewModel user = new()
+            try
             {
-                Id = u.Id,
-                BusinessId = u.BusinessDataId,
-                RoleId = roleId,
-                Businesses = new SelectList(_context.BusinessData, "Id", "Name", u.BusinessDataId),
-                Roles = new SelectList(_context.Roles, "Id", "Name", roleId),
-                Email = u.Email,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                Password = u.PasswordHash,
-                City = u.City,
-                PostalCode = u.PostalCode,
-                Street = u.Street,
-                StreetAdd = u.StreetAdd,
-                StreetNumber = u.StreetNumber,
-                DateOfBirth = u.DateOfBirth,
-                PhoneNumber = u.PhoneNumber,
-                Balance = u.Balance
-            };
+                var roleName = await _userManager.GetRoleAsync(u);
+                var roleId = _context.Roles.Where(r => r.Name == roleName).FirstOrDefault().Id;
 
-            return View(user);
+                UserFormViewModel user = new()
+                {
+                    Id = u.Id,
+                    BusinessId = u.BusinessDataId,
+                    RoleId = roleId,
+                    Businesses = new SelectList(_context.BusinessData, "Id", "Name", u.BusinessDataId),
+                    Roles = new SelectList(_context.Roles, "Id", "Name", roleId),
+                    Email = u.Email,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Password = u.PasswordHash,
+                    City = u.City,
+                    PostalCode = u.PostalCode,
+                    Street = u.Street,
+                    StreetAdd = u.StreetAdd,
+                    StreetNumber = u.StreetNumber,
+                    DateOfBirth = u.DateOfBirth,
+                    PhoneNumber = u.PhoneNumber,
+                    Balance = u.Balance
+                };
+
+                return View(user);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         // POST: Users/Edit/5
