@@ -13,7 +13,7 @@ namespace RuilwinkelVaals.WebApp.Data
     {
         private static ApplicationDbContext _context;
 
-        public static async Task Init(ApplicationDbContext context)
+        public static async Task Init(ApplicationDbContext context, IWebHostEnvironment env, UserData devUser = null)
         {
             _context = context;
 
@@ -22,9 +22,15 @@ namespace RuilwinkelVaals.WebApp.Data
             await SeedConditions();
             await SeedCategories();
             await SeedStatuses();
-            await _context.SaveChangesAsync();
-
             await SeedProducts();
+
+            // Seed the DB with a super user if it's a dev environment
+            if(env.EnvironmentName == "Development")
+            {
+                using UserStore userStore = new(_context);
+                await userStore.CreateAsync(devUser);
+                await userStore.AddToRoleAsync(devUser, "ADMIN");
+            }
 
             await _context.SaveChangesAsync();
         }
@@ -32,6 +38,8 @@ namespace RuilwinkelVaals.WebApp.Data
         private static async Task SeedProducts()
         {
             await _context.Product.AddAsync(new() { Name = "test", Brand = "test", CategoryId = 1, ConditionId = 1, CreditValue = 123, StatusId = 1 });
+
+            await _context.SaveChangesAsync();
         }
 
         private static async Task SeedRoles()
@@ -41,6 +49,7 @@ namespace RuilwinkelVaals.WebApp.Data
             {
                 await roleStore.CreateAsync(new(role));
             }
+            await _context.SaveChangesAsync();
         }
 
         private static async Task SeedUsers()
@@ -55,6 +64,8 @@ namespace RuilwinkelVaals.WebApp.Data
             user = GenerateUser("Medewerker");
             await userStore.CreateAsync(user);
             await userStore.AddToRoleAsync(user, "MEDEWERKER");
+
+            await _context.SaveChangesAsync();
         }
 
         private static async Task SeedConditions()
@@ -63,6 +74,8 @@ namespace RuilwinkelVaals.WebApp.Data
             {
                 await _context.Conditions.AddAsync(new(condition));
             }
+
+            await _context.SaveChangesAsync();
         }
 
         private static async Task SeedCategories()
@@ -71,6 +84,8 @@ namespace RuilwinkelVaals.WebApp.Data
             {
                 await _context.Categories.AddAsync(new(category));
             }
+
+            await _context.SaveChangesAsync();
         }
 
         private static async Task SeedStatuses()
@@ -79,6 +94,8 @@ namespace RuilwinkelVaals.WebApp.Data
             {
                 await _context.Statuses.AddAsync(new(status));
             }
+
+            await _context.SaveChangesAsync();
         }
 
         public static UserData GenerateUser(string username)
