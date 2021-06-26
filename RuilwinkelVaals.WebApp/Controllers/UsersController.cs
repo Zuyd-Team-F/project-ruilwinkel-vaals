@@ -301,11 +301,13 @@ namespace RuilwinkelVaals.WebApp.Controllers
             user.PhoneNumber = GetDifference(model.PhoneNumber, user.PhoneNumber);
             user.Balance = GetDifference(model.Balance, user.Balance);
 
-            var roleName = await _userManager.GetRoleAsync(user);
-            var roleId = _context.Roles.Where(r => r.Name == roleName).FirstOrDefault().Id;
-
-            //Attempt to change role
-
+            // Check if a new role has been specified
+            var oldRole = await _userManager.GetRoleAsync(user);
+            var newRole = _context.Roles.Find(model.RoleId).Name;
+            if(oldRole != newRole)
+            {
+                await _userManager.SetRoleAsync(user, newRole);
+            }
 
             await _userManager.UpdateAsync(user);
         }
