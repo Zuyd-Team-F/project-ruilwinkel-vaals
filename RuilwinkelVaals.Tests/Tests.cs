@@ -1,50 +1,70 @@
-using RuilwinkelVaals.WebApp.Controllers;
-using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
 using RuilwinkelVaals.WebApp.Classes;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using Xunit;
-using System.Linq;
-using Microsoft.AspNetCore.Identity;
-using Moq;
 using RuilwinkelVaals.WebApp.ViewModels.Users;
+using Moq;
+using RuilwinkelVaals.WebApp.Controllers;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using RuilwinkelVaals.WebApp.IdentityOverrides;
 
 namespace RuilwinkelVaals.Tests
 {
     public class Tests
     {
-        #region Integration Tests
         [Fact]
         public async Task UserTest()
         {
             // Fetch the in memory context to test on
             var context = await TestDb.GetDatabaseContext();
 
-            // Ensure a role is available to appoint to
-            context.Roles.Add(new("TestRole"));
+            // Setup mock for user manager
+            var userStore = new Mock<UserStore>(context);
+            var userManager = new Mock<UserManagerExtension>(userStore.Object, null, null, null, null, null, null, null, null);
 
-            //Setting up mock data
-            var userManager = new Mock<UserManagerExtension>();
-            var roleManager = new Mock<RoleManager<Role>>();
+            userManager.Setup(um => 
+                um.CreateAsync(It.IsAny<UserData>(), It.IsAny<string>()))
+                .ReturnsAsync(IdentityResult.Success)
+                .Callback<UserData, string>((x,y) =>
+                {
+                    context.Users.Add(x);
+                    context.SaveChangesAsync();
+                });
+
+            var role = context.Roles.Add(new("TestRole"));
+            await context.SaveChangesAsync();
 
             // Creating the Controller
-            var controller = new UsersController(context, userManager.Object, roleManager.Object);
+            var controller = new UsersController(context, userManager.Object);
 
-            // Adding to the DB
-            var user = DbSeeder.GenerateUser("John");
+            // Generate random user
+            UserFormViewModel user = new()
+            {
+                RoleId = role.Entity.Id,
+                Email = "test@test.nl",
+                FirstName = "TestUser",
+                LastName = "",
+                Password = "Werty123!",
+                City = "TestCity",
+                PostalCode = "1111TE",
+                Street = "TestStreet",
+                StreetNumber = 11,
+                DateOfBirth = System.DateTime.Now,
+                PhoneNumber = "123456789",
+                Balance = 1,
+            };
 
-            await controller.Create(user.CastToFormModel());
+            // Let controller create user
+            var controllerResult = await controller.Create(user);
+            Assert.IsType<RedirectToActionResult>(controllerResult);
 
             // Check if added correctly
-            var result = (await controller.GetAll()).ToArray();
-            Assert.Single(result);
-            Assert.Equal("John", result[0].FirstName);                        
+            var result = context.Roles.Find(role.Entity.Id);
+            Assert.NotNull(result);
+            Assert.Equal(role.Entity.Name, result.Name);                        
         }
-        #endregion
 
-        #region Unit Tests
         [Fact]
         public void ValidUserUnitTest()
         {
@@ -55,6 +75,5 @@ namespace RuilwinkelVaals.Tests
             Assert.NotNull(TestUser.Email);
             Assert.NotNull(TestUser.PhoneNumber);
         }
-        #endregion
     }
 }
