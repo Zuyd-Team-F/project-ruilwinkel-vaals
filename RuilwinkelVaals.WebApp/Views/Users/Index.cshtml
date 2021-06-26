@@ -43,7 +43,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.LastName)
                 </td>
-                @if (UserManager.GetUserAsync(User).Result.Id != item.Id || item.Role != "Admin")
+                @if (UserManager.GetUserAsync(User).Result.Id != item.Id && item.Role != "Admin")
                 {
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">Wijzigen</a> |
