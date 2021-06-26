@@ -125,9 +125,20 @@ namespace RuilwinkelVaals.WebApp.Classes
             return IdentityResult.Success;
         }
 
+        public async Task SetRoleAsync(UserData user, string role)
+        {
+            // Find current role
+            var oldRole = await GetRoleAsync(user);
+
+            // Remove said user from role
+            await base.RemoveFromRoleAsync(user, oldRole);
+
+            // Add new role to user
+            await base.AddToRoleAsync(user, role);
+        }
+
         public async Task<string> GetRoleAsync(UserData user)
         {
-
             return (await base.GetRolesAsync(user)).FirstOrDefault();
         }
     }
