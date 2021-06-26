@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Identity;
 using RuilwinkelVaals.WebApp.Data.Models;
 using RuilwinkelVaals.WebApp.IdentityOverrides;
 using System;
