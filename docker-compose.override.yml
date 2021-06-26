@@ -11,6 +11,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=server=db;database=${DB_NAME};userid=root;pwd=${DB_PASSWORD}
+      - DevCredentials__User=${DEV_USERNAME}
+      - DevCredentials__Password=${DEV_PASSWORD}
     ports:
       - 8000:80
     volumes:
