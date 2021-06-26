@@ -13,9 +13,12 @@ namespace RuilwinkelVaals.WebApp.Classes
             Name = name;
         }
 
+        public BaseCategory() { }
+
         [Key]
         public int Id { get; set; }
 
+        [MaxLength(24)]
         [Required]
         public virtual string Name { get; set; }
     }
