@@ -340,9 +340,8 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("PostalCode")
                         .IsRequired()
@@ -461,6 +460,9 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("UserRoles");
                 });
