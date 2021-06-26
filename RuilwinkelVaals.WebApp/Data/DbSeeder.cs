@@ -12,10 +12,12 @@ namespace RuilwinkelVaals.WebApp.Data
     public static class DbSeeder
     {
         private static ApplicationDbContext _context;
+        private static IWebHostEnvironment _env;
 
         public static async Task Init(ApplicationDbContext context, IWebHostEnvironment env, UserData devUser = null)
         {
             _context = context;
+            _env = env;
 
             await SeedRoles();
             await SeedUsers();
@@ -25,7 +27,7 @@ namespace RuilwinkelVaals.WebApp.Data
             await SeedProducts();
 
             // Seed the DB with a super user if it's a dev environment
-            if(env.EnvironmentName == "Development")
+            if(_env.EnvironmentName == "Development")
             {
                 using UserStore userStore = new(_context);
                 await userStore.CreateAsync(devUser);

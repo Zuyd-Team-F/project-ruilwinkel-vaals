@@ -55,6 +55,7 @@ namespace RuilwinkelVaals.WebApp.Data
 
                 _context.Database.EnsureDeleted();
                 _context.Database.Migrate();
+
                 await DbSeeder.Init(_context, _env, devUser);
             }
             else
