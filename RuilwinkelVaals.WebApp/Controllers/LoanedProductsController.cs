@@ -91,7 +91,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
             ViewData["ProductId"] = new SelectList(_context.Product, "Id", "Name", loanedProduct.ProductId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "City", loanedProduct.UserId); //geen idee waarom dit werkt ondanks er "City" staat maar wat werkt werkt
             bool sufficientFunds = CheckBalance(loanedProduct.UserId, loanedProduct.ProductId);
-            if(sufficientFunds)
+            if (sufficientFunds)
             {
                 await EditBalance(loanedProduct.UserId, loanedProduct.ProductId);
                 await EditStatus(loanedProduct.ProductId);
@@ -117,7 +117,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
         private async Task EditStatus(int givenProductId)
         {
             var product = _context.Product.Where(p => p.Id == givenProductId).FirstOrDefault();
-            int status = (int)(Constants.Statuses.Uitgeleend +1);
+            int status = (int)(Constants.Statuses.Uitgeleend + 1);
             product.StatusId = status;
             await _context.SaveChangesAsync();
         }
@@ -208,7 +208,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            
+
             return View(loanedProduct);
         }
 
@@ -248,6 +248,4 @@ namespace RuilwinkelVaals.WebApp.Controllers
             return _context.LoanedProducts.Any(e => e.Id == id);
         }
     }
-
-
 }
