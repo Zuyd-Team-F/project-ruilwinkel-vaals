@@ -90,45 +90,52 @@ namespace RuilwinkelVaals.WebApp.Controllers
             }
             ViewData["ProductId"] = new SelectList(_context.Product, "Id", "Name", loanedProduct.ProductId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "City", loanedProduct.UserId); //geen idee waarom dit werkt ondanks er "City" staat maar wat werkt werkt
-            EditBalance(loanedProduct.UserId, loanedProduct.ProductId);
-            EditStatus(loanedProduct.ProductId);
+            bool sufficientFunds = CheckBalance(loanedProduct.UserId, loanedProduct.ProductId);
+            if(sufficientFunds)
+            {
+                await EditBalance(loanedProduct.UserId, loanedProduct.ProductId);
+                await EditStatus(loanedProduct.ProductId);
+                return View(loanedProduct);
+            }
             return View(loanedProduct);
         }
 
-        private void EditStatus(int productId)
+        private bool CheckBalance(int givenUserId, int givenProductId)
         {
-            throw new NotImplementedException();
+            var product = _context.Product.Where(p => p.Id == givenProductId).FirstOrDefault();
+            var user = _context.UserData.Where(u => u.Id == givenUserId).FirstOrDefault();
+            int tradedAmount = product.CreditValue;
+            int currentBalance = user.Balance;
+            int newBalance = currentBalance - tradedAmount;
+            if (newBalance >= 0)
+            {
+                return true;
+            }
+            return false;
         }
 
-        private void EditBalance(int givenUserId, int givenProductId)
+        private async Task EditStatus(int givenProductId)
         {
-            var users = _context.UserData.ToList();
-            var products = _context.Product.ToList();
+            var product = _context.Product.Where(p => p.Id == givenProductId).FirstOrDefault();
+            int status = (int)(Constants.Statuses.Uitgeleend +1);
+            product.StatusId = status;
+            await _context.SaveChangesAsync();
+        }
 
-            List<object> uList = new List<object>();
-            foreach (var u in users)
+        private async Task<bool> EditBalance(int givenUserId, int givenProductId)
+        {
+            var product = _context.Product.Where(p => p.Id == givenProductId).FirstOrDefault();
+            var user = _context.UserData.Where(u => u.Id == givenUserId).FirstOrDefault();
+            int tradedAmount = product.CreditValue;
+            int currentBalance = user.Balance;
+            int newBalance = currentBalance - tradedAmount;
+            if (newBalance >= 0)
             {
-                if (u.Id == givenUserId)
-                {
-
-                    List<object> pList = new List<object>();
-                    foreach (var p in products)
-                    {
-                        if (p.Id == givenProductId)
-                        {
-                            int tradedAmount = p.CreditValue;
-                            int currentBalance = u.Balance;
-                            
-                            if (currentBalance-tradedAmount >= 0)
-                            {
-                                int newBalance = currentBalance - tradedAmount;
-                                u.Balance = newBalance;
-                                await context.SaveChangesAsync();
-                            }
-                        }
-                    }
-                }
+                user.Balance = newBalance;
+                await _context.SaveChangesAsync();
+                return true;
             }
+            return false;
         }
 
         // GET: LoanedProducts/Edit/5
