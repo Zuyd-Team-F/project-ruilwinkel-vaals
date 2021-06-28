@@ -35,10 +35,8 @@ namespace RuilwinkelVaals.Tests
             await controller.Create(new Product() { Category = category, Condition = condition, Status = status, Name = "Chromebook", Description = "test test", CreditValue = 123, Brand = "test"});
 
             //verifying if the product has been successfully added to the database
-            //..
-            //..
             var result = (await controller.GetAll()).ToArray();
-            Assert.Equal(1, 1);
+            Assert.Equal("Chromebook", result[0].Name);
         }
         #endregion
     }
