@@ -12,19 +12,19 @@ namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
 {
     class CreateLoanTest
     {
-        public static async Task CreateLoanTest()
+        public static async Task CreateLoanedProductViewTest()
         {
-            // Fetch the in memory context to test on
             var context = await TestDb.GetDatabaseContext();
-
-            //creating the Controller
+            var user = DbSeeder.GenerateUser("Naam");
+            user.Balance = 10;
+            context.Users.Add(user);
+            var product = DbSeeder.GenerateProduct("Chromebook");
+            product.CreditValue = 10;
+            context.Users.Add(user);
             var controller = new LoanedProductsController(context);
-
-            //adding the product to the database
-            await controller.Create(new Product() { Category = category, Condition = condition, Status = status, Name = "Chromebook", Description = "test test", CreditValue = 123, Brand = "test" });
-
-            //making an instance of user
-            Condition condition = new Condition("Zeerslecht");
+            //hier de CreateLoanedProduct view aanhalen en dan kijken of het antwoord klopt
+            //dit een paar keer doen
+            await context.SaveChangesAsync();
         }
     }
 }
