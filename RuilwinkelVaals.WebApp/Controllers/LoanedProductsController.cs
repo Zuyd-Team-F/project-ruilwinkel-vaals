@@ -100,9 +100,35 @@ namespace RuilwinkelVaals.WebApp.Controllers
             throw new NotImplementedException();
         }
 
-        private void EditBalance(int userId, int productId)
+        private void EditBalance(int givenUserId, int givenProductId)
         {
-            throw new NotImplementedException();
+            var users = _context.UserData.ToList();
+            var products = _context.Product.ToList();
+
+            List<object> uList = new List<object>();
+            foreach (var u in users)
+            {
+                if (u.Id == givenUserId)
+                {
+
+                    List<object> pList = new List<object>();
+                    foreach (var p in products)
+                    {
+                        if (p.Id == givenProductId)
+                        {
+                            int tradedAmount = p.CreditValue;
+                            int currentBalance = u.Balance;
+                            
+                            if (currentBalance-tradedAmount >= 0)
+                            {
+                                int newBalance = currentBalance - tradedAmount;
+                                u.Balance = newBalance;
+                                await context.SaveChangesAsync();
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         // GET: LoanedProducts/Edit/5
