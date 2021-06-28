@@ -116,6 +116,18 @@ namespace RuilwinkelVaals.WebApp.Data
             return product;
         }
 
+        public static LoanedProduct GenerateLoanedProduct(Product v1, UserData v2)
+        {
+            LoanedProduct loanedProduct = new()
+            {
+                Product = v1,
+                User = v2,
+                DateStart = DateTime.Now ,
+                DateEnd = DateTime.Now
+            };
+            return loanedProduct;
+        }
+
         private static string[] GetEnumArray<T>()
         {
             return Enum.GetNames(typeof(T));
