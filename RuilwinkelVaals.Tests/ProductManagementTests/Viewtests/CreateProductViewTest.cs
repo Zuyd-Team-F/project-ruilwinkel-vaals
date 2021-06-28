@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
 using Xunit;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
 namespace RuilwinkelVaals.Tests
@@ -19,8 +21,14 @@ namespace RuilwinkelVaals.Tests
             var context = await TestDb.GetDatabaseContext();
             var controller = new ProductsController(context);
             var product = DbSeeder.GenerateProduct("Chromebook");
-            var result = (await controller.GetAll()).ToArray();
-            Assert.Equal("Chromebook", result[0].Name);
+            var result = await controller.Create(product);
+            await context.SaveChangesAsync();
+            Assert.IsType<RedirectToActionResult>(result);
+
+            var productResult = await context.Product.FindAsync(product.Id);
+            Assert.NotNull(productResult);
+            Assert.Equal(product.Name, productResult.Name);
+
         }
         #endregion
     }

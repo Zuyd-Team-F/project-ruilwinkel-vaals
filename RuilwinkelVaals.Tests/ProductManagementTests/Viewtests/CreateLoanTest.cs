@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
 {
@@ -22,9 +23,13 @@ namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
             product.CreditValue = 10;
             context.Users.Add(user);
             var controller = new LoanedProductsController(context);
-            //hier de CreateLoanedProduct view aanhalen en dan kijken of het antwoord klopt
-            //dit een paar keer doen
+            var result = await controller.Create();
             await context.SaveChangesAsync();
+            Assert.IsType<RedirectToActionResult>(result);
+            var productResult = await context.Product.FindAsync(product.Id);
+            Assert.NotNull(productResult);
+            Assert.Equal(product.Name, productResult.Name);
+
         }
     }
 }
