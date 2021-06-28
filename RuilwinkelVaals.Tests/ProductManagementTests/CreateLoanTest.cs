@@ -44,7 +44,8 @@ namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
             var loanResult = await context.LoanedProducts.FindAsync(loanedProduct.Id);
             Assert.NotNull(loanResult);
             Assert.Equal(loanedProduct.User, loanResult.User);
-            Assert.Equal(0, user.Balance);
+            Assert.Equal(10, userResult.Balance);//hier moet nog ff naar gekeken worden
+            //hier moet nog getest worden op de status van het product
         }
     }
 }
