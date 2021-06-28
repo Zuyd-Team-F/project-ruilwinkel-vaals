@@ -4,6 +4,30 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<link href="~/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/css/buttons.dataTables.min.css" rel="stylesheet" />
+
+<script src="~/js/jquery-3.5.1.js"></script>
+<script src="~/js/jquery.dataTables.min.js"></script>
+<script src="~/js/dataTables.buttons.min.js"></script>
+<script src="~/js/jszip.min.js"></script>
+<script src="~/js/pdfmake.min.js"></script>
+<script src="~/js/vfs_fonts.js"></script>
+<script src="~/js/buttons.html5.min.js"></script>
+<script src="~/js/buttons.print.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#ProductTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+    });
+</script>
+
 <div>
     <h1>Inventaris</h1>
     <p>
@@ -13,22 +37,24 @@
         }
     </p>
     <br />
-    
+
     @*TODO: zoekfunctie/filters*@
+    @*
     <form asp-controller="Products" asp-action="Index" method="get">
         <p>
             Filteren op
             <select>
                 <option>alles</option>
-                
+
             </select>
             :
             <input type="text" name="SearchString" />
             <input type="submit" value="Zoeken" />
         </p>
     </form>
+    *@
 
-    <table class="table">
+    <table id="ProductTable" class="table">
         <thead>
             <tr id="table-header">
                 <th>
