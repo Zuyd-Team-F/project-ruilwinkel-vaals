@@ -26,7 +26,6 @@ namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
             context.Product.Add(product);
 
             var loanedProduct = DbSeeder.GenerateLoanedProduct(product, user);
-            product.CreditValue = 10;
             context.LoanedProducts.Add(loanedProduct);
 
             var controller = new LoanedProductsController(context);
@@ -45,8 +44,7 @@ namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
             var loanResult = await context.LoanedProducts.FindAsync(loanedProduct.Id);
             Assert.NotNull(loanResult);
             Assert.Equal(loanedProduct.User, loanResult.User);
-
-
+            Assert.Equal(0, user.Balance);
         }
     }
 }
