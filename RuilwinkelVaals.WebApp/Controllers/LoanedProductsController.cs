@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -88,8 +89,20 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ProductId"] = new SelectList(_context.Product, "Id", "Name", loanedProduct.ProductId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "City", loanedProduct.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "City", loanedProduct.UserId); //geen idee waarom dit werkt ondanks er "City" staat maar wat werkt werkt
+            EditBalance(loanedProduct.UserId, loanedProduct.ProductId);
+            EditStatus(loanedProduct.ProductId);
             return View(loanedProduct);
+        }
+
+        private void EditStatus(int productId)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void EditBalance(int userId, int productId)
+        {
+            throw new NotImplementedException();
         }
 
         // GET: LoanedProducts/Edit/5
