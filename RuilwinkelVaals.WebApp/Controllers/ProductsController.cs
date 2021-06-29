@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NToastNotify;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
 
@@ -13,10 +14,12 @@ namespace RuilwinkelVaals.WebApp.Controllers
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IToastNotification _toast;
 
-        public ProductsController(ApplicationDbContext context)
+        public ProductsController(ApplicationDbContext context, IToastNotification toastNotification)
         {
             _context = context;
+            _toast = toastNotification;
         }
 
         // GET: Products
@@ -79,6 +82,9 @@ namespace RuilwinkelVaals.WebApp.Controllers
             {
                 _context.Add(product);
                 await _context.SaveChangesAsync();
+
+                _toast.AddSuccessToastMessage($"Product '{product.Name}' is succesvol opgeslagen!");
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
