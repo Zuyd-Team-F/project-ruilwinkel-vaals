@@ -40,6 +40,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         [Display(Name = "Creditwaarde")]
         public int CreditValue { get; set; }
 
+        [Display(Name = "Foto")]
         public string Image { get; set; }
     }
 }
