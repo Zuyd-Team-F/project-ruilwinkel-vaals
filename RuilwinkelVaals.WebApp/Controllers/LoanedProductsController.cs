@@ -86,17 +86,18 @@ namespace RuilwinkelVaals.WebApp.Controllers
             {
                 _context.Add(loanedProduct);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                bool sufficientFunds = CheckBalance(loanedProduct.UserId, loanedProduct.ProductId);
+                if (sufficientFunds)
+                {
+                    await EditBalance(loanedProduct.UserId, loanedProduct.ProductId);
+                    await EditStatus(loanedProduct.ProductId);
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(loanedProduct);
+                
             }
             ViewData["ProductId"] = new SelectList(_context.Product, "Id", "Name", loanedProduct.ProductId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "City", loanedProduct.UserId); //geen idee waarom dit werkt ondanks er "City" staat maar wat werkt werkt
-            bool sufficientFunds = CheckBalance(loanedProduct.UserId, loanedProduct.ProductId);
-            if (sufficientFunds)
-            {
-                await EditBalance(loanedProduct.UserId, loanedProduct.ProductId);
-                await EditStatus(loanedProduct.ProductId);
-                return View(loanedProduct);
-            }
             return View(loanedProduct);
         }
 

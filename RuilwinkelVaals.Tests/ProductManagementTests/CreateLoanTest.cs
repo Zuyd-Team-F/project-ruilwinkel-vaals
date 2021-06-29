@@ -14,6 +14,7 @@ namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
 {
     public class CreateLoanTest
     {
+        #region integration test
         [Fact]
         public static async Task CreateLoanedProductViewTest()
         {
@@ -45,8 +46,9 @@ namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
             var loanResult = await context.LoanedProducts.FindAsync(loanedProduct.Id);
             Assert.NotNull(loanResult);
             Assert.Equal(loanedProduct.User, loanResult.User);
-            //Assert.Equal(0, userResult.Balance);//hier moet nog ff naar gekeken worden
+            Assert.Equal(0, userResult.Balance);//hier moet nog ff naar gekeken worden
             Assert.Equal(((int)(Constants.Statuses.Uitgeleend) + 1), productResult.StatusId);
         }
+        #endregion
     }
 }
