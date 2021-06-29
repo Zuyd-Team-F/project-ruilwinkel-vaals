@@ -24,7 +24,6 @@ namespace RuilwinkelVaals.Tests
             var result = await controller.Create(product);
             await context.SaveChangesAsync();
             Assert.IsType<RedirectToActionResult>(result);
-
             var productResult = await context.Product.FindAsync(product.Id);
             Assert.NotNull(productResult);
             Assert.Equal(product.Name, productResult.Name);
