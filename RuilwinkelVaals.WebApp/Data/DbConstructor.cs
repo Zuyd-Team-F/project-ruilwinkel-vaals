@@ -58,7 +58,7 @@ namespace RuilwinkelVaals.WebApp.Data
 
                 if(!_context.Roles.Any())
                 {
-                    await DbSeeder.Init(_context);
+                    await DbSeeder.Init(_context, _env);
                 }
             }
         }
