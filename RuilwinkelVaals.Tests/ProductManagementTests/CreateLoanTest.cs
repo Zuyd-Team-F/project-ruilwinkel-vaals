@@ -19,6 +19,7 @@ namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
         public static async Task CreateLoanedProductViewTest()
         {
             var context = await TestDb.GetDatabaseContext();
+            await DbSeeder.SeedStatuses(context);
             var user = DbSeeder.GenerateUser("Naam");
             user.Balance = 10;
             context.Users.Add(user);
