@@ -38,7 +38,7 @@ namespace RuilwinkelVaals.WebApp.ViewModels.Products
         [Display(Name = "Creditwaarde")]
         public int CreditValue { get; set; }
 
-        [Display(Name = "Product Foto")]
+        [Display(Name = "Foto")]
         public IFormFile Image { get; set; }
 
         public SelectList Categories { get; set; }
