@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NToastNotify;
 using RuilwinkelVaals.WebApp.Classes;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
@@ -62,6 +63,12 @@ namespace RuilwinkelVaals.WebApp
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            services.AddMvc().AddNToastNotifyToastr(new ToastrOptions()
+            {
+                ProgressBar = true,
+                PositionClass = ToastPositions.BottomLeft
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,6 +95,8 @@ namespace RuilwinkelVaals.WebApp
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseNToastNotify();
 
             app.UseEndpoints(endpoints =>
             {
