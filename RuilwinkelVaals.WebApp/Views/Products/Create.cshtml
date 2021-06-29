@@ -1,47 +1,55 @@
-﻿@model RuilwinkelVaals.WebApp.Data.Models.Product
+﻿@model RuilwinkelVaals.WebApp.ViewModels.Products.ProductCreateViewModel
 
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div >
+<div>
     <h1>Productregistratie</h1>
     <hr />
-    <div>
-        <div>
-            <form asp-action="Create">
+    <div class="row">
+        <div class="col-md-4">
+            <form enctype="multipart/form-data" asp-action="Create">
                 <div asp-validation-summary="ModelOnly"></div>
-                <div>
-                    <label asp-for="Name"></label>
-                    <input asp-for="Name" />
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class ="form-control"/>
                     <span asp-validation-for="Name"></span>
                 </div>
-                <div>
-                    <label asp-for="Brand"></label>
-                    <input asp-for="Brand" />
+                <div class="form-group">
+                    <label asp-for="Brand" class="control-label"></label>
+                    <input asp-for="Brand" class ="form-control"/>
                     <span asp-validation-for="Brand"></span>
                 </div>
-                <div>
-                    <label asp-for="Description"></label>
-                    <input asp-for="Description" />
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class ="form-control"/>
                     <span asp-validation-for="Description"></span>
                 </div>
-                <div>
-                    <label asp-for="CategoryId"></label>
-                    <select asp-for="CategoryId" asp-items="ViewBag.CategoryId"></select>
+                <div class="form-group">
+                    <label asp-for="CategoryId" class="control-label"></label>
+                    <select asp-for="CategoryId" class ="form-control" asp-items="Model.Categories"></select>
                 </div>
-                <div>
-                    <label asp-for="ConditionId"></label>
-                    <select asp-for="ConditionId" asp-items="ViewBag.ConditionId"></select>
+                <div class="form-group">
+                    <label asp-for="ConditionId" class="control-label"></label>
+                    <select asp-for="ConditionId" class ="form-control" asp-items="Model.Conditions"></select>
                 </div>
-                <div>
-                    <label asp-for="StatusId"></label>
-                    <select asp-for="StatusId" asp-items="ViewBag.StatusId"></select>
+                <div class="form-group">
+                    <label asp-for="StatusId" class="control-label"></label>
+                    <select asp-for="StatusId" class ="form-control" asp-items="Model.Statusses"></select>
                 </div>
-                <div>
-                    <label asp-for="CreditValue"></label>
-                    <input asp-for="CreditValue" />
+                <div class="form-group">
+                    <label asp-for="CreditValue" class="control-label"></label>
+                    <input asp-for="CreditValue" class ="form-control"/>
                     <span asp-validation-for="CreditValue"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Image" class="control-label"></label>
+                    <div class="custom-file">
+                        <input asp-for="Image" class="custom-file-input" id="customFile" />
+                        <label class="custom-file-label" for="customFile">Kies een foto</label>
+                    </div>
+                    <span asp-validation-for="Image" class="text-danger"></span>
                 </div>
                 <div>
                     <input type="submit" value="Product toevoegen" />
@@ -58,5 +66,12 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+    </script>
 }
 
