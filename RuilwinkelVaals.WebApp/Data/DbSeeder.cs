@@ -10,50 +10,47 @@ namespace RuilwinkelVaals.WebApp.Data
 {
     public static class DbSeeder
     {
-        private static ApplicationDbContext _context;
-
         public static async Task Init(ApplicationDbContext context, IWebHostEnvironment env, UserData devUser = null)
         {
-            _context = context;
 
-            await SeedRoles();
-            await SeedUsers();
-            await SeedConditions();
-            await SeedCategories();
-            await SeedStatuses();
-            await SeedProducts();
+            await SeedRoles(context);
+            await SeedUsers(context);
+            await SeedConditions(context);
+            await SeedCategories(context);
+            await SeedStatuses(context);
+            await SeedProducts(context);
 
             // Seed the DB with a super user if it's a dev environment
             if(env.EnvironmentName == "Development")
             {
-                using UserStore userStore = new(_context);
+                using UserStore userStore = new(context);
                 await userStore.CreateAsync(devUser);
                 await userStore.AddToRoleAsync(devUser, "ADMIN");
             }
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
-        private static async Task SeedProducts()
+        public static async Task SeedProducts(ApplicationDbContext context)
         {
-            await _context.Product.AddAsync(new() { Name = "test", Brand = "test", CategoryId = 1, ConditionId = 1, CreditValue = 123, StatusId = 1 });
+            await context.Product.AddAsync(new() { Name = "test", Brand = "test", CategoryId = 1, ConditionId = 1, CreditValue = 123, StatusId = 1 });
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
-        private static async Task SeedRoles()
+        public static async Task SeedRoles(ApplicationDbContext context)
         {
-            using RoleStore roleStore = new(_context);
+            using RoleStore roleStore = new(context);
             foreach (string role in GetEnumArray<Roles>())
             {
                 await roleStore.CreateAsync(new(role));
             }
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
-        private static async Task SeedUsers()
+        public static async Task SeedUsers(ApplicationDbContext context)
         {
-            using UserStore userStore = new(_context);
+            using UserStore userStore = new(context);
             UserData user;
 
             user = GenerateUser("Admin");
@@ -64,42 +61,37 @@ namespace RuilwinkelVaals.WebApp.Data
             await userStore.CreateAsync(user);
             await userStore.AddToRoleAsync(user, "MEDEWERKER");
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
-        internal static Task Init(ApplicationDbContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static async Task SeedConditions()
+        public static async Task SeedConditions(ApplicationDbContext context)
         {
             foreach (string condition in GetEnumArray<Conditions>())
             {
-                await _context.Conditions.AddAsync(new(condition));
+                await context.Conditions.AddAsync(new(condition));
             }
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
-        private static async Task SeedCategories()
+        public static async Task SeedCategories(ApplicationDbContext context)
         {
             foreach (string category in GetEnumArray<Categories>())
             {
-                await _context.Categories.AddAsync(new(category));
+                await context.Categories.AddAsync(new(category));
             }
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
-        private static async Task SeedStatuses()
+        public static async Task SeedStatuses(ApplicationDbContext context)
         {
             foreach (string status in GetEnumArray<Statuses>())
             {
-                await _context.Statuses.AddAsync(new(status));
+                await context.Statuses.AddAsync(new(status));
             }
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
         public static UserData GenerateUser(string username)
@@ -124,7 +116,7 @@ namespace RuilwinkelVaals.WebApp.Data
             return user;
         }
 
-        private static string[] GetEnumArray<T>()
+        public static string[] GetEnumArray<T>()
         {
             return Enum.GetNames(typeof(T));
         }
