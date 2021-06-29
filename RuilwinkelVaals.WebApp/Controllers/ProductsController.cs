@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
+using RuilwinkelVaals.WebApp.ViewModels.Product;
 
 namespace RuilwinkelVaals.WebApp.Controllers
 {
@@ -73,18 +74,51 @@ namespace RuilwinkelVaals.WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CategoryId,ConditionId,StatusId,Brand,Description,Name,CreditValue")] Product product)
+        public async Task<IActionResult> Create(ProductViewModel product)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
+                await EditBalance(product.UserId, product.CreditValue);
+                var p = GenerateProduct(product);
+                _context.Add(p);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
             ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name", product.ConditionId);
             ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name", product.StatusId);
-            return View(product);  //deze moeten we pakken voor te vergelijken dit is een object gemaakt met de gegeven input
+            return View(product);
+            
+        }
+
+        private Product GenerateProduct(ProductViewModel product)
+        {
+            Product p = new()
+            {
+                CategoryId = product.CategoryId,
+                ConditionId = product.ConditionId,
+                StatusId = product.StatusId,
+                Name = product.Name,
+                Brand = product.Brand,
+                CreditValue = product.CreditValue,
+                Description = product.Description
+            };
+            return p;
+        }
+
+        private async Task<bool> EditBalance(int givenUserId, int productValue)
+        {
+            var user = _context.UserData.Where(u => u.Id == givenUserId).FirstOrDefault();
+            int tradedAmount = productValue;
+            int currentBalance = user.Balance;
+            int newBalance = currentBalance + tradedAmount;
+            if (newBalance >= 0)
+            {
+                user.Balance = newBalance;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
         // GET: Products/Edit/5
