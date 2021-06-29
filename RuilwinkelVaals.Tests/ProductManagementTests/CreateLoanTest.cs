@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Xunit;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using RuilwinkelVaals.WebApp;
 
 namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
 {
@@ -44,8 +45,8 @@ namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
             var loanResult = await context.LoanedProducts.FindAsync(loanedProduct.Id);
             Assert.NotNull(loanResult);
             Assert.Equal(loanedProduct.User, loanResult.User);
-            Assert.Equal(10, userResult.Balance);//hier moet nog ff naar gekeken worden
-            //hier moet nog getest worden op de status van het product
+            //Assert.Equal(0, userResult.Balance);//hier moet nog ff naar gekeken worden
+            Assert.Equal(((int)(Constants.Statuses.Uitgeleend) + 1), productResult.StatusId);
         }
     }
 }
