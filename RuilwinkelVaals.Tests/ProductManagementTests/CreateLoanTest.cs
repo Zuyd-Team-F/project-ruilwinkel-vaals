@@ -22,11 +22,9 @@ namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
             var user = DbSeeder.GenerateUser("Naam");
             user.Balance = 10;
             context.Users.Add(user);
-
             var product = DbSeeder.GenerateProduct("Chromebook");
             product.CreditValue = 10;
             context.Product.Add(product);
-
             var loanedProduct = DbSeeder.GenerateLoanedProduct(product, user);
             context.LoanedProducts.Add(loanedProduct);
 
