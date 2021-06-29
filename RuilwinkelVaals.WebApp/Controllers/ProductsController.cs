@@ -1,22 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
+using RuilwinkelVaals.WebApp.ViewModels.Products;
 
 namespace RuilwinkelVaals.WebApp.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public ProductsController(ApplicationDbContext context)
+        public ProductsController(ApplicationDbContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         // GET: Products
@@ -55,17 +60,20 @@ namespace RuilwinkelVaals.WebApp.Controllers
         [HttpPost]
         public string Index(string searchString, bool notUsed)
         {
-           return "From [HttpPost]Index: filter on " + searchString;
+            return "From [HttpPost]Index: filter on " + searchString;
         }
 
 
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
-            ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name");
-            ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name");
-            return View();
+            ProductCreateViewModel model = new();
+
+            model.Categories = new SelectList(_context.Categories, "Id", "Name");
+            model.Conditions = new SelectList(_context.Conditions, "Id", "Name");
+            model.Statusses = new SelectList(_context.Statuses, "Id", "Name");
+
+            return View(model);
         }
 
         // POST: Products/Create
@@ -73,18 +81,34 @@ namespace RuilwinkelVaals.WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CategoryId,ConditionId,StatusId,Brand,Description,Name,CreditValue")] Product product)
+        public async Task<IActionResult> Create(ProductCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
+                string uniqueFileName = UploadedFile(model);
+
+                Product product = new()
+                {
+                    CategoryId = model.CategoryId,
+                    ConditionId = model.ConditionId,
+                    StatusId = model.StatusId,
+                    Description = model.Description,
+                    Name = model.Name,
+                    Brand = model.Brand,
+                    CreditValue = model.CreditValue,
+                    Image = uniqueFileName
+                };
+
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-            ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name", product.ConditionId);
-            ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name", product.StatusId);
-            return View(product);  //deze moeten we pakken voor te vergelijken dit is een object gemaakt met de gegeven input
+
+            model.Categories = new SelectList(_context.Categories, "Id", "Name");
+            model.Conditions = new SelectList(_context.Conditions, "Id", "Name");
+            model.Statusses = new SelectList(_context.Statuses, "Id", "Name");
+
+            return View(model);  //deze moeten we pakken voor te vergelijken dit is een object gemaakt met de gegeven input
         }
 
         // GET: Products/Edit/5
@@ -187,5 +211,21 @@ namespace RuilwinkelVaals.WebApp.Controllers
         public async Task<IEnumerable<Product>> GetAll()
             => await _context.Product.ToArrayAsync();
 
+        private string UploadedFile(ProductCreateViewModel model)
+        {
+            string uniqueFileName = null;
+
+            if (model.Image != null)
+            {
+                string uploadsFolder = Path.Combine(_env.WebRootPath, "img/products");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Image.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.Image.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
+        }
     }
 }
