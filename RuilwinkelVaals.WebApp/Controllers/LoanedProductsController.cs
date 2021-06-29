@@ -84,11 +84,11 @@ namespace RuilwinkelVaals.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(loanedProduct);
-                await _context.SaveChangesAsync();
                 bool sufficientFunds = CheckBalance(loanedProduct.UserId, loanedProduct.ProductId);
                 if (sufficientFunds)
                 {
+                    _context.Add(loanedProduct);
+                    await _context.SaveChangesAsync();
                     await EditBalance(loanedProduct.UserId, loanedProduct.ProductId);
                     await EditStatus(loanedProduct.ProductId);
                     return RedirectToAction(nameof(Index));
