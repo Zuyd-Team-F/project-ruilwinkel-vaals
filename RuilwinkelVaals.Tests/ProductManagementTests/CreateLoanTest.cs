@@ -45,7 +45,7 @@ namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
             Assert.NotNull(loanResult);
             Assert.Equal(loanedProduct.User, loanResult.User);
             Assert.Equal(0, userResult.Balance);//hier moet nog ff naar gekeken worden
-            Assert.Equal(((int)(Constants.Statuses.Uitgeleend) + 1), productResult.StatusId);
+            Assert.Equal(((int)(Constants.Statuses.Uitgeleend)+1), productResult.StatusId);
         }
         #endregion
     }
