@@ -116,12 +116,12 @@ namespace RuilwinkelVaals.WebApp.Data
             return product;
         }
 
-        public static LoanedProduct GenerateLoanedProduct(Product v1, UserData v2)
+        public static LoanedProduct GenerateLoanedProduct(Product p, UserData u)
         {
             LoanedProduct loanedProduct = new()
             {
-                Product = v1,
-                User = v2,
+                Product = p,
+                User = u,
                 DateStart = DateTime.Now ,
                 DateEnd = DateTime.Now
             };
