@@ -16,15 +16,18 @@ namespace RuilwinkelVaals.Tests
     {
         #region Integration Tests
         [Fact]
-        public static async Task CreateProductViewTest()
+        public static async Task CreateProductTest()
         {
             var context = await TestDb.GetDatabaseContext();
             var controller = new ProductsController(context);
-            var product = DbSeeder.GenerateProduct("Chromebook");
+            var user = DbSeeder.GenerateUser("Naam");
+            user.Balance = 10;
+            context.Users.Add(user);
+            var product = DbSeeder.GenerateProductView("Chromebook", user.Id);
             var result = await controller.Create(product);
             await context.SaveChangesAsync();
             Assert.IsType<RedirectToActionResult>(result);
-            var productResult = await context.Product.FindAsync(product.Id);
+            var productResult = await context.Product.FindAsync(product.Id + 1);
             Assert.NotNull(productResult);
             Assert.Equal(product.Name, productResult.Name);
 
