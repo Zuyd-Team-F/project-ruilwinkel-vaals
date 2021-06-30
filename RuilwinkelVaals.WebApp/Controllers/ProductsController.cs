@@ -78,10 +78,10 @@ namespace RuilwinkelVaals.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                await EditBalance(product.UserId, product.CreditValue);
                 var p = GenerateProduct(product);
                 _context.Add(p);
                 await _context.SaveChangesAsync();
+                await EditBalance(product.UserId, p.CreditValue);
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);

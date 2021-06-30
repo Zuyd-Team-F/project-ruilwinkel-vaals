@@ -132,17 +132,18 @@ namespace RuilwinkelVaals.WebApp.Data
             return product;
         }
 
-        public static ProductViewModel GenerateProductView(string v)
+        public static ProductViewModel GenerateProductView(string n, int u)
         {
             ProductViewModel product = new()
             {
                 CategoryId = new Category("Electronica").Id,
                 ConditionId = new Condition("Zeerslecht").Id,
                 StatusId = new Status("Voorradig").Id,
-                Name = v,
+                Name = n,
                 Brand = "Lenovo",
                 CreditValue = 10,
-                Description = "test test"
+                Description = "test test",
+                UserId = u
             };
             return product;
         }
