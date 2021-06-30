@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -71,12 +70,12 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account
             public string Street { get; set; }
 
             [Required]
-            [Display(Name = "Straat nummer")]
+            [Display(Name = "Nummer")]
             public int StreetNumber { get; set; }
 
           
-            [Display(Name = "Straat nummer toevoeging")]
-            public int StreetAdd { get; set; }
+            [Display(Name = "Toevoeging")]
+            public string StreetAdd { get; set; }
 
 
             [Required]
@@ -126,7 +125,8 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account
                     City = Input.City,
                     PostalCode = Input.PostalCode,
                     Street = Input.Street,
-                    StreetNumber = Input.StreetNumber                    
+                    StreetNumber = Input.StreetNumber,
+                    StreetAdd = Input.StreetAdd
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -151,7 +151,6 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
                 }

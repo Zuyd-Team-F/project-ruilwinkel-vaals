@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using RuilwinkelVaals.WebApp.Data.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
 
 namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account
 {
@@ -21,14 +20,20 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account
         private readonly UserManager<UserData> _userManager;
         private readonly SignInManager<UserData> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IConfiguration _config;
+        private readonly IWebHostEnvironment _env;
 
         public LoginModel(SignInManager<UserData> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<UserData> userManager)
+            UserManager<UserData> userManager,
+            IConfiguration configuration,
+            IWebHostEnvironment env)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _config = configuration;
+            _env = env;
         }
 
         [BindProperty]
@@ -106,6 +111,27 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account
             }
 
             // If we got this far, something failed, redisplay form
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostDevLogin()
+        {
+            if (_env.EnvironmentName == "Development")
+            {
+                var result = await _signInManager.PasswordSignInAsync(
+                    _config.GetSection("DevCredentials")["User"],
+                    _config.GetSection("DevCredentials")["Password"],
+                    Input.RememberMe,
+                    lockoutOnFailure: false
+                );
+
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("Dev is ingelogd.");
+                    return LocalRedirect("~/");
+                }
+            }
+
             return Page();
         }
     }

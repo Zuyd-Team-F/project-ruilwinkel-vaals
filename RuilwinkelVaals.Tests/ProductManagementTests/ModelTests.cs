@@ -21,7 +21,7 @@ namespace RuilwinkelVaals.Tests.ProductManagementTests
             Condition condition = new Condition("Zeerslecht");
 
             //making an instance of status
-            Status status = new Status("Voorraadig");
+            Status status = new Status("Voorradig");
 
             //making an instance of product
             Product item = new Product() { Category = category, Condition = condition, Status = status, Name = "Chromebook", Description = "test test", CreditValue = 123, Brand = "test" };
@@ -42,7 +42,7 @@ namespace RuilwinkelVaals.Tests.ProductManagementTests
             Assert.Equal("Electronica", category.Name);
 
             //testing to see if the input values remain correct when creating the object 
-            Assert.Equal("Voorraadig", status.Name);
+            Assert.Equal("Voorradig", status.Name);
         }
         #endregion
     }
