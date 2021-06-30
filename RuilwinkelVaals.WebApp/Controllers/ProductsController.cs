@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using RuilwinkelVaals.WebApp.Classes;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
 using RuilwinkelVaals.WebApp.ViewModels.Products;
@@ -17,11 +18,13 @@ namespace RuilwinkelVaals.WebApp.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _env;
+        private readonly IImageHandler _imgHandler;
 
-        public ProductsController(ApplicationDbContext context, IWebHostEnvironment env)
+        public ProductsController(ApplicationDbContext context, IWebHostEnvironment env, IImageHandler imageHandler)
         {
             _context = context;
             _env = env;
+            _imgHandler = imageHandler;
         }
 
         // GET: Products
@@ -85,7 +88,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                string uniqueFileName = UploadedFile(model);
+                string uniqueFileName = _imgHandler.UploadedFile(model);
 
                 Product product = new()
                 {
@@ -210,22 +213,5 @@ namespace RuilwinkelVaals.WebApp.Controllers
         [HttpGet]
         public async Task<IEnumerable<Product>> GetAll()
             => await _context.Product.ToArrayAsync();
-
-        private string UploadedFile(ProductCreateViewModel model)
-        {
-            string uniqueFileName = null;
-
-            if (model.Image != null)
-            {
-                string uploadsFolder = Path.Combine(_env.WebRootPath, "img/products");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Image.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    model.Image.CopyTo(fileStream);
-                }
-            }
-            return uniqueFileName;
-        }
     }
 }
