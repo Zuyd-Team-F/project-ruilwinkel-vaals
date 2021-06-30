@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -83,13 +84,59 @@ namespace RuilwinkelVaals.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(loanedProduct);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                bool sufficientFunds = CheckBalance(loanedProduct.UserId, loanedProduct.ProductId);
+                if (sufficientFunds)
+                {
+                    _context.Add(loanedProduct);
+                    await _context.SaveChangesAsync();
+                    await EditBalance(loanedProduct.UserId, loanedProduct.ProductId);
+                    await EditStatus(loanedProduct.ProductId);
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(loanedProduct);
+                
             }
             ViewData["ProductId"] = new SelectList(_context.Product, "Id", "Name", loanedProduct.ProductId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "City", loanedProduct.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "City", loanedProduct.UserId); //geen idee waarom dit werkt ondanks er "City" staat maar wat werkt werkt
             return View(loanedProduct);
+        }
+
+        private bool CheckBalance(int givenUserId, int givenProductId)
+        {
+            var product = _context.Product.Where(p => p.Id == givenProductId).FirstOrDefault();
+            var user = _context.UserData.Where(u => u.Id == givenUserId).FirstOrDefault();
+            int tradedAmount = product.CreditValue;
+            int currentBalance = user.Balance;
+            int newBalance = currentBalance - tradedAmount;
+            if (newBalance >= 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private async Task EditStatus(int givenProductId)
+        {
+            var product = _context.Product.Where(p => p.Id == givenProductId).FirstOrDefault();
+            int status = (int)(Constants.Statuses.Uitgeleend) + 1;
+            product.StatusId = status;
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task<bool> EditBalance(int givenUserId, int givenProductId)
+        {
+            var product = _context.Product.Where(p => p.Id == givenProductId).FirstOrDefault();
+            var user = _context.UserData.Where(u => u.Id == givenUserId).FirstOrDefault();
+            int tradedAmount = product.CreditValue;
+            int currentBalance = user.Balance;
+            int newBalance = currentBalance - tradedAmount;
+            if (newBalance >= 0)
+            {
+                user.Balance = newBalance;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
         // GET: LoanedProducts/Edit/5
@@ -162,7 +209,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            
+
             return View(loanedProduct);
         }
 
@@ -202,6 +249,4 @@ namespace RuilwinkelVaals.WebApp.Controllers
             return _context.LoanedProducts.Any(e => e.Id == id);
         }
     }
-
-
 }
