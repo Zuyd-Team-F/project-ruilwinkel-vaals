@@ -1,10 +1,6 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,10 +9,7 @@ using RuilwinkelVaals.WebApp.Classes;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RuilwinkelVaals.WebApp
 {
@@ -25,7 +18,18 @@ namespace RuilwinkelVaals.WebApp
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             _env = environment;
-            Configuration = configuration;            
+            Configuration = configuration;
+
+            //Clears the images folder in dev environment
+            if (_env.IsDevelopment())
+            {
+                var location = Path.Combine(_env.WebRootPath, "img/products");
+                var folder = new DirectoryInfo(location);
+                foreach (FileInfo file in folder.GetFiles())
+                {
+                    file.Delete();
+                }
+            }
         }
 
         public IConfiguration Configuration { get; }
@@ -52,10 +56,10 @@ namespace RuilwinkelVaals.WebApp
 
             services.AddIdentity<UserData, Role>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddUserManager<UserManagerExtension>()
+                .AddUserManager<UserManagerExtension>()                
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
-         
+                     
             if (_env.IsDevelopment())
             {
                 services.Configure<SecurityStampValidatorOptions>(options =>
@@ -65,11 +69,12 @@ namespace RuilwinkelVaals.WebApp
                 });
             }
 
+            services.AddScoped<IImageHandler, ImageHandler>();
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

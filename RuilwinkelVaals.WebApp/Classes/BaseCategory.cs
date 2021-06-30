@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace RuilwinkelVaals.WebApp.Classes
 {
@@ -13,9 +9,12 @@ namespace RuilwinkelVaals.WebApp.Classes
             Name = name;
         }
 
+        public BaseCategory() { }
+
         [Key]
         public int Id { get; set; }
 
+        [MaxLength(24)]
         [Required]
         public virtual string Name { get; set; }
     }

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RuilwinkelVaals.WebApp.Data.Models
 {
@@ -43,5 +40,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         [Display(Name = "Creditwaarde")]
         public int CreditValue { get; set; }
 
+        [Display(Name = "Foto")]
+        public string Image { get; set; }
     }
 }

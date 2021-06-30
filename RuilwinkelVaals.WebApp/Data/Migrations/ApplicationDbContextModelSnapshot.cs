@@ -17,29 +17,6 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.7");
 
-            modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.Blacklist", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Reason")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Blacklist");
-                });
-
             modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.BusinessData", b =>
                 {
                     b.Property<int>("Id")
@@ -155,6 +132,9 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Image")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
@@ -484,17 +464,6 @@ namespace RuilwinkelVaals.WebApp.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens");
-                });
-
-            modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.Blacklist", b =>
-                {
-                    b.HasOne("RuilwinkelVaals.WebApp.Data.Models.UserData", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RuilwinkelVaals.WebApp.Data.Models.LoanedProduct", b =>
