@@ -69,11 +69,12 @@ namespace RuilwinkelVaals.WebApp
                 });
             }
 
+            services.AddScoped<IImageHandler, ImageHandler>();
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
