@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using RuilwinkelVaals.WebApp.Data.Models;
 using RuilwinkelVaals.WebApp.IdentityOverrides;
+using RuilwinkelVaals.WebApp.ViewModels.Product;
 using System;
 using System.Threading.Tasks;
 using static RuilwinkelVaals.WebApp.Constants;
@@ -123,6 +124,21 @@ namespace RuilwinkelVaals.WebApp.Data
                 Category = new Category("Electronica"),
                 Condition = new Condition("Zeerslecht"),
                 Status = new Status("Voorradig"),
+                Name = v,
+                Brand = "Lenovo",
+                CreditValue = 10,
+                Description = "test test"
+            };
+            return product;
+        }
+
+        public static ProductViewModel GenerateProductView(string v)
+        {
+            ProductViewModel product = new()
+            {
+                CategoryId = new Category("Electronica").Id,
+                ConditionId = new Condition("Zeerslecht").Id,
+                StatusId = new Status("Voorradig").Id,
                 Name = v,
                 Brand = "Lenovo",
                 CreditValue = 10,
