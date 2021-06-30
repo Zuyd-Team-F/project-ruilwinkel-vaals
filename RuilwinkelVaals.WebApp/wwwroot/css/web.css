@@ -1,0 +1,9 @@
+﻿:root {
+    --Purple: #3B1E4A; 
+}
+.navbar{
+    background: var(--Purple);
+}
+.navbar *{
+    color: #fff !important;
+}
