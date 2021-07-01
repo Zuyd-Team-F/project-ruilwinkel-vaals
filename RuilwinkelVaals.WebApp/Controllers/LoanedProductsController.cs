@@ -118,8 +118,8 @@ namespace RuilwinkelVaals.WebApp.Controllers
         private async Task EditStatus(int givenProductId)
         {
             var product = _context.Product.Where(p => p.Id == givenProductId).FirstOrDefault();
-            int status = (int)(Constants.Statuses.Uitgeleend) + 1;
-            product.StatusId = status;
+            product.StatusId = (int)(Constants.Statuses.Uitgeleend) + 1;
+            product.Status = Constants.Statuses.Uitgeleend;
             await _context.SaveChangesAsync();
         }
 
