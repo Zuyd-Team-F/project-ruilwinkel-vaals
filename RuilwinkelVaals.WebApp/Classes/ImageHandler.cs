@@ -31,7 +31,7 @@ namespace RuilwinkelVaals.WebApp.Classes
             // name of the entity in question
             var nameSpace = model.GetType().Namespace.Split('.');
             var entityName = nameSpace[nameSpace.Length - 1].ToLower();
-
+            
             if (model.Image != null)
             {
                 var folder = _storage.Where(s => s.Name.Contains(entityName)).FirstOrDefault().FullName;
@@ -53,7 +53,10 @@ namespace RuilwinkelVaals.WebApp.Classes
             {
                 foreach (var file in folder.GetFiles())
                 {
-                    file.Delete();
+                    if(file.Name != "default.png")
+                    {
+                        file.Delete();
+                    }
                 }
             }
         }
