@@ -12,6 +12,7 @@ using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace RuilwinkelVaals.WebApp
 {
@@ -22,13 +23,13 @@ namespace RuilwinkelVaals.WebApp
             _env = environment;
             Configuration = configuration;
 
-            //Clears the images folder in dev environment
+            var location = Path.Combine(_env.WebRootPath, "img/storage");
+            var storage = new DirectoryInfo(location).GetDirectories();
+
             if (_env.IsDevelopment())
             {
-                var location = Path.Combine(_env.WebRootPath, "img/storage");
-                var folders = new DirectoryInfo(location).GetDirectories();
-
-                ImageHandler.DisposeImages(folders);
+                // Disposes images for dev environment
+                ImageHandler.DisposeImages(storage);
             }
         }
 
