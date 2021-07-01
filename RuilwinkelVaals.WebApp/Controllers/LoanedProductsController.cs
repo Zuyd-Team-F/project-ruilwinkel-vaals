@@ -118,8 +118,9 @@ namespace RuilwinkelVaals.WebApp.Controllers
         private async Task EditStatus(int givenProductId)
         {
             var product = _context.Product.Where(p => p.Id == givenProductId).FirstOrDefault();
-            product.StatusId = (int)(Constants.Statuses.Uitgeleend) + 1;
-            product.Status = Constants.Statuses.Uitgeleend;
+            var status = DbSeeder.GenerateStatus("Uitgeleend", (int)(Constants.Statuses.Uitgeleend) + 1);
+            product.StatusId = status.Id;
+            product.Status.Name = status.Name;
             await _context.SaveChangesAsync();
         }
 
