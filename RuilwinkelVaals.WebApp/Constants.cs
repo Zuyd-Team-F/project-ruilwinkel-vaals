@@ -14,13 +14,11 @@ namespace RuilwinkelVaals.WebApp
 
         public enum Conditions
         {
-            [Display(Name = "Zeer goed")] 
-            ZeerGoed,
+            Zeer_Goed,
             Goed,
             Neutraal,
             Slecht,
-            [Display(Name = "Zeer slecht")] 
-            ZeerSlecht
+            Zeer_Slecht
         };
 
         public enum Statuses
