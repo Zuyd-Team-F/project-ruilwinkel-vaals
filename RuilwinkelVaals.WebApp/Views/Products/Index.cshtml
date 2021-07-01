@@ -54,58 +54,59 @@
     </form>
     *@
 
-    <table id="ProductTable" class="table">
-        <thead>
-            <tr id="table-header">
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Category)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Status)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CreditValue)
-                </th>
-                <th></th>
+<table id="ProductTable" class="table">
+    <caption>Inventaris</caption>
+    <thead>
+        <tr id="table-header">
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreditValue)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="table-entry">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreditValue)
+                </td>
+                <td>
+                    @if (User.IsInRole("User") || User.IsInRole("Medewerker") || User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    }
+                    @if (User.IsInRole("Medewerker") || User.IsInRole("Admin"))
+                    {
+                        <nobr>|</nobr>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Bewerken</a>
+                        <nobr>|</nobr>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a>
+                    }
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr id="table-entry">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Category.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Status.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreditValue)
-                    </td>
-                    <td>
-                        @if (User.IsInRole("User") || User.IsInRole("Medewerker") || User.IsInRole("Admin"))
-                        {
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                        }
-                        @if (User.IsInRole("Medewerker") || User.IsInRole("Admin"))
-                        {
-                            <nobr>|</nobr>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Bewerken</a>
-                            <nobr>|</nobr>
-                            <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a>
-                        }
-                    </td>
-                </tr>
 
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
     <br />
 </div>
 
