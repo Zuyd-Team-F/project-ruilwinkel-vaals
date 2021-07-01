@@ -38,6 +38,8 @@ namespace RuilwinkelVaals.WebApp.ViewModels.Products
         [Display(Name = "Creditwaarde")]
         public int CreditValue { get; set; }
 
+        public int UserId { get; set; }
+
         public SelectList Categories { get; set; }
         public SelectList Conditions { get; set; }
         public SelectList Statusses { get; set; }

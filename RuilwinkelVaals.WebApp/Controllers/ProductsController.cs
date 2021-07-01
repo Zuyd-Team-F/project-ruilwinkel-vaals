@@ -72,15 +72,11 @@ namespace RuilwinkelVaals.WebApp.Controllers
         {
             ProductCreateViewModel model = new();
 
-            model.Categories = new SelectList(_context.Categories, "Id", "Name");
-            model.Conditions = new SelectList(_context.Conditions, "Id", "Name");
-            model.Statusses = new SelectList(_context.Statuses, "Id", "Name");
+            model.Categories = new SelectList(_context.Categories.OrderBy(s => s.Id), "Id", "Name");
+            model.Conditions = new SelectList(_context.Conditions.OrderBy(s => s.Id), "Id", "Name");
+            model.Statusses = new SelectList(_context.Statuses.OrderBy(s => s.Id), "Id", "Name");
 
             return View(model);
-            ViewData["CategoryId"] = new SelectList(_context.Categories.OrderBy(s => s.Id), "Id", "Name");
-            ViewData["ConditionId"] = new SelectList(_context.Conditions.OrderBy(s => s.Id), "Id", "Name");
-            ViewData["StatusId"] = new SelectList(_context.Statuses.OrderBy(s => s.Id), "Id", "Name");
-            return View();
         }
 
         // POST: Products/Create
@@ -108,13 +104,13 @@ namespace RuilwinkelVaals.WebApp.Controllers
 
                 _context.Add(product);
                 await _context.SaveChangesAsync();
-                await EditBalance(product.UserId, p.CreditValue);
+                await EditBalance(model.UserId, product.CreditValue);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-            ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name", product.ConditionId);
-            ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name", product.StatusId);
-            return View(product);  //deze moeten we pakken voor te vergelijken dit is een object gemaakt met de gegeven input
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", model.CategoryId);
+            ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name", model.ConditionId);
+            ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name", model.StatusId);
+            return View(model);  //deze moeten we pakken voor te vergelijken dit is een object gemaakt met de gegeven input
         }
 
         // GET: Products/Edit/5
@@ -216,5 +212,20 @@ namespace RuilwinkelVaals.WebApp.Controllers
         [HttpGet]
         public async Task<IEnumerable<Product>> GetAll()
             => await _context.Product.ToArrayAsync();
+
+        private async Task<bool> EditBalance(int givenUserId, int productValue)
+        {
+            var user = _context.UserData.Where(u => u.Id == givenUserId).FirstOrDefault();
+            int tradedAmount = productValue;
+            int currentBalance = user.Balance;
+            int newBalance = currentBalance + tradedAmount;
+            if (newBalance >= 0)
+            {
+                user.Balance = newBalance;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
     }
 }
