@@ -43,5 +43,5 @@ jobs:
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"Zuyd-Team-F_project-ruilwinkel-vaals" /o:"zuyd-team-f" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build .\RuilwinkelVaals.WebApp
-          dotnet test --settings coverlet.runsettings --logger:trx
+          dotnet test --settings coverlet.runsettings --logger:trx .\RuilwinkelVaals.WebApp
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
