@@ -9,6 +9,7 @@ using RuilwinkelVaals.WebApp.Classes;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
 using System;
+using System.IO;
 
 namespace RuilwinkelVaals.WebApp
 {
@@ -17,7 +18,18 @@ namespace RuilwinkelVaals.WebApp
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             _env = environment;
-            Configuration = configuration;            
+            Configuration = configuration;
+
+            //Clears the images folder in dev environment
+            if (_env.IsDevelopment())
+            {
+                var location = Path.Combine(_env.WebRootPath, "img/products");
+                var folder = new DirectoryInfo(location);
+                foreach (FileInfo file in folder.GetFiles())
+                {
+                    file.Delete();
+                }
+            }
         }
 
         public IConfiguration Configuration { get; }
@@ -57,11 +69,12 @@ namespace RuilwinkelVaals.WebApp
                 });
             }
 
+            services.AddScoped<IImageHandler, ImageHandler>();
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

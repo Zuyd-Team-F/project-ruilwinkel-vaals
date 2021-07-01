@@ -8,3 +8,4 @@
 /obj
 *.env
 /RuilwinkelVaals.Tests/bin/Debug/net5.0
+/RuilwinkelVaals.WebApp/wwwroot/img/storage/*

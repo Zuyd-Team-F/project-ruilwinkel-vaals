@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace RuilwinkelVaals.WebApp.Data.Models
@@ -39,5 +40,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         [Display(Name = "Creditwaarde")]
         public int CreditValue { get; set; }
 
+        [Display(Name = "Foto")]
+        public string Image { get; set; }
     }
 }

@@ -1,23 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using RuilwinkelVaals.WebApp.Classes;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
-using RuilwinkelVaals.WebApp.ViewModels.Product;
+using RuilwinkelVaals.WebApp.ViewModels.Products;
 
 namespace RuilwinkelVaals.WebApp.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _env;
+        private readonly IImageHandler _imgHandler;
 
-        public ProductsController(ApplicationDbContext context)
+        public ProductsController(ApplicationDbContext context, IWebHostEnvironment env, IImageHandler imageHandler)
         {
             _context = context;
+            _env = env;
+            _imgHandler = imageHandler;
         }
 
         // GET: Products
@@ -56,13 +63,20 @@ namespace RuilwinkelVaals.WebApp.Controllers
         [HttpPost]
         public string Index(string searchString, bool notUsed)
         {
-           return "From [HttpPost]Index: filter on " + searchString;
+            return "From [HttpPost]Index: filter on " + searchString;
         }
 
 
         // GET: Products/Create
         public IActionResult Create()
         {
+            ProductCreateViewModel model = new();
+
+            model.Categories = new SelectList(_context.Categories, "Id", "Name");
+            model.Conditions = new SelectList(_context.Conditions, "Id", "Name");
+            model.Statusses = new SelectList(_context.Statuses, "Id", "Name");
+
+            return View(model);
             ViewData["CategoryId"] = new SelectList(_context.Categories.OrderBy(s => s.Id), "Id", "Name");
             ViewData["ConditionId"] = new SelectList(_context.Conditions.OrderBy(s => s.Id), "Id", "Name");
             ViewData["StatusId"] = new SelectList(_context.Statuses.OrderBy(s => s.Id), "Id", "Name");
@@ -74,12 +88,25 @@ namespace RuilwinkelVaals.WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ProductViewModel product)
+        public async Task<IActionResult> Create(ProductCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var p = GenerateProduct(product);
-                _context.Add(p);
+                string uniqueFileName = _imgHandler.UploadedFile(model);
+
+                Product product = new()
+                {
+                    CategoryId = model.CategoryId,
+                    ConditionId = model.ConditionId,
+                    StatusId = model.StatusId,
+                    Description = model.Description,
+                    Name = model.Name,
+                    Brand = model.Brand,
+                    CreditValue = model.CreditValue,
+                    Image = uniqueFileName
+                };
+
+                _context.Add(product);
                 await _context.SaveChangesAsync();
                 await EditBalance(product.UserId, p.CreditValue);
                 return RedirectToAction(nameof(Index));
@@ -87,38 +114,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
             ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name", product.ConditionId);
             ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name", product.StatusId);
-            return View(product);
-            
-        }
-
-        private Product GenerateProduct(ProductViewModel product)
-        {
-            Product p = new()
-            {
-                CategoryId = product.CategoryId,
-                ConditionId = product.ConditionId,
-                StatusId = product.StatusId,
-                Name = product.Name,
-                Brand = product.Brand,
-                CreditValue = product.CreditValue,
-                Description = product.Description
-            };
-            return p;
-        }
-
-        private async Task<bool> EditBalance(int givenUserId, int productValue)
-        {
-            var user = _context.UserData.Where(u => u.Id == givenUserId).FirstOrDefault();
-            int tradedAmount = productValue;
-            int currentBalance = user.Balance;
-            int newBalance = currentBalance + tradedAmount;
-            if (newBalance >= 0)
-            {
-                user.Balance = newBalance;
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            return false;
+            return View(product);  //deze moeten we pakken voor te vergelijken dit is een object gemaakt met de gegeven input
         }
 
         // GET: Products/Edit/5
@@ -220,6 +216,5 @@ namespace RuilwinkelVaals.WebApp.Controllers
         [HttpGet]
         public async Task<IEnumerable<Product>> GetAll()
             => await _context.Product.ToArrayAsync();
-
     }
 }
