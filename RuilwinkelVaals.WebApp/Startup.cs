@@ -24,12 +24,10 @@ namespace RuilwinkelVaals.WebApp
             //Clears the images folder in dev environment
             if (_env.IsDevelopment())
             {
-                var location = Path.Combine(_env.WebRootPath, "img/products");
-                var folder = new DirectoryInfo(location);
-                foreach (FileInfo file in folder.GetFiles())
-                {
-                    file.Delete();
-                }
+                var location = Path.Combine(_env.WebRootPath, "img/storage");
+                var folders = new DirectoryInfo(location).GetDirectories();
+
+                ImageHandler.DisposeImages(folders);
             }
         }
 
