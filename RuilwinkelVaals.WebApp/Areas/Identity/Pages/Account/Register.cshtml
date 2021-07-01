@@ -24,7 +24,7 @@
                         <span asp-validation-for="Input.LastName" class="text-danger"></span>
                     </div>
                 </div>
-            </div>            
+            </div>
             <div class="col-sm">
                 <label asp-for="Input.Phone"></label>
                 <input asp-for="Input.Phone" class="form-control" />
@@ -57,8 +57,8 @@
                         <input asp-for="Input.StreetAdd" class="form-control" />
                         <span asp-validation-for="Input.StreetAdd" class="text-danger"></span>
                     </div>
-                </div>                
-            </div>      
+                </div>
+            </div>
             <div class="container">
                 <div class="row">
                     <div class="col-sm">
@@ -72,19 +72,19 @@
                         <span asp-validation-for="Input.City" class="text-danger"></span>
                     </div>
                 </div>
-            </div>         
+            </div>
 
             <h4>Registreer als bedrijf.</h4>
             <div class="col-sm">
                 <label asp-for="Input.BusinessName"></label>
                 <input asp-for="Input.BusinessName" class="form-control" />
                 <span asp-validation-for="Input.BusinessName" class="text-danger"></span>
-            </div> 
+            </div>
             <div class="col-sm">
                 <label asp-for="Input.BusinessEmail"></label>
                 <input asp-for="Input.BusinessEmail" class="form-control" />
                 <span asp-validation-for="Input.BusinessEmail" class="text-danger"></span>
-            </div> 
+            </div>
             <div class="col-sm">
                 <label asp-for="Input.BusinessPhone"></label>
                 <input asp-for="Input.BusinessPhone" class="form-control" />
@@ -102,7 +102,10 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Registreer</button>
+            <br />
+            <div class="col-sm">
+                <button type="submit" class="btn btn-primary">Registreer</button>
+            </div>
         </form>
     </div>
     @*<div class="col-md-6 col-md-offset-2">

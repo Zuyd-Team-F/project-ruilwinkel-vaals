@@ -1,20 +1,31 @@
-﻿@model RuilwinkelVaals.WebApp.Data.Models.UserData
+﻿@model RuilwinkelVaals.WebApp.ViewModels.Users.UserFormViewModel
 
 <div class="form-group">
-    <label asp-for="BusinessDataId" class="control-label"></label>
-    <select asp-for="BusinessDataId" class="form-control" asp-items="ViewBag.BusinessDataId"></select>
-    <span asp-validation-for="BusinessDataId" class="text-danger"></span>
+    <label asp-for="BusinessId" class="control-label"></label>
+    <select asp-for="BusinessId" class="form-control" asp-items="Model.Businesses"></select>
+    <span asp-validation-for="BusinessId" class="text-danger"></span>
 </div>
-@*<div class="form-group">
+<div class="form-group">
     <label asp-for="RoleId" class="control-label"></label>
-    <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleId"></select>
+    <select asp-for="RoleId" class="form-control" asp-items="Model.Roles"></select>
     <span asp-validation-for="RoleId" class="text-danger"></span>
-</div>*@
-@*<div class="form-group">
-    <label asp-for="Password" class="control-label"></label>
-    <input asp-for="Password" class="form-control" />
-    <span asp-validation-for="Password" class="text-danger"></span>
-</div>*@
+</div>
+@if ((string)ViewData["Title"] != "Edit")
+{
+    <div class="form-group">
+        <label asp-for="Password" class="control-label"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+}
+else
+{
+    <div class="form-group">
+        <label asp-for="Password" class="control-label"></label>
+        <input asp-for="Password" class="form-control" disabled />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+}
 <div class="form-group">
     <label asp-for="FirstName" class="control-label"></label>
     <input asp-for="FirstName" class="form-control" />
@@ -25,11 +36,22 @@
     <input asp-for="LastName" class="form-control" />
     <span asp-validation-for="LastName" class="text-danger"></span>
 </div>
-<div class="form-group">
-    <label asp-for="DateOfBirth" class="control-label"></label>
-    <input asp-for="DateOfBirth" class="form-control" />
-    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-</div>
+@if ((string)ViewData["Title"] != "Edit")
+{
+    <div class="form-group">
+        <label asp-for="DateOfBirth" class="control-label"></label>
+        <input asp-for="DateOfBirth" class="form-control" type="date" />
+        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+    </div>
+}
+else
+{
+    <div class="form-group">
+        <label asp-for="DateOfBirth" class="control-label"></label>
+        <input asp-for="DateOfBirth" class="form-control" type="date" disabled/>
+        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+    </div>
+}
 <div class="form-group">
     <label asp-for="Street" class="control-label"></label>
     <input asp-for="Street" class="form-control" />
