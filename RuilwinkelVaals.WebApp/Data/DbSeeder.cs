@@ -164,5 +164,17 @@ namespace RuilwinkelVaals.WebApp.Data
         {
             return Enum.GetNames(typeof(T));
         }
+
+        public static Status GenerateStatus(string n, int i)
+        {
+            Status status = new()
+            {
+                Id = i,
+                Name = n
+                
+                
+            };
+            return status;
+        }
     }
 }
