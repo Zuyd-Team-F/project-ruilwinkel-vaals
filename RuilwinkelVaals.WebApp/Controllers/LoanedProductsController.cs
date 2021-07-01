@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NToastNotify;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
 
@@ -13,10 +14,12 @@ namespace RuilwinkelVaals.WebApp.Controllers
     public class LoanedProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IToastNotification _toast;
 
-        public LoanedProductsController(ApplicationDbContext context)
+        public LoanedProductsController(ApplicationDbContext context, IToastNotification toastNotification)
         {
             _context = context;
+            _toast = toastNotification;
         }
 
         // GET: LoanedProducts
@@ -82,6 +85,26 @@ namespace RuilwinkelVaals.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ProductId,UserId,DateStart,DateEnd")] LoanedProduct loanedProduct)
         {
+            var products = _context.Product.ToList();
+            List<object> pList = new List<object>();
+            foreach (var p in products)
+                pList.Add(new
+                {
+                    Id = p.Id,
+                    Name = p.Id + " - " + p.Name
+                });
+            ViewData["ProductId"] = new SelectList(pList, "Id", "Name");
+
+            var users = _context.Users.ToList();
+            List<object> uList = new List<object>();
+            foreach (var u in users)
+                uList.Add(new
+                {
+                    Id = u.Id,
+                    Name = u.Id + " - " + u.FirstName + " " + u.LastName
+                });
+            ViewData["UserId"] = new SelectList(uList, "Id", "Name");
+
             if (ModelState.IsValid)
             {
                 bool sufficientFunds = CheckBalance(loanedProduct.UserId, loanedProduct.ProductId);
@@ -93,11 +116,10 @@ namespace RuilwinkelVaals.WebApp.Controllers
                     await EditStatus(loanedProduct.ProductId);
                     return RedirectToAction(nameof(Index));
                 }
-                return View(loanedProduct);
-                
+                _toast.AddErrorToastMessage($"Het saldo van '{_context.Users.Where(u => u.Id == loanedProduct.UserId).FirstOrDefault()}' is te laag");
+                return View(loanedProduct);                
             }
-            ViewData["ProductId"] = new SelectList(_context.Product, "Id", "Name", loanedProduct.ProductId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "City", loanedProduct.UserId); //geen idee waarom dit werkt ondanks er "City" staat maar wat werkt werkt
+
             return View(loanedProduct);
         }
 
