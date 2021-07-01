@@ -67,12 +67,13 @@ namespace RuilwinkelVaals.WebApp.Data
 
         public static async Task SeedConditions(ApplicationDbContext context)
         {
+            
             foreach (string condition in GetEnumArray<Conditions>())
             {
-                await context.Conditions.AddAsync(new(condition));
+                await context.Conditions.AddAsync(new(condition.Replace('_', ' ')));
+                await context.SaveChangesAsync();
             }
 
-            await context.SaveChangesAsync();
         }
 
         public static async Task SeedCategories(ApplicationDbContext context)
@@ -80,9 +81,9 @@ namespace RuilwinkelVaals.WebApp.Data
             foreach (string category in GetEnumArray<Categories>())
             {
                 await context.Categories.AddAsync(new(category));
+                await context.SaveChangesAsync();
             }
-
-            await context.SaveChangesAsync();
+           
         }
 
         public static async Task SeedStatuses(ApplicationDbContext context)
@@ -90,9 +91,9 @@ namespace RuilwinkelVaals.WebApp.Data
             foreach (string status in GetEnumArray<Statuses>())
             {
                 await context.Statuses.AddAsync(new(status));
+                await context.SaveChangesAsync();
             }
 
-            await context.SaveChangesAsync();
         }
 
         public static UserData GenerateUser(string username)
