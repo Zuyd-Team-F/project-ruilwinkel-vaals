@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NToastNotify;
 using RuilwinkelVaals.WebApp.Classes;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
@@ -19,12 +20,14 @@ namespace RuilwinkelVaals.WebApp.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _env;
         private readonly IImageHandler _imgHandler;
+        private readonly IToastNotification _toast;
 
-        public ProductsController(ApplicationDbContext context, IWebHostEnvironment env, IImageHandler imageHandler)
+        public ProductsController(ApplicationDbContext context, IWebHostEnvironment env, IImageHandler imageHandler, IToastNotification toastNotification)
         {
             _context = context;
             _env = env;
             _imgHandler = imageHandler;
+            _toast = toastNotification;
         }
 
         // GET: Products
@@ -104,6 +107,9 @@ namespace RuilwinkelVaals.WebApp.Controllers
 
                 _context.Add(product);
                 await _context.SaveChangesAsync();
+
+                _toast.AddSuccessToastMessage($"Product '{product.Name}' is succesvol opgeslagen!");
+
                 await EditBalance(model.UserId, product.CreditValue);
                 return RedirectToAction(nameof(Index));
             }
