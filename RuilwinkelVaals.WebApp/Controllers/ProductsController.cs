@@ -63,9 +63,9 @@ namespace RuilwinkelVaals.WebApp.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
-            ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name");
-            ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name");
+            ViewData["CategoryId"] = new SelectList(_context.Categories.OrderBy(s => s.Id), "Id", "Name");
+            ViewData["ConditionId"] = new SelectList(_context.Conditions.OrderBy(s => s.Id), "Id", "Name");
+            ViewData["StatusId"] = new SelectList(_context.Statuses.OrderBy(s => s.Id), "Id", "Name");
             return View();
         }
 
