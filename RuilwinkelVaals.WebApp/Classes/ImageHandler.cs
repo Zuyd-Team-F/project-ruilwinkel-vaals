@@ -19,12 +19,7 @@ namespace RuilwinkelVaals.WebApp.Classes
             var location = Path.Combine(_env.WebRootPath, "img/storage");
             var folders = new DirectoryInfo(location).GetDirectories();
 
-            _storage = new DirectoryInfo[folders.Length];
-
-            for(int i = 0; i < folders.Length; i++)
-            {
-                _storage[i] = folders[i];
-            }
+            _storage = folders;
         }
 
         public string UploadedFile(ImageViewModel model)
@@ -50,6 +45,22 @@ namespace RuilwinkelVaals.WebApp.Classes
                 }
             }
             return uniqueFileName;
+        }
+
+        public static void DisposeImages(DirectoryInfo[] folders)
+        {
+            foreach (var folder in folders)
+            {
+                foreach (var file in folder.GetFiles())
+                {
+                    file.Delete();
+                }
+            }
+        }
+
+        public void DisposeImages()
+        {
+            DisposeImages(_storage);
         }
     }
 }
