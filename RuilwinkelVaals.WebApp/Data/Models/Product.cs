@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using RuilwinkelVaals.WebApp.Classes;
+using RuilwinkelVaals.WebApp.Data.Models.Interfaces;
 using System;
 using System.ComponentModel.DataAnnotations;
 
