@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RuilwinkelVaals.WebApp.ViewModels.Products
 {
-    public class ProductCreateViewModel : ImageViewModel
+    public class ProductCreateViewModel : IImageViewModel
     {
         [Required(ErrorMessage = "Kies een categorie")]
         [Display(Name = "Categorie")]
@@ -43,5 +43,7 @@ namespace RuilwinkelVaals.WebApp.ViewModels.Products
         public SelectList Categories { get; set; }
         public SelectList Conditions { get; set; }
         public SelectList Statusses { get; set; }
+
+        public IFormFile Image { get; set; }
     }
 }
