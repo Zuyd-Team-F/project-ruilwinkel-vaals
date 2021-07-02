@@ -38,7 +38,8 @@ namespace RuilwinkelVaals.Tests
             //..
             //..
             var result = (await controller.GetAll()).ToArray();
-            Assert.Equal(1, 1);
+            Assert.Single(result);
+            Assert.Equal("Chromebook", result[0].Name);
         }
         #endregion
     }
