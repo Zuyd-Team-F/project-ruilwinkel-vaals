@@ -45,6 +45,7 @@ namespace RuilwinkelVaals.WebApp
                 .Build();
 
             return Host.CreateDefaultBuilder(args)
+                    .ConfigureMetrics(Metrics)
                     .UseMetrics(
                         options =>
                         {
