@@ -1,3 +1,6 @@
+using App.Metrics;
+using App.Metrics.AspNetCore;
+using App.Metrics.Formatters.Prometheus;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -6,11 +9,14 @@ using RuilwinkelVaals.WebApp.Classes.Services;
 using RuilwinkelVaals.WebApp.Data;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace RuilwinkelVaals.WebApp
 {
     public class Program
     {
+        public static IMetricsRoot Metrics { get; set; }
+
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
