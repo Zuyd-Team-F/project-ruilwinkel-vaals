@@ -134,8 +134,6 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 _context.Add(testProduct);
                 await _context.SaveChangesAsync();
 
-                _toast.AddSuccessToastMessage($"Product '{testProduct.Name}' is succesvol opgeslagen!");
-
                 await EditBalance(model.UserId, testProduct.CreditValue);
                 return RedirectToAction(nameof(Index));
             }

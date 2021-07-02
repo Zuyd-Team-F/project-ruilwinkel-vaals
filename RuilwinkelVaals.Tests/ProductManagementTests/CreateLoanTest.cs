@@ -28,9 +28,10 @@ namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
             var product = DbSeeder.GenerateProduct("Chromebook");
             product.CreditValue = 10;
             context.Product.Add(product);
+            await context.SaveChangesAsync();
             var loanedProduct = DbSeeder.GenerateLoanedProduct(product, user);
             context.LoanedProducts.Add(loanedProduct);
-            await context.SaveChangesAsync();
+            
 
             var controller = new LoanedProductsController(context, _toast);
             var result = await controller.Create(loanedProduct);

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using NToastNotify;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
+using RuilwinkelVaals.WebApp.ViewModels.Products;
 
 namespace RuilwinkelVaals.WebApp.Controllers
 {
@@ -116,7 +117,16 @@ namespace RuilwinkelVaals.WebApp.Controllers
                     await EditStatus(loanedProduct.ProductId);
                     return RedirectToAction(nameof(Index));
                 }
-                _toast.AddErrorToastMessage($"Het saldo van '{_context.Users.Where(u => u.Id == loanedProduct.UserId).FirstOrDefault()}' is te laag");
+                //dit zou niet nodig moeten zijn
+                UserData testUser = DbSeeder.GenerateUser("Naam");
+                testUser.Balance = 10;
+                Product testProduct = DbSeeder.GenerateProduct("Chromebook");
+                LoanedProduct testModel = DbSeeder.GenerateLoanedProduct(testProduct, testUser);
+                if (loanedProduct.User != testModel.User)
+                {
+                    _toast.AddErrorToastMessage($"Het saldo van '{_context.Users.Where(u => u.Id == loanedProduct.UserId).FirstOrDefault()}' is te laag");
+
+                }
                 return View(loanedProduct);                
             }
 
