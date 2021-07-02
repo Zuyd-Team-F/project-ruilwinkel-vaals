@@ -10,31 +10,22 @@ namespace RuilwinkelVaals.WebApp.Classes
     public class ImageHandler : IImageHandler
     {
         private readonly DirectoryInfo[] _storage;
-        private readonly IWebHostEnvironment _env;
 
         public ImageHandler(IWebHostEnvironment environment) 
         {
-            _env = environment;
-
-            var location = Path.Combine(_env.WebRootPath, "img/storage");
+            var location = Path.Combine(environment.WebRootPath, "img/storage");
             var folders = new DirectoryInfo(location).GetDirectories();
 
             _storage = folders;
         }
 
-        public string UploadedFile(ImageViewModel model)
+        public string UploadedFile(IImageViewModel model)
         {
             string uniqueFileName = null;
 
-            // Fetches the namespace of the entity
-            // which always yields the correct
-            // name of the entity in question
-            var nameSpace = model.GetType().Namespace.Split('.');
-            var entityName = nameSpace[nameSpace.Length - 1].ToLower();
-            
             if (model.Image != null)
             {
-                var folder = _storage.Where(s => s.Name.Contains(entityName)).FirstOrDefault().FullName;
+                var folder = GetEntityStorageFolderPath(model);
 
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Image.FileName;
                 string filePath = Path.Combine(folder, uniqueFileName);
@@ -47,13 +38,19 @@ namespace RuilwinkelVaals.WebApp.Classes
             return uniqueFileName;
         }
 
-        public static void DisposeImages(DirectoryInfo[] folders)
+        public void RemoveFile(IImageModel model)
+        {
+            DirectoryInfo folder = new(GetEntityStorageFolderPath(model));
+            folder.GetFiles().FirstOrDefault(f => f.Name == model.Image).Delete();
+        }
+
+        public void DisposeImages(DirectoryInfo[] folders)
         {
             foreach (var folder in folders)
             {
                 foreach (var file in folder.GetFiles())
                 {
-                    if(file.Name != "default.png")
+                    if (file.Name != "default.png")
                     {
                         file.Delete();
                     }
@@ -61,9 +58,14 @@ namespace RuilwinkelVaals.WebApp.Classes
             }
         }
 
-        public void DisposeImages()
+        public string GetEntityStorageFolderPath(object model)
         {
-            DisposeImages(_storage);
+            // Fetches the namespace of the entity
+            // which always yields the correct
+            // name of the entity in question
+            var nameSpace = model.GetType().Namespace.Split('.');
+            var entityName = nameSpace[nameSpace.Length - 1].ToLower();
+            return _storage.FirstOrDefault(s => s.Name.Contains(entityName)).FullName;
         }
     }
 }
