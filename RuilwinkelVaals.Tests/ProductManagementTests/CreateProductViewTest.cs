@@ -27,7 +27,6 @@ namespace RuilwinkelVaals.Tests
         public async Task CreateProductTest()
         {
             var context = await TestDb.GetDatabaseContext();
-
             var controller = new ProductsController(context, _imgHandler, _env, _toast);
             var user = DbSeeder.GenerateUser("Naam");
             user.Balance = 10;

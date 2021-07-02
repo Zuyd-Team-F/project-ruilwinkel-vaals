@@ -30,10 +30,13 @@ namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
             context.Product.Add(product);
             var loanedProduct = DbSeeder.GenerateLoanedProduct(product, user);
             context.LoanedProducts.Add(loanedProduct);
+            await context.SaveChangesAsync();
+
             var controller = new LoanedProductsController(context, _toast);
             var result = await controller.Create(loanedProduct);
             await context.SaveChangesAsync();
             Assert.IsType<RedirectToActionResult>(result);
+
             var productResult = await context.Product.FindAsync(product.Id);
             Assert.NotNull(productResult);
             Assert.Equal(product.Name, productResult.Name);
