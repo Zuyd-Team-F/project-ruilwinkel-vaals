@@ -45,21 +45,27 @@ namespace RuilwinkelVaals.WebApp.Classes
 					int statusId = Database.GetStatusId(statusName, context);
 					int conditionId = Database.GetConditionId(conditionName, context);
 
+					Product product = new Product() { Name = name, Brand = brand, Description = description, CategoryId = categoryId, ConditionId = conditionId, CreditValue = creditValue, StatusId = statusId };
+
 					//Checks if all data entered in CSV is valid.
-					(bool addToDb, string feedback) = CheckEvent.checkProductVars(name, description, brand, categoryId, statusId, conditionId, creditValue);
-		            if (addToDb)
-		            {
-						Product product = new Product() { Name = name, Brand = brand, Description = description, CategoryId = categoryId, ConditionId = conditionId, CreditValue = creditValue, StatusId = statusId };
-						Database.AddProduct(product, context);
-						feedbackList.Add(name + " has been added!");
-					}
-		            else
-		            {
-						feedbackList.Add(feedback);
-		            }
-		        }
+					feedbackList = Import.checkAndWrite(product, feedbackList, context);
+				}
 				return feedbackList;
 		    }
+		}
+		public static List<string> checkAndWrite(Product product, List<string> feedbackList, ApplicationDbContext context)
+        {
+			(bool addToDb, string feedback) = CheckEvent.checkProductVars(product.Name, product.Description, product.Brand, product.CategoryId, product.StatusId, product.ConditionId, product.CreditValue);
+			if (addToDb)
+			{
+				Database.AddProduct(product, context);
+				feedbackList.Add(product.Name + " has been added!");
+			}
+			else
+			{
+				feedbackList.Add(feedback);
+			}
+			return feedbackList;
 		}
 	}
 }
