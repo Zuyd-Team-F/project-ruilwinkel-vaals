@@ -117,7 +117,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
                     await EditStatus(loanedProduct.ProductId);
                     return RedirectToAction(nameof(Index));
                 }
-                toast.AddErrorToastMessage($"Het saldo van '{_context.Users.Where(u => u.Id == loanedProduct.UserId).FirstOrDefault()}' is te laag");
+                _toast.AddErrorToastMessage($"Het saldo van '{_context.Users.Where(u => u.Id == loanedProduct.UserId).FirstOrDefault()}' is te laag");
                 return View(loanedProduct);                
             }
 

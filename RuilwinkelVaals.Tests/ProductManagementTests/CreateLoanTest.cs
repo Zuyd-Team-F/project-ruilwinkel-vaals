@@ -41,8 +41,7 @@ namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
             context.Product.Add(product);
             await context.SaveChangesAsync();
             var loanedProduct = DbSeeder.GenerateLoanedProduct(product, user);
-            context.LoanedProducts.Add(loanedProduct);
-            
+            context.LoanedProducts.Add(loanedProduct);            
 
             var controller = new LoanedProductsController(context, toast.Object);
             var result = await controller.Create(loanedProduct);

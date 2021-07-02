@@ -43,7 +43,8 @@ namespace RuilwinkelVaals.Tests
             context.SaveChanges();
 
             var product = DbSeeder.GenerateProduct("Chromebook", catModel.Id, condModel.Id, statModel.Id);
-            var result = await controller.Create(product);
+            var viewModel = DbSeeder.ConvertToViewModel(product, userModel.Id);
+            var result = await controller.Create(viewModel);
             await context.SaveChangesAsync();
 
             Assert.IsType<RedirectToActionResult>(result);

@@ -149,6 +149,24 @@ namespace RuilwinkelVaals.WebApp.Data
             return product;
         }
 
+        public static ProductCreateViewModel ConvertToViewModel(Product product, int userId)
+        {
+            var viewModel = new ProductCreateViewModel()
+            {
+                Id = product.Id,
+                CategoryId = product.CategoryId,
+                StatusId = product.StatusId,
+                ConditionId = product.ConditionId,
+                Description = product.Description,
+                CreditValue = product.CreditValue,
+                Brand = product.Brand,
+                Name = product.Name,
+                UserId = userId
+            };
+
+            return viewModel;
+        }
+
         public static LoanedProduct GenerateLoanedProduct(Product p, UserData u)
         {
             LoanedProduct loanedProduct = new()
