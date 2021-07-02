@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -63,7 +60,8 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
 
         private async Task LoadAsync(UserData user)
         {
-            var userName = await _userManagerExtension.GetUserNameAsync(user);
+            // This line is not necessary?
+            // var userName = await _userManagerExtension.GetUserNameAsync(user);
             var phoneNumber = await _userManagerExtension.GetPhoneNumberAsync(user);
 
             Input = new InputModel

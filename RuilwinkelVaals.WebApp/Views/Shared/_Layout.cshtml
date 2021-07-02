@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Ruilwinkel Vaals </title>
+    <title>@ViewData["Title"] - RuilwinkelVaals.WebApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <partial name="_Favicons" />
@@ -37,17 +37,16 @@
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-link"><a class="nav-link" asp-controller="Products" asp-action="Index">Inventaris</a></li>
-                            <li class="nav-link"><a class="nav-link" asp-controller="" asp-action="">Retourneren</a></li>
                         }
-                        @if (User.IsInRole("Admin"))
+                        @if (User.IsInRole("Medewerker") || User.IsInRole("Admin"))
                         {
-                            <li class="nav-link"><a class="nav-link" asp-controller="Categories" asp-action="Index">Categories</a></li>
+                            <li class="nav-link"><a class="nav-link" asp-controller="LoanedProducts" asp-action="Index">Ruilen</a></li>
                             <li class="nav-link"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registreren</a></li>
+                        }
+                        @if (User.IsInRole("Admin") )
+                        {
                             <li class="nav-link"><a class="nav-link" asp-controller="Users" asp-action="Index">Gebruikers</a></li>
-                        }
-                        @if (User.IsInRole("Medewerker"))
-                        {
-                            <li class="nav-link"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registreren</a></li>
+                            <li class="nav-link"><a class="nav-link" asp-controller="Categories" asp-action="Index">Categories</a></li>
                         }
                     </ul>
                     <partial name="_LoginPartial" />
@@ -68,20 +67,20 @@
     <footer class="border-top footer text-muted">
         <div class="container">
             @*<h3>Contact</h3>
-                <b>Adres: </b> Kerkstraat 46, Vaals
-                <br />
-                <b>Tel: </b> +31 6 20 74 98 86
-                <h5>Openingstijden:</h5>
-                <ul>
-                    <li>Dinsdag 10.00-14.00</li>
-                    <li>Woensdag 12.00-16.00</li>
-                    <li>Donderdag 10.00-14.00</li>
-                    <li>Elke eerste zaterdag van de maand 11.00-15.00</li>
-                </ul>*@
+        <strong>Adres: </strong> Kerkstraat 46, Vaals
+        <br />
+        <strong>Tel: </strong> +31 6 20 74 98 86
+        <h5>Openingstijden:</h5>
+        <ul>
+            <li>Dinsdag 10.00-14.00</li>
+            <li>Woensdag 12.00-16.00</li>
+            <li>Donderdag 10.00-14.00</li>
+            <li>Elke eerste zaterdag van de maand 11.00-15.00</li>
+        </ul>*@
         </div>
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RuilwinkelVaals.WebApp.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using RuilwinkelVaals.WebApp.IdentityOverrides;
 
 namespace RuilwinkelVaals.WebApp.Data
 {
@@ -23,7 +20,6 @@ namespace RuilwinkelVaals.WebApp.Data
         public DbSet<Remark> Remarks { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<LoanedProduct> LoanedProducts { get; set; }
-        public DbSet<Blacklist> Blacklist { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -41,7 +37,8 @@ namespace RuilwinkelVaals.WebApp.Data
 
             builder.Entity<UserRole>(entity =>
             {
-                entity.ToTable("UserRoles");
+                entity.ToTable("UserRoles")
+                .HasIndex(r => r.UserId).IsUnique();
             });
 
             builder.Entity<UserClaim>(entity =>
@@ -51,7 +48,7 @@ namespace RuilwinkelVaals.WebApp.Data
 
             builder.Entity<UserLogin>(entity =>
             {
-                entity.ToTable("UserLogins");    
+                entity.ToTable("UserLogins");
             });
 
             builder.Entity<RoleClaim>(entity =>
@@ -66,8 +63,8 @@ namespace RuilwinkelVaals.WebApp.Data
             });
 
             builder.Entity<BusinessData>()
-            .HasIndex(u => u.Name)
-            .IsUnique();
+                .HasIndex(u => u.Name)
+                .IsUnique();
 
             builder.Entity<BusinessData>()
                 .HasIndex(u => u.Email)

@@ -38,6 +38,7 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account
 
         public void OnGet()
         {
+            throw new NotImplementedException();
         }
 
         public async Task<IActionResult> OnPostAsync()

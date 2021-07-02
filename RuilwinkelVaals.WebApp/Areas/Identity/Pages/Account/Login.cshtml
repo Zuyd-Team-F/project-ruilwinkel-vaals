@@ -1,17 +1,18 @@
 ﻿@page
 @model LoginModel
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment hostingEnv
 
 @{
     ViewData["Title"] = "Inloggen";
 }
 
-<div class="row justify-content-md-center">    
+<div class="row justify-content-md-center">
     <div class="col-md-4">
         <h1>@ViewData["Title"]</h1>
         <section>
             <form id="account" method="post">
                 @*<h4>Gebruik een lokaal account om in te loggen.</h4>
-                <hr />*@
+                    <hr />*@
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Input.Email"></label>
@@ -34,15 +35,21 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Inloggen</button>
                 </div>
-                <div class="form-group">
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Wachtwoord vergeten?</a>
-                    </p>
-                    <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Verzend opnieuw email verificatie</a>
-                    </p>
-                </div>
             </form>
+            @if (hostingEnv.EnvironmentName == "Development")
+            {
+            <form asp-page-handler="DevLogin" method="post">
+                <button class="btn btn-danger">DevPower</button>
+            </form>
+            }
+            <div class="form-group">
+                <p>
+                    <a id="forgot-password" asp-page="./ForgotPassword">Wachtwoord vergeten?</a>
+                </p>
+                <p>
+                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Verzend opnieuw email verificatie</a>
+                </p>
+            </div>
         </section>
     </div>
     @*<div class="col-md-6 col-md-offset-2">

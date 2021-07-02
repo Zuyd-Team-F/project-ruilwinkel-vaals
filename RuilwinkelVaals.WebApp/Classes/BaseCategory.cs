@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace RuilwinkelVaals.WebApp.Classes
 {
     public abstract class BaseCategory
     {        
-        public BaseCategory(string name)
+        protected BaseCategory(string name)
         {
             Name = name;
         }
 
+        protected BaseCategory() { }
+
         [Key]
         public int Id { get; set; }
 
+        [MaxLength(24)]
         [Required]
         public virtual string Name { get; set; }
     }
