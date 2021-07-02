@@ -18,11 +18,15 @@ namespace RuilwinkelVaals.WebApp.Controllers
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IWebHostEnvironment _env;
         private readonly IImageHandler _imgHandler;
+        private readonly IWebHostEnvironment _env;
         private readonly IToastNotification _toast;
 
-        public ProductsController(ApplicationDbContext context, IWebHostEnvironment env, IImageHandler imageHandler, IToastNotification toastNotification)
+        public ProductsController(
+            ApplicationDbContext context, 
+            IImageHandler imageHandler, 
+            IWebHostEnvironment env, 
+            IToastNotification toastNotification)
         {
             _context = context;
             _env = env;
@@ -205,6 +209,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Product.FindAsync(id);
+            _imgHandler.RemoveFile(product);
             _context.Product.Remove(product);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
