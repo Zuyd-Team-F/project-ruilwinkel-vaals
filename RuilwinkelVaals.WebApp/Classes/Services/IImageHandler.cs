@@ -1,7 +1,9 @@
-﻿using RuilwinkelVaals.WebApp.ViewModels;
+﻿using RuilwinkelVaals.WebApp.Data.Models.Interfaces;
+using RuilwinkelVaals.WebApp.ViewModels;
+using RuilwinkelVaals.WebApp.ViewModels.Interfaces;
 using System.IO;
 
-namespace RuilwinkelVaals.WebApp.Classes
+namespace RuilwinkelVaals.WebApp.Classes.Services
 {
     public interface IImageHandler
     {

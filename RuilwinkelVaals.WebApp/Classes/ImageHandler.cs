@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using RuilwinkelVaals.WebApp.ViewModels;
+using RuilwinkelVaals.WebApp.Classes.Services;
+using RuilwinkelVaals.WebApp.Data.Models.Interfaces;
+using RuilwinkelVaals.WebApp.ViewModels.Interfaces;
 using System;
 using System.IO;
 using System.Linq;
