@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -79,11 +80,7 @@ namespace RuilwinkelVaals.WebApp
                 app.UseHsts();
             }
 
-            // Traefik will manage Https
-            // If Traefik is to be used, add this: app.UseHttpsRedirection(); 
-
             app.UseStaticFiles();
-
             app.UseRouting();
 
             app.UseAuthentication();
