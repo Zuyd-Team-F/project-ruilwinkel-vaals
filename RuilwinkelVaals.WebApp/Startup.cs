@@ -59,7 +59,7 @@ namespace RuilwinkelVaals.WebApp
             }
 
             services.AddDatabaseDeveloperPageExceptionFilter();
-
+            services.AddRazorPages();
             services.AddControllersWithViews();
             services.AddRazorPages();
 
