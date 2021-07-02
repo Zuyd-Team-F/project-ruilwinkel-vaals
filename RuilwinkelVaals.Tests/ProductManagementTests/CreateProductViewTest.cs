@@ -32,8 +32,8 @@ namespace RuilwinkelVaals.Tests
             var category = "Electronica";
             var condition = "Zeer Slecht";
             var status = "Voorradig";
-            context.Categories.Add(new Category(category));
-            context.Conditions.Add(new Condition(condition));
+            var catModel = context.Categories.Add(new Category(category));
+            var context.Conditions.Add(new Condition(condition));
             context.Statuses.Add(new Status(status));
 
             var user = DbSeeder.GenerateUser("Naam");

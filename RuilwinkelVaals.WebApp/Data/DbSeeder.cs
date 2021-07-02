@@ -138,9 +138,9 @@ namespace RuilwinkelVaals.WebApp.Data
         {
             Product product = new()
             {
-                Category = new Category("Electronica"),
-                Condition = new Condition("Zeerslecht"),
-                Status = new Status("Voorradig"),
+                CategoryId = categoryId,
+                ConditionId = conditionId,
+                StatusId = statusId,
                 Name = name,
                 Brand = "Lenovo",
                 CreditValue = 10,
