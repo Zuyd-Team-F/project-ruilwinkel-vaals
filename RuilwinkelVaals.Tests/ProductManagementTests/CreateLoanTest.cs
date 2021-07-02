@@ -25,9 +25,18 @@ namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
             var context = await TestDb.GetDatabaseContext();
             await DbSeeder.SeedStatuses(context);
             var user = DbSeeder.GenerateUser("Naam");
+
             user.Balance = 10;
             context.Users.Add(user);
-            var product = DbSeeder.GenerateProduct("Chromebook");
+
+            var category = "Electronica";
+            var condition = "Zeer Slecht";
+            var status = "Voorradig";
+            var catModel = context.Categories.Add(new Category(category)).Entity;
+            var condModel = context.Conditions.Add(new Condition(condition)).Entity;
+            var StatModel = context.Statuses.Add(new Status(status)).Entity;
+
+            var product = DbSeeder.GenerateProduct("Chromebook", catModel.Id, condModel.Id, StatModel.Id);
             product.CreditValue = 10;
             context.Product.Add(product);
             await context.SaveChangesAsync();
