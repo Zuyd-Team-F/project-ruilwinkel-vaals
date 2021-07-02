@@ -11,6 +11,9 @@ namespace RuilwinkelVaals.WebApp.ViewModels.Products
 {
     public class ProductCreateViewModel : IImageViewModel
     {
+        [Key]
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Kies een categorie")]
         [Display(Name = "Categorie")]
         public int CategoryId { get; set; }

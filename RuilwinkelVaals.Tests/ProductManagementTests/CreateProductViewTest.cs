@@ -9,6 +9,7 @@ using Xunit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using RuilwinkelVaals.WebApp.ViewModels.Products;
 
 namespace RuilwinkelVaals.Tests
 {
@@ -23,7 +24,7 @@ namespace RuilwinkelVaals.Tests
             var user = DbSeeder.GenerateUser("Naam");
             user.Balance = 10;
             context.Users.Add(user);
-            var product = DbSeeder.GenerateProductView("Chromebook", user.Id);
+            ProductCreateViewModel product = DbSeeder.GenerateProductView("Chromebook", user.Id);
             var result = await controller.Create(product);
             await context.SaveChangesAsync();
             Assert.IsType<RedirectToActionResult>(result);
