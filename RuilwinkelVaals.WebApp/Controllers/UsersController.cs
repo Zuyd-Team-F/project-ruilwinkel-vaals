@@ -20,7 +20,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManagerExtension _userManager;
 
-        public ApplicationDbContext TestDatabase { get; }
+        //public ApplicationDbContext TestDatabase { get; }
 
         public UsersController(ApplicationDbContext context, UserManagerExtension userManager)
         {
@@ -28,10 +28,10 @@ namespace RuilwinkelVaals.WebApp.Controllers
             _context = context;
         }
 
-        public UsersController(ApplicationDbContext testDatabase)
+        /*public UsersController(ApplicationDbContext testDatabase)
         {
             TestDatabase = testDatabase;
-        }
+        }*/
 
         // GET: Users
         public async Task<IActionResult> Index()
