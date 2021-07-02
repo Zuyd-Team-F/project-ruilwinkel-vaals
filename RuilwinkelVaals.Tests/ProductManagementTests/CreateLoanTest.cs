@@ -10,16 +10,18 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using RuilwinkelVaals.WebApp;
 using NToastNotify;
+using Moq;
 
 namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
 {
     public class CreateLoanTest
     {
-        private readonly IToastNotification _toast;
+
         #region integration test
         [Fact]
         public async Task CreateLoanedProductViewTest()
         {
+            var toast = new Mock<IToastNotification>();
             var context = await TestDb.GetDatabaseContext();
             await DbSeeder.SeedStatuses(context);
             var user = DbSeeder.GenerateUser("Naam");
@@ -33,7 +35,7 @@ namespace RuilwinkelVaals.Tests.ProductManagementTests.Viewtests
             context.LoanedProducts.Add(loanedProduct);
             
 
-            var controller = new LoanedProductsController(context, _toast);
+            var controller = new LoanedProductsController(context, toast.Object);
             var result = await controller.Create(loanedProduct);
             await context.SaveChangesAsync();
             Assert.IsType<RedirectToActionResult>(result);
