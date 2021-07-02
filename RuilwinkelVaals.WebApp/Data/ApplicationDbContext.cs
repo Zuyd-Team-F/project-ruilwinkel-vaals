@@ -35,12 +35,6 @@ namespace RuilwinkelVaals.WebApp.Data
                 entity.ToTable(name: "Roles");
             });
 
-            /*builder.Ignore<UserToken>();
-            builder.Ignore<UserClaim>();
-            builder.Ignore<UserLogin>();
-            builder.Ignore<RoleClaim>();
-            builder.Ignore<UserRole>();*/
-
             builder.Entity<UserRole>(entity =>
             {
                 entity.ToTable("UserRoles")

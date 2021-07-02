@@ -4,12 +4,12 @@ namespace RuilwinkelVaals.WebApp.Classes
 {
     public abstract class BaseCategory
     {        
-        public BaseCategory(string name)
+        protected BaseCategory(string name)
         {
             Name = name;
         }
 
-        public BaseCategory() { }
+        protected BaseCategory() { }
 
         [Key]
         public int Id { get; set; }
