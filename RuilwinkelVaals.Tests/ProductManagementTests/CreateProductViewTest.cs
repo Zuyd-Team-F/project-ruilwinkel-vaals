@@ -32,27 +32,17 @@ namespace RuilwinkelVaals.Tests
             var category = "Electronica";
             var condition = "Zeer Slecht";
             var status = "Voorradig";
-            var catModel = context.Categories.Add(new Category(category));
-            var context.Conditions.Add(new Condition(condition));
-            context.Statuses.Add(new Status(status));
+            var catModel = context.Categories.Add(new Category(category)).Entity;
+            var condModel = context.Conditions.Add(new Condition(condition)).Entity;
+            var statModel = context.Statuses.Add(new Status(status)).Entity;
+            context.SaveChanges();
 
             var user = DbSeeder.GenerateUser("Naam");
             user.Balance = 10;
-            context.Users.Add(user);
+            var userModel = context.Users.Add(user).Entity;
             context.SaveChanges();
 
-            ProductCreateViewModel product = new()
-            {
-                CategoryId = context.Categories.FirstOrDefault(c => c.Name == ),
-                ConditionId = ,
-                StatusId = ,
-                Name = "Chromebook",
-                Brand = "Lenovo",
-                CreditValue = 10,
-                Description = "test test",
-                UserId = user.Id
-            };
-
+            var product = DbSeeder.GenerateProduct("Chromebook", catModel.Id, condModel.Id, statModel.Id);
             var result = await controller.Create(product);
             await context.SaveChangesAsync();
 
