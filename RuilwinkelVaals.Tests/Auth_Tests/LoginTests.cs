@@ -73,6 +73,7 @@ namespace RuilwinkelVaals.Tests.Auth_Tests
                     var id = (await context.Users.AddAsync(x)).Entity.Id;
                     await context.SaveChangesAsync();
                     user1.Id = id;
+                    user2.Id = id;
                 });
 
             userManager.Setup(um => um.SetRoleAsync(It.IsAny<UserData>(), It.IsAny<string>()))
@@ -87,7 +88,7 @@ namespace RuilwinkelVaals.Tests.Auth_Tests
             // Creating the Controller
             var controller = new UsersController(context, userManager.Object);
 
-            // Let controller create user
+            // Create new users
             var controllerResult1 = await controller.Create(user1);
             bool isSucces = false;
             try
