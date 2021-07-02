@@ -117,7 +117,7 @@ namespace RuilwinkelVaals.Tests.Auth_Tests
             var userRole = context.UserRoles.Where(ur => ur.UserId == user1.Id && ur.RoleId == role.Id).FirstOrDefault();
             Assert.NotNull(userRole);
             #endregion
-            #endregion
         }
+        #endregion
     }
 }
