@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="App.Metrics.AspNetCore.All" Version="4.2.0" />
+    <PackageReference Include="App.Metrics.AspNetCore.Mvc" Version="4.2.0" />
+    <PackageReference Include="App.Metrics.AspNetCore.Tracking" Version="4.2.0" />
+    <PackageReference Include="App.Metrics.Prometheus" Version="4.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.7" />
