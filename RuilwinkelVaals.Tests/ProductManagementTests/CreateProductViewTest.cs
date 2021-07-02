@@ -10,17 +10,25 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using RuilwinkelVaals.WebApp.ViewModels.Products;
+using RuilwinkelVaals.WebApp.Classes.Services;
+using Microsoft.AspNetCore.Hosting;
+using NToastNotify;
 
 namespace RuilwinkelVaals.Tests
 {
-    public static class CreateProductTests
+    public class CreateProductTests
     {
+        private readonly IImageHandler _imgHandler;
+        private readonly IWebHostEnvironment _env;
+        private readonly IToastNotification _toast;
+
         #region Integration Tests
         [Fact]
-        public static async Task CreateProductTest()
+        public async Task CreateProductTest()
         {
             var context = await TestDb.GetDatabaseContext();
-            var controller = new ProductsController(context);
+
+            var controller = new ProductsController(context, _imgHandler, _env, _toast);
             var user = DbSeeder.GenerateUser("Naam");
             user.Balance = 10;
             context.Users.Add(user);
