@@ -5,11 +5,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RuilwinkelVaals.WebApp.ViewModels
+namespace RuilwinkelVaals.WebApp.ViewModels.Interfaces
 {
-    public abstract class ImageViewModel
+    public interface IImageViewModel
     {
-        [Display(Name = "Foto")]
-        public IFormFile Image { get; set; }
+        IFormFile Image { get; set; }
     }
 }
