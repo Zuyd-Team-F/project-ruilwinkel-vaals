@@ -1,21 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NToastNotify;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
+using RuilwinkelVaals.WebApp.ViewModels.Products;
 
 namespace RuilwinkelVaals.WebApp.Controllers
 {
     public class LoanedProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IToastNotification _toast;
 
-        public LoanedProductsController(ApplicationDbContext context)
+        public LoanedProductsController(ApplicationDbContext context, IToastNotification toastNotification)
         {
             _context = context;
+            _toast = toastNotification;
         }
 
         // GET: LoanedProducts
@@ -81,15 +86,79 @@ namespace RuilwinkelVaals.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ProductId,UserId,DateStart,DateEnd")] LoanedProduct loanedProduct)
         {
+            var products = _context.Product.ToList();
+            List<object> pList = new List<object>();
+            foreach (var p in products)
+                pList.Add(new
+                {
+                    Id = p.Id,
+                    Name = p.Id + " - " + p.Name
+                });
+            ViewData["ProductId"] = new SelectList(pList, "Id", "Name");
+
+            var users = _context.Users.ToList();
+            List<object> uList = new List<object>();
+            foreach (var u in users)
+                uList.Add(new
+                {
+                    Id = u.Id,
+                    Name = u.Id + " - " + u.FirstName + " " + u.LastName
+                });
+            ViewData["UserId"] = new SelectList(uList, "Id", "Name");
+
             if (ModelState.IsValid)
             {
-                _context.Add(loanedProduct);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                bool sufficientFunds = CheckBalance(loanedProduct.UserId, loanedProduct.ProductId);
+                if (sufficientFunds)
+                {
+                    _context.Add(loanedProduct);
+                    await _context.SaveChangesAsync();
+                    await EditBalance(loanedProduct.UserId, loanedProduct.ProductId);
+                    await EditStatus(loanedProduct.ProductId);
+                    return RedirectToAction(nameof(Index));
+                }
+                _toast.AddErrorToastMessage($"Het saldo van '{_context.Users.Where(u => u.Id == loanedProduct.UserId).FirstOrDefault()}' is te laag");
+                return View(loanedProduct);                
             }
-            ViewData["ProductId"] = new SelectList(_context.Product, "Id", "Name", loanedProduct.ProductId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "City", loanedProduct.UserId);
+
             return View(loanedProduct);
+        }
+
+        private bool CheckBalance(int givenUserId, int givenProductId)
+        {
+            var product = _context.Product.Where(p => p.Id == givenProductId).FirstOrDefault();
+            var user = _context.UserData.Where(u => u.Id == givenUserId).FirstOrDefault();
+            int tradedAmount = product.CreditValue;
+            int currentBalance = user.Balance;
+            int newBalance = currentBalance - tradedAmount;
+            if (newBalance >= 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private async Task EditStatus(int givenProductId)
+        {
+            var product = _context.Product.Where(p => p.Id == givenProductId).FirstOrDefault();
+            product.StatusId = _context.Statuses.Where(s => s.Name == Constants.Statuses.Uitgeleend.ToString()).FirstOrDefault().Id;
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task<bool> EditBalance(int givenUserId, int givenProductId)
+        {
+            var product = _context.Product.Where(p => p.Id == givenProductId).FirstOrDefault();
+            var user = _context.UserData.Where(u => u.Id == givenUserId).FirstOrDefault();
+            int tradedAmount = product.CreditValue;
+            int currentBalance = user.Balance;
+            int newBalance = currentBalance - tradedAmount;
+            if (newBalance >= 0)
+            {
+                user.Balance = newBalance;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
         // GET: LoanedProducts/Edit/5
@@ -162,7 +231,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            
+
             return View(loanedProduct);
         }
 
@@ -202,6 +271,4 @@ namespace RuilwinkelVaals.WebApp.Controllers
             return _context.LoanedProducts.Any(e => e.Id == id);
         }
     }
-
-
 }

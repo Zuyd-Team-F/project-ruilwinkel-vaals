@@ -6,19 +6,26 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Prometheus;
+using NToastNotify;
 using RuilwinkelVaals.WebApp.Classes;
+using RuilwinkelVaals.WebApp.Classes.Services;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
 using System;
+using System.IO;
 
 namespace RuilwinkelVaals.WebApp
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        public Startup(
+            IConfiguration configuration, 
+            IWebHostEnvironment environment
+        )
         {
             _env = environment;
-            Configuration = configuration;            
+            Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -58,10 +65,18 @@ namespace RuilwinkelVaals.WebApp
                 });
             }
 
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddSingleton<IImageHandler, ImageHandler>();
 
+            services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddRazorPages();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddMvc().AddNToastNotifyToastr(new ToastrOptions()
+            {
+                ProgressBar = true,
+                PositionClass = ToastPositions.BottomLeft
+            });
 
         }
 
@@ -82,9 +97,12 @@ namespace RuilwinkelVaals.WebApp
 
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseHttpMetrics();
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseNToastNotify();
 
             app.UseEndpoints(endpoints =>
             {
@@ -92,6 +110,7 @@ namespace RuilwinkelVaals.WebApp
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapMetrics();
             });
         }
     }

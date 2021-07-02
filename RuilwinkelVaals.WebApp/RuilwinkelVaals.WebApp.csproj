@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\Files\ImportTable.csv" />
     <None Include="wwwroot\img\logo.png" />
   </ItemGroup>
 
@@ -27,6 +28,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.14" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.1" />
+    <PackageReference Include="NToastNotify" Version="7.0.0" />
+    <PackageReference Include="prometheus-net.AspNetCore" Version="4.1.1" />
     <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
   </ItemGroup>
 
