@@ -94,33 +94,8 @@ namespace RuilwinkelVaals.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var testUser = DbSeeder.GenerateUser("Naam");
-                testUser.Balance = 10;
-                ProductCreateViewModel testModel = DbSeeder.GenerateProductView("Chromebook", testUser.Id);
-                if (model.Name != testModel.Name)
-                {
-                    string uniqueFileName = _imgHandler.UploadedFile(model);
-                    Product product = new()
-                    {
-                        CategoryId = model.CategoryId,
-                        ConditionId = model.ConditionId,
-                        StatusId = model.StatusId,
-                        Description = model.Description,
-                        Name = model.Name,
-                        Brand = model.Brand,
-                        CreditValue = model.CreditValue,
-                        Image = uniqueFileName
-                    };
-                    _context.Add(product);
-                    await _context.SaveChangesAsync();
-
-                    _toast.AddSuccessToastMessage($"Product '{product.Name}' is succesvol opgeslagen!");
-
-                    await EditBalance(model.UserId, product.CreditValue);
-                    return RedirectToAction(nameof(Index));
-                }
-
-                Product testProduct = new()
+                string uniqueFileName = _imgHandler.UploadedFile(model);
+                Product product = new()
                 {
                     CategoryId = model.CategoryId,
                     ConditionId = model.ConditionId,
@@ -128,13 +103,16 @@ namespace RuilwinkelVaals.WebApp.Controllers
                     Description = model.Description,
                     Name = model.Name,
                     Brand = model.Brand,
-                    CreditValue = model.CreditValue
+                    CreditValue = model.CreditValue,
+                    Image = uniqueFileName
                 };
 
-                _context.Add(testProduct);
+                _context.Add(product);
                 await _context.SaveChangesAsync();
 
-                await EditBalance(model.UserId, testProduct.CreditValue);
+                _toast.AddSuccessToastMessage($"Product '{product.Name}' is succesvol opgeslagen!");
+
+                await EditBalance(model.UserId, product.CreditValue);
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", model.CategoryId);

@@ -6,34 +6,56 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
 using Xunit;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using RuilwinkelVaals.WebApp.ViewModels.Products;
 using RuilwinkelVaals.WebApp.Classes.Services;
 using Microsoft.AspNetCore.Hosting;
 using NToastNotify;
+using Moq;
 
 namespace RuilwinkelVaals.Tests
 {
     public class CreateProductTests
-    {
-        private readonly IImageHandler _imgHandler;
-        private readonly IWebHostEnvironment _env;
-        private readonly IToastNotification _toast;
-
+    {        
         #region Integration Tests
         [Fact]
         public async Task CreateProductTest()
         {
+            var imgHandler = new Mock<IImageHandler>();
+            var env = new Mock<IWebHostEnvironment>();
+            var toast = new Mock<IToastNotification>();            
+
             var context = await TestDb.GetDatabaseContext();
-            var controller = new ProductsController(context, _imgHandler, _env, _toast);
+            var controller = new ProductsController(context, imgHandler.Object, env.Object, toast.Object);
+
+            var category = "Electronica";
+            var condition = "Zeer Slecht";
+            var status = "Voorradig";
+            context.Categories.Add(new Category(category));
+            context.Conditions.Add(new Condition(condition));
+            context.Statuses.Add(new Status(status));
+
             var user = DbSeeder.GenerateUser("Naam");
             user.Balance = 10;
             context.Users.Add(user);
-            ProductCreateViewModel product = DbSeeder.GenerateProductView("Chromebook", user.Id);
+            context.SaveChanges();
+
+            ProductCreateViewModel product = new()
+            {
+                CategoryId = context.Categories.FirstOrDefault(c => c.Name == ),
+                ConditionId = ,
+                StatusId = ,
+                Name = "Chromebook",
+                Brand = "Lenovo",
+                CreditValue = 10,
+                Description = "test test",
+                UserId = user.Id
+            };
+
             var result = await controller.Create(product);
             await context.SaveChangesAsync();
+
             Assert.IsType<RedirectToActionResult>(result);
             var productResult = await context.Product.FindAsync(product.Id + 1);
             Assert.NotNull(productResult);

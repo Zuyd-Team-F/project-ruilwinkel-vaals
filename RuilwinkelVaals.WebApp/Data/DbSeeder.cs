@@ -134,14 +134,14 @@ namespace RuilwinkelVaals.WebApp.Data
             return user;
         }
 
-        public static Product GenerateProduct(string v)
+        public static Product GenerateProduct(string name, int categoryId, int conditionId, int statusId)
         {
             Product product = new()
             {
                 Category = new Category("Electronica"),
                 Condition = new Condition("Zeerslecht"),
                 Status = new Status("Voorradig"),
-                Name = v,
+                Name = name,
                 Brand = "Lenovo",
                 CreditValue = 10,
                 Description = "test test"
