@@ -5,32 +5,25 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using NToastNotify;
 using RuilwinkelVaals.WebApp.Classes;
+using RuilwinkelVaals.WebApp.Classes.Services;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
 using System;
 using System.IO;
-using System.Linq;
 
 namespace RuilwinkelVaals.WebApp
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        public Startup(
+            IConfiguration configuration, 
+            IWebHostEnvironment environment
+        )
         {
             _env = environment;
             Configuration = configuration;
-
-            var location = Path.Combine(_env.WebRootPath, "img/storage");
-            var storage = new DirectoryInfo(location).GetDirectories();
-
-            if (_env.IsDevelopment())
-            {
-                // Disposes images for dev environment
-                ImageHandler.DisposeImages(storage);
-            }
         }
 
         public IConfiguration Configuration { get; }
@@ -70,7 +63,7 @@ namespace RuilwinkelVaals.WebApp
                 });
             }
 
-            services.AddScoped<IImageHandler, ImageHandler>();
+            services.AddSingleton<IImageHandler, ImageHandler>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
