@@ -20,6 +20,7 @@ namespace RuilwinkelVaals.WebApp.Data
         public DbSet<Remark> Remarks { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<LoanedProduct> LoanedProducts { get; set; }
+        public DbSet<UserData> UserData { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using RuilwinkelVaals.WebApp.Classes;
+using RuilwinkelVaals.WebApp.Data.Models.Interfaces;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace RuilwinkelVaals.WebApp.Data.Models
 {
-    public class Product
+    public class Product : IImageModel
     {
         [Key]
         public int Id { get; set; }
@@ -39,5 +42,7 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         [Display(Name = "Creditwaarde")]
         public int CreditValue { get; set; }
 
+        [Display(Name = "Foto")]
+        public string Image { get; set; }
     }
 }
