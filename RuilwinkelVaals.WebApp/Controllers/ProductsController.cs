@@ -94,7 +94,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                string uniqueFileName = _imgHandler.UploadedFile(model);
+                string uniqueFileName = _imgHandler.UploadedFile(model, Constants.ImageModels.Products);
                 Product product = new()
                 {
                     CategoryId = model.CategoryId,
@@ -207,7 +207,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Product.FindAsync(id);
-            _imgHandler.RemoveFile(product);
+            _imgHandler.RemoveFile(product, Constants.ImageModels.Products);
             _context.Product.Remove(product);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
