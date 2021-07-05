@@ -53,6 +53,6 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         [Required]
         public bool Blacklist { get; set; }
 
-        public string Image { get; set; }
+        public string Image { get; set; } = "default.png";
     }    
 }
