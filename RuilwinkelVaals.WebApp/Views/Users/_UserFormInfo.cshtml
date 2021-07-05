@@ -1,14 +1,21 @@
 ﻿@model RuilwinkelVaals.WebApp.ViewModels.Users.UserFormViewModel
 
-<div class="form-group">
-    <label asp-for="BusinessId" class="control-label"></label>
-    <select asp-for="BusinessId" class="form-control" asp-items="Model.Businesses"></select>
-    <span asp-validation-for="BusinessId" class="text-danger"></span>
+<div class="row">
+    <div class="col-sm">
+        <label asp-for="BusinessId" class="control-label"></label>
+        <select asp-for="BusinessId" class="form-control" asp-items="Model.Businesses"></select>
+        <span asp-validation-for="BusinessId" class="text-danger"></span>
+    </div>
+    <div class="col-sm">
+        <label asp-for="RoleId" class="control-label"></label>
+        <select asp-for="RoleId" class="form-control" asp-items="Model.Roles"></select>
+        <span asp-validation-for="RoleId" class="text-danger"></span>
+    </div>
 </div>
 <div class="form-group">
-    <label asp-for="RoleId" class="control-label"></label>
-    <select asp-for="RoleId" class="form-control" asp-items="Model.Roles"></select>
-    <span asp-validation-for="RoleId" class="text-danger"></span>
+    <label asp-for="Email" class="control-label"></label>
+    <input asp-for="Email" class="form-control" />
+    <span asp-validation-for="Email" class="text-danger"></span>
 </div>
 @if ((string)ViewData["Title"] != "Edit")
 {
@@ -26,15 +33,17 @@ else
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
 }
-<div class="form-group">
-    <label asp-for="FirstName" class="control-label"></label>
-    <input asp-for="FirstName" class="form-control" />
-    <span asp-validation-for="FirstName" class="text-danger"></span>
-</div>
-<div class="form-group">
-    <label asp-for="LastName" class="control-label"></label>
-    <input asp-for="LastName" class="form-control" />
-    <span asp-validation-for="LastName" class="text-danger"></span>
+<div class="row">
+    <div class="col-sm">
+        <label asp-for="FirstName" class="control-label"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="col-sm">
+        <label asp-for="LastName" class="control-label"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
 </div>
 @if ((string)ViewData["Title"] != "Edit")
 {
@@ -57,30 +66,29 @@ else
     <input asp-for="Street" class="form-control" />
     <span asp-validation-for="Street" class="text-danger"></span>
 </div>
-<div class="form-group">
-    <label asp-for="StreetNumber" class="control-label"></label>
-    <input asp-for="StreetNumber" class="form-control" />
-    <span asp-validation-for="StreetNumber" class="text-danger"></span>
+<div class="row">
+    <div class="col-sm">
+        <label asp-for="StreetNumber" class="control-label"></label>
+        <input asp-for="StreetNumber" class="form-control" />
+        <span asp-validation-for="StreetNumber" class="text-danger"></span>
+    </div>
+    <div class="col-sm">
+        <label asp-for="StreetAdd" class="control-label"></label>
+        <input asp-for="StreetAdd" class="form-control" />
+        <span asp-validation-for="StreetAdd" class="text-danger"></span>
+    </div>
 </div>
-<div class="form-group">
-    <label asp-for="StreetAdd" class="control-label"></label>
-    <input asp-for="StreetAdd" class="form-control" />
-    <span asp-validation-for="StreetAdd" class="text-danger"></span>
-</div>
-<div class="form-group">
-    <label asp-for="PostalCode" class="control-label"></label>
-    <input asp-for="PostalCode" class="form-control" />
-    <span asp-validation-for="PostalCode" class="text-danger"></span>
-</div>
-<div class="form-group">
-    <label asp-for="City" class="control-label"></label>
-    <input asp-for="City" class="form-control" />
-    <span asp-validation-for="City" class="text-danger"></span>
-</div>
-<div class="form-group">
-    <label asp-for="Email" class="control-label"></label>
-    <input asp-for="Email" class="form-control" />
-    <span asp-validation-for="Email" class="text-danger"></span>
+<div class="row">
+    <div class="col-sm">
+        <label asp-for="City" class="control-label"></label>
+        <input asp-for="City" class="form-control" />
+        <span asp-validation-for="City" class="text-danger"></span>
+    </div>
+    <div class="col-sm">
+        <label asp-for="PostalCode" class="control-label"></label>
+        <input asp-for="PostalCode" class="form-control" />
+        <span asp-validation-for="PostalCode" class="text-danger"></span>
+    </div>
 </div>
 <div class="form-group">
     <label asp-for="PhoneNumber" class="control-label"></label>
