@@ -4,6 +4,8 @@
 @inject SignInManager<UserData> SignInManager
 @inject UserManager<UserData> UserManager
 
+@await Component.InvokeAsync("NToastNotify")
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,9 +20,17 @@
     <!-- Header -->
     <header>
 
-        @*<img src="~/img/logo.png" alt="Logo" height="140" width="200" />
-            <p>Ruilwinkel Vaals</p>
-            <p id="cursive">ruilen - samenwerken - leren - ontmoeten</p>*@
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <img src="~/img/logo.png" alt="Logo" height="140" width="200" />
+            </div>
+            <div class="row justify-content-md-center">
+                <p>Ruilwinkel Vaals</p>
+            </div>
+            <div class="row justify-content-md-center">
+                <p id="cursive">ruilen - samenwerken - leren - ontmoeten</p>
+            </div>
+        </div>
 
         <!-- Responsive Menu -->
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -38,12 +48,16 @@
                         {
                             <li class="nav-link"><a class="nav-link" asp-controller="Products" asp-action="Index">Inventaris</a></li>
                         }
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-link"><a class="nav-link" asp-controller="Import">Import</a></li>
+                        }
                         @if (User.IsInRole("Medewerker") || User.IsInRole("Admin"))
                         {
                             <li class="nav-link"><a class="nav-link" asp-controller="LoanedProducts" asp-action="Index">Ruilen</a></li>
                             <li class="nav-link"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registreren</a></li>
                         }
-                        @if (User.IsInRole("Admin") )
+                        @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-link"><a class="nav-link" asp-controller="Users" asp-action="Index">Gebruikers</a></li>
                             <li class="nav-link"><a class="nav-link" asp-controller="Categories" asp-action="Index">Categories</a></li>
@@ -54,7 +68,7 @@
 
             </div>
         </nav>
-    </header>
+</header>
 
     <!-- Main Page content -->
     <div class="container">
@@ -67,16 +81,16 @@
     <footer class="border-top footer text-muted">
         <div class="container">
             @*<h3>Contact</h3>
-        <strong>Adres: </strong> Kerkstraat 46, Vaals
-        <br />
-        <strong>Tel: </strong> +31 6 20 74 98 86
-        <h5>Openingstijden:</h5>
-        <ul>
-            <li>Dinsdag 10.00-14.00</li>
-            <li>Woensdag 12.00-16.00</li>
-            <li>Donderdag 10.00-14.00</li>
-            <li>Elke eerste zaterdag van de maand 11.00-15.00</li>
-        </ul>*@
+                <strong>Adres: </strong> Kerkstraat 46, Vaals
+                <br />
+                <strong>Tel: </strong> +31 6 20 74 98 86
+                <h5>Openingstijden:</h5>
+                <ul>
+                    <li>Dinsdag 10.00-14.00</li>
+                    <li>Woensdag 12.00-16.00</li>
+                    <li>Donderdag 10.00-14.00</li>
+                    <li>Elke eerste zaterdag van de maand 11.00-15.00</li>
+                </ul>*@
         </div>
     </footer>
 

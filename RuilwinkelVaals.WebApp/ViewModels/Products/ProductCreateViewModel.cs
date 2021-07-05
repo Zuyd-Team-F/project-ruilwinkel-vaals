@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using RuilwinkelVaals.WebApp.ViewModels.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,8 +9,11 @@ using System.Threading.Tasks;
 
 namespace RuilwinkelVaals.WebApp.ViewModels.Products
 {
-    public class ProductCreateViewModel : ImageViewModel
+    public class ProductCreateViewModel : IImageViewModel
     {
+        [Key]
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Kies een categorie")]
         [Display(Name = "Categorie")]
         public int CategoryId { get; set; }
@@ -38,8 +42,12 @@ namespace RuilwinkelVaals.WebApp.ViewModels.Products
         [Display(Name = "Creditwaarde")]
         public int CreditValue { get; set; }
 
+        public int UserId { get; set; }
+
         public SelectList Categories { get; set; }
         public SelectList Conditions { get; set; }
         public SelectList Statusses { get; set; }
+
+        public IFormFile Image { get; set; }
     }
 }

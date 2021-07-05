@@ -1,11 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Prometheus;
+using NToastNotify;
 using RuilwinkelVaals.WebApp.Classes;
+using RuilwinkelVaals.WebApp.Classes.Services;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
 using System;
@@ -15,21 +19,13 @@ namespace RuilwinkelVaals.WebApp
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        public Startup(
+            IConfiguration configuration, 
+            IWebHostEnvironment environment
+        )
         {
             _env = environment;
             Configuration = configuration;
-
-            //Clears the images folder in dev environment
-            if (_env.IsDevelopment())
-            {
-                var location = Path.Combine(_env.WebRootPath, "img/products");
-                var folder = new DirectoryInfo(location);
-                foreach (FileInfo file in folder.GetFiles())
-                {
-                    file.Delete();
-                }
-            }
         }
 
         public IConfiguration Configuration { get; }
@@ -69,12 +65,19 @@ namespace RuilwinkelVaals.WebApp
                 });
             }
 
-            services.AddScoped<IImageHandler, ImageHandler>();
+            services.AddSingleton<IImageHandler, ImageHandler>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
-
+            services.AddRazorPages();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddMvc().AddNToastNotifyToastr(new ToastrOptions()
+            {
+                ProgressBar = true,
+                PositionClass = ToastPositions.BottomLeft
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,15 +95,14 @@ namespace RuilwinkelVaals.WebApp
                 app.UseHsts();
             }
 
-            // Traefik will manage Https
-            // If Traefik is to be used, add this: app.UseHttpsRedirection(); 
-
             app.UseStaticFiles();
-
             app.UseRouting();
+            app.UseHttpMetrics();
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseNToastNotify();
 
             app.UseEndpoints(endpoints =>
             {
@@ -108,6 +110,7 @@ namespace RuilwinkelVaals.WebApp
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapMetrics();
             });
         }
     }

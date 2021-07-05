@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using RuilwinkelVaals.WebApp.Data.Models;
 using RuilwinkelVaals.WebApp.IdentityOverrides;
+using RuilwinkelVaals.WebApp.ViewModels.Products;
 using System;
 using System.Threading.Tasks;
 using static RuilwinkelVaals.WebApp.Constants;
@@ -29,6 +30,22 @@ namespace RuilwinkelVaals.WebApp.Data
             }
 
             await context.SaveChangesAsync();
+        }
+
+        public static ProductCreateViewModel GenerateProductView(string v, int id)
+        {
+            ProductCreateViewModel product = new()
+            {
+                CategoryId = new Category("Electronica").Id,
+                ConditionId = new Condition("Zeerslecht").Id,
+                StatusId = new Status("Voorradig").Id,
+                Name = v,
+                Brand = "Lenovo",
+                CreditValue = 10,
+                Description = "test test",
+                UserId = id
+            };
+            return product;
         }
 
         public static async Task SeedProducts(ApplicationDbContext context)
@@ -66,12 +83,13 @@ namespace RuilwinkelVaals.WebApp.Data
 
         public static async Task SeedConditions(ApplicationDbContext context)
         {
+            
             foreach (string condition in GetEnumArray<Conditions>())
             {
-                await context.Conditions.AddAsync(new(condition));
+                await context.Conditions.AddAsync(new(condition.Replace('_', ' ')));
+                await context.SaveChangesAsync();
             }
 
-            await context.SaveChangesAsync();
         }
 
         public static async Task SeedCategories(ApplicationDbContext context)
@@ -79,9 +97,9 @@ namespace RuilwinkelVaals.WebApp.Data
             foreach (string category in GetEnumArray<Categories>())
             {
                 await context.Categories.AddAsync(new(category));
+                await context.SaveChangesAsync();
             }
-
-            await context.SaveChangesAsync();
+           
         }
 
         public static async Task SeedStatuses(ApplicationDbContext context)
@@ -89,9 +107,9 @@ namespace RuilwinkelVaals.WebApp.Data
             foreach (string status in GetEnumArray<Statuses>())
             {
                 await context.Statuses.AddAsync(new(status));
+                await context.SaveChangesAsync();
             }
 
-            await context.SaveChangesAsync();
         }
 
         public static UserData GenerateUser(string username)
@@ -116,19 +134,37 @@ namespace RuilwinkelVaals.WebApp.Data
             return user;
         }
 
-        public static Product GenerateProduct(string v)
+        public static Product GenerateProduct(string name, int categoryId, int conditionId, int statusId)
         {
             Product product = new()
             {
-                Category = new Category("Electronica"),
-                Condition = new Condition("Zeerslecht"),
-                Status = new Status("Voorradig"),
-                Name = v,
+                CategoryId = categoryId,
+                ConditionId = conditionId,
+                StatusId = statusId,
+                Name = name,
                 Brand = "Lenovo",
                 CreditValue = 10,
                 Description = "test test"
             };
             return product;
+        }
+
+        public static ProductCreateViewModel ConvertToViewModel(Product product, int userId)
+        {
+            var viewModel = new ProductCreateViewModel()
+            {
+                Id = product.Id,
+                CategoryId = product.CategoryId,
+                StatusId = product.StatusId,
+                ConditionId = product.ConditionId,
+                Description = product.Description,
+                CreditValue = product.CreditValue,
+                Brand = product.Brand,
+                Name = product.Name,
+                UserId = userId
+            };
+
+            return viewModel;
         }
 
         public static LoanedProduct GenerateLoanedProduct(Product p, UserData u)
@@ -146,6 +182,18 @@ namespace RuilwinkelVaals.WebApp.Data
         private static string[] GetEnumArray<T>()
         {
             return Enum.GetNames(typeof(T));
+        }
+
+        public static Status GenerateStatus(string n, int i)
+        {
+            Status status = new()
+            {
+                Id = i,
+                Name = n
+                
+                
+            };
+            return status;
         }
     }
 }

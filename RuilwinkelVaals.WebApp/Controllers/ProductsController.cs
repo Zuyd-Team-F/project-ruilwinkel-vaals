@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using RuilwinkelVaals.WebApp.Classes;
+using NToastNotify;
+using RuilwinkelVaals.WebApp.Classes.Services;
 using RuilwinkelVaals.WebApp.Data;
 using RuilwinkelVaals.WebApp.Data.Models;
 using RuilwinkelVaals.WebApp.ViewModels.Products;
@@ -17,14 +17,20 @@ namespace RuilwinkelVaals.WebApp.Controllers
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IWebHostEnvironment _env;
         private readonly IImageHandler _imgHandler;
+        private readonly IWebHostEnvironment _env;
+        private readonly IToastNotification _toast;
 
-        public ProductsController(ApplicationDbContext context, IWebHostEnvironment env, IImageHandler imageHandler)
+        public ProductsController(
+            ApplicationDbContext context, 
+            IImageHandler imageHandler, 
+            IWebHostEnvironment env, 
+            IToastNotification toastNotification)
         {
             _context = context;
             _env = env;
             _imgHandler = imageHandler;
+            _toast = toastNotification;
         }
 
         // GET: Products
@@ -72,9 +78,9 @@ namespace RuilwinkelVaals.WebApp.Controllers
         {
             ProductCreateViewModel model = new();
 
-            model.Categories = new SelectList(_context.Categories, "Id", "Name");
-            model.Conditions = new SelectList(_context.Conditions, "Id", "Name");
-            model.Statusses = new SelectList(_context.Statuses, "Id", "Name");
+            model.Categories = new SelectList(_context.Categories.OrderBy(s => s.Id), "Id", "Name");
+            model.Conditions = new SelectList(_context.Conditions.OrderBy(s => s.Id), "Id", "Name");
+            model.Statusses = new SelectList(_context.Statuses.OrderBy(s => s.Id), "Id", "Name");
 
             return View(model);
         }
@@ -88,8 +94,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                string uniqueFileName = _imgHandler.UploadedFile(model);
-
+                string uniqueFileName = _imgHandler.UploadedFile(model, Constants.ImageModels.Products);
                 Product product = new()
                 {
                     CategoryId = model.CategoryId,
@@ -104,13 +109,15 @@ namespace RuilwinkelVaals.WebApp.Controllers
 
                 _context.Add(product);
                 await _context.SaveChangesAsync();
+
+                _toast.AddSuccessToastMessage($"Product '{product.Name}' is succesvol opgeslagen!");
+
+                await EditBalance(model.UserId, product.CreditValue);
                 return RedirectToAction(nameof(Index));
             }
-
-            model.Categories = new SelectList(_context.Categories, "Id", "Name");
-            model.Conditions = new SelectList(_context.Conditions, "Id", "Name");
-            model.Statusses = new SelectList(_context.Statuses, "Id", "Name");
-
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", model.CategoryId);
+            ViewData["ConditionId"] = new SelectList(_context.Conditions, "Id", "Name", model.ConditionId);
+            ViewData["StatusId"] = new SelectList(_context.Statuses, "Id", "Name", model.StatusId);
             return View(model);  //deze moeten we pakken voor te vergelijken dit is een object gemaakt met de gegeven input
         }
 
@@ -200,6 +207,7 @@ namespace RuilwinkelVaals.WebApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Product.FindAsync(id);
+            _imgHandler.RemoveFile(product, Constants.ImageModels.Products);
             _context.Product.Remove(product);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -213,5 +221,20 @@ namespace RuilwinkelVaals.WebApp.Controllers
         [HttpGet]
         public async Task<IEnumerable<Product>> GetAll()
             => await _context.Product.ToArrayAsync();
+
+        private async Task<bool> EditBalance(int givenUserId, int productValue)
+        {
+            var user = _context.UserData.Where(u => u.Id == givenUserId).FirstOrDefault();
+            int tradedAmount = productValue;
+            int currentBalance = user.Balance;
+            int newBalance = currentBalance + tradedAmount;
+            if (newBalance >= 0)
+            {
+                user.Balance = newBalance;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
     }
 }
