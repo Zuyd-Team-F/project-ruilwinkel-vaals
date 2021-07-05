@@ -7,6 +7,7 @@
 /bin/Debug
 /obj
 *.env
+*.env.example
 /RuilwinkelVaals.Tests/bin/Debug/net5.0
 /RuilwinkelVaals.WebApp/wwwroot/img/storage/*
 /TestResults/ab4ff4a3-208f-40b6-a32a-df086fb5603f/jason_DESKTOP-T7KVIJK 2021-07-02 16_22_34.coverage
