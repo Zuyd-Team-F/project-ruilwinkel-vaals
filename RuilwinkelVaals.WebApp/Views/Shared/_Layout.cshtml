@@ -22,14 +22,19 @@
 
         <div class="container">
             <div class="row justify-content-md-center">
-                <img src="~/img/logo.png" alt="Logo" height="140" width="200" />
+                <a asp-action="Index" asp-controller="Home">
+                    <img src="~/img/logo.png" alt="Logo" height="140" width="200" />
+                </a>
             </div>
+            @if (!SignInManager.IsSignedIn(User) || (string)ViewData["Title"] == "Home")
+            {
             <div class="row justify-content-md-center">
                 <p>Ruilwinkel Vaals</p>
             </div>
             <div class="row justify-content-md-center">
                 <p id="cursive">ruilen - samenwerken - leren - ontmoeten</p>
             </div>
+            }
         </div>
 
         <!-- Responsive Menu -->
