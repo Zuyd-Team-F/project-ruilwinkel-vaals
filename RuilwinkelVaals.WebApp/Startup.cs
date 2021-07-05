@@ -20,7 +20,7 @@ namespace RuilwinkelVaals.WebApp
     public class Startup
     {
         public Startup(
-            IConfiguration configuration, 
+            IConfiguration configuration,
             IWebHostEnvironment environment
         )
         {
@@ -48,14 +48,14 @@ namespace RuilwinkelVaals.WebApp
                         );
                     }
                 )
-            );    
+            );
 
             services.AddIdentity<UserData, Role>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddUserManager<UserManagerExtension>()                
+                .AddUserManager<UserManagerExtension>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
-                     
+
             if (_env.IsDevelopment())
             {
                 services.Configure<SecurityStampValidatorOptions>(options =>

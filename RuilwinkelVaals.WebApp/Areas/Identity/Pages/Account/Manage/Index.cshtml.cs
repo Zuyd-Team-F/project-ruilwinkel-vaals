@@ -56,6 +56,8 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
 
             [Display(Name = "Stad")]
             public string City { get; set; }
+
+            public string Image { get; set; }
         }
 
         private async Task LoadAsync(UserData user)
@@ -74,7 +76,8 @@ namespace RuilwinkelVaals.WebApp.Areas.Identity.Pages.Account.Manage
                 StreetNumber = user.StreetNumber,
                 StreetAdd = user.StreetAdd,
                 City = user.City,
-                PostalCode = user.PostalCode
+                PostalCode = user.PostalCode,
+                Image = user.Image
             };
         }
 
