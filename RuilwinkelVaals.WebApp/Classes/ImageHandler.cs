@@ -45,22 +45,25 @@ namespace RuilwinkelVaals.WebApp.Classes
         }
 
         public void RemoveFile(IImageModel model, Constants.ImageModels type)
-        {
-            var folder = _storage.FirstOrDefault(f => 
-            f.Name.Equals(
-                type.ToString()
-                    .ToLower()
-                )
-            );
+        {            
+            if(model.Image != "default.png")
+            {
+                var folder = _storage.FirstOrDefault(f =>
+                f.Name.Equals(
+                    type.ToString()
+                        .ToLower()
+                    )
+                );
 
-            try
-            {
-                folder.GetFiles().FirstOrDefault(f => f.Name == model.Image).Delete();
-            }
-            catch
-            {
-                // Log that the image hasn't been found,
-                // does not impact deletion.
+                try
+                {
+                    folder.GetFiles().FirstOrDefault(f => f.Name == model.Image).Delete();
+                }
+                catch
+                {
+                    // Log that the image hasn't been found,
+                    // does not impact deletion.
+                }
             }
         }
 
