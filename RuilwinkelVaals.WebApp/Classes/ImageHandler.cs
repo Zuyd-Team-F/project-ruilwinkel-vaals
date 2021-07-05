@@ -20,13 +20,18 @@ namespace RuilwinkelVaals.WebApp.Classes
             _storage = folders;
         }
 
-        public string UploadedFile(IImageViewModel model)
+        public string UploadedFile(IImageViewModel model, Constants.ImageModels type)
         {
             string uniqueFileName = null;
 
             if (model.Image != null)
             {
-                var folder = GetEntityStorageFolderPath(model);
+                var folder = _storage.FirstOrDefault(f => 
+                f.Name.Equals(
+                    type.ToString()
+                        .ToLower()
+                    )
+                ).FullName;
 
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Image.FileName;
                 string filePath = Path.Combine(folder, uniqueFileName);
@@ -39,10 +44,27 @@ namespace RuilwinkelVaals.WebApp.Classes
             return uniqueFileName;
         }
 
-        public void RemoveFile(IImageModel model)
-        {
-            DirectoryInfo folder = new(GetEntityStorageFolderPath(model));
-            folder.GetFiles().FirstOrDefault(f => f.Name == model.Image).Delete();
+        public void RemoveFile(IImageModel model, Constants.ImageModels type)
+        {            
+            if(model.Image != "default.png")
+            {
+                var folder = _storage.FirstOrDefault(f =>
+                f.Name.Equals(
+                    type.ToString()
+                        .ToLower()
+                    )
+                );
+
+                try
+                {
+                    folder.GetFiles().FirstOrDefault(f => f.Name == model.Image).Delete();
+                }
+                catch
+                {
+                    // Log that the image hasn't been found,
+                    // does not impact deletion.
+                }
+            }
         }
 
         public void DisposeImages(DirectoryInfo[] folders)
@@ -57,16 +79,6 @@ namespace RuilwinkelVaals.WebApp.Classes
                     }
                 }
             }
-        }
-
-        public string GetEntityStorageFolderPath(object model)
-        {
-            // Fetches the namespace of the entity
-            // which always yields the correct
-            // name of the entity in question
-            var nameSpace = model.GetType().Namespace.Split('.');
-            var entityName = nameSpace[nameSpace.Length - 1].ToLower();
-            return _storage.FirstOrDefault(s => s.Name.Contains(entityName)).FullName;
         }
     }
 }

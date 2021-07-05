@@ -47,5 +47,8 @@ namespace RuilwinkelVaals.WebApp.ViewModels.Users
         public int Balance { get; set; }
 
         public bool Blacklist { get; set; }
+
+        [Display(Name = "Foto")]
+        public string Image { get; set; }
     }
 }

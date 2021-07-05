@@ -42,5 +42,11 @@ namespace RuilwinkelVaals.WebApp
             Kunst,
             Huisdieren
         };
+
+        public enum ImageModels
+        {
+            Products,
+            Users
+        }
     }
 }

@@ -20,18 +20,11 @@ namespace RuilwinkelVaals.WebApp.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManagerExtension _userManager;
 
-        //public ApplicationDbContext TestDatabase { get; }
-
         public UsersController(ApplicationDbContext context, UserManagerExtension userManager)
         {
             _userManager = userManager;
             _context = context;
         }
-
-        /*public UsersController(ApplicationDbContext testDatabase)
-        {
-            TestDatabase = testDatabase;
-        }*/
 
         // GET: Users
         public async Task<IActionResult> Index()
@@ -82,7 +75,8 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 DateOfBirth = u.DateOfBirth,
                 PhoneNumber = u.PhoneNumber,
                 Balance = u.Balance,
-                Blacklist = u.Blacklist
+                Blacklist = u.Blacklist,
+                Image = u.Image
             };
 
             return View(user);
@@ -135,38 +129,31 @@ namespace RuilwinkelVaals.WebApp.Controllers
                 return NotFound();
             }
 
-            try
-            {
-                var roleName = await _userManager.GetRoleAsync(u);
-                var roleId = _context.Roles.Where(r => r.Name == roleName).FirstOrDefault().Id;
+            var roleName = await _userManager.GetRoleAsync(u);
+            var roleId = _context.Roles.Where(r => r.Name == roleName).FirstOrDefault().Id;
 
-                UserFormViewModel user = new()
-                {
-                    Id = u.Id,
-                    BusinessId = u.BusinessDataId,
-                    RoleId = roleId,
-                    Businesses = new SelectList(_context.BusinessData, "Id", "Name", u.BusinessDataId),
-                    Roles = new SelectList(_context.Roles, "Id", "Name", roleId),
-                    Email = u.Email,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Password = u.PasswordHash,
-                    City = u.City,
-                    PostalCode = u.PostalCode,
-                    Street = u.Street,
-                    StreetAdd = u.StreetAdd,
-                    StreetNumber = u.StreetNumber,
-                    DateOfBirth = u.DateOfBirth,
-                    PhoneNumber = u.PhoneNumber,
-                    Balance = u.Balance
-                };
-
-                return View(user);
-            }
-            catch
+            UserFormViewModel user = new()
             {
-                throw;
-            }
+                Id = u.Id,
+                BusinessId = u.BusinessDataId,
+                RoleId = roleId,
+                Businesses = new SelectList(_context.BusinessData, "Id", "Name", u.BusinessDataId),
+                Roles = new SelectList(_context.Roles, "Id", "Name", roleId),
+                Email = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Password = u.PasswordHash,
+                City = u.City,
+                PostalCode = u.PostalCode,
+                Street = u.Street,
+                StreetAdd = u.StreetAdd,
+                StreetNumber = u.StreetNumber,
+                DateOfBirth = u.DateOfBirth,
+                PhoneNumber = u.PhoneNumber,
+                Balance = u.Balance
+            };
+
+            return View(user);
         }
 
         // POST: Users/Edit/5

@@ -7,9 +7,15 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+.nav-profile-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
 }
 
 .btn-primary {

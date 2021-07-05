@@ -1,11 +1,12 @@
 
 using Microsoft.AspNetCore.Identity;
+using RuilwinkelVaals.WebApp.Data.Models.Interfaces;
 using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace RuilwinkelVaals.WebApp.Data.Models
 {
-    public class UserData : IdentityUser<int>
+    public class UserData : IdentityUser<int>, IImageModel
     {        
         public int? BusinessDataId { get; set; }
         public BusinessData BusinessData { get; set; }
@@ -50,7 +51,8 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         public int Balance { get; set; }
 
         [Required]
-        public bool Blacklist { get; set; }        
+        public bool Blacklist { get; set; }
 
+        public string Image { get; set; } = "default.png";
     }    
 }

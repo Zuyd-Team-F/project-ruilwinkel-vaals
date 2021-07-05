@@ -46,7 +46,7 @@ namespace RuilwinkelVaals.WebApp.ViewModels.Users
         [Display(Name = "Huisnummer")]
         public int StreetNumber { get; set; }
 
-        [Display(Name = "Straat toevoeging")]
+        [Display(Name = "Toevoeging")]
         public string StreetAdd { get; set; }
 
         [Required]

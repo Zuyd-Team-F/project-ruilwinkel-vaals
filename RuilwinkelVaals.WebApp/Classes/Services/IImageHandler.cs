@@ -16,7 +16,7 @@ namespace RuilwinkelVaals.WebApp.Classes.Services
         //
         // Returns:
         //     A unique image id, linked to the stored image.
-        string UploadedFile(IImageViewModel model);
+        string UploadedFile(IImageViewModel model, Constants.ImageModels type);
         // Summary:
         //     Removes the image file from storage.
         //
@@ -24,7 +24,7 @@ namespace RuilwinkelVaals.WebApp.Classes.Services
         //   model:
         //     A model that's contracted with the IImageModel interface, containing
         //     the image id.
-        void RemoveFile(IImageModel model);
+        void RemoveFile(IImageModel model, Constants.ImageModels type);
         // Summary:
         //     Removes the image file from storage.
         //
@@ -33,11 +33,5 @@ namespace RuilwinkelVaals.WebApp.Classes.Services
         //     An enumerable collection of DirectoryInfo objects, containing the path
         //     to the img storage.
         void DisposeImages(DirectoryInfo[] folders);
-        // Summary:
-        //     Fetches the correct storage path, linked to the entity.
-        //
-        // Returns:
-        //     A string path of the entity image storage location.
-        string GetEntityStorageFolderPath(object model);
     }
 }

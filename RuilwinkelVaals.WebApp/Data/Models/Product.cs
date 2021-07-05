@@ -43,6 +43,6 @@ namespace RuilwinkelVaals.WebApp.Data.Models
         public int CreditValue { get; set; }
 
         [Display(Name = "Foto")]
-        public string Image { get; set; }
+        public string Image { get; set; } = "default.png";
     }
 }
